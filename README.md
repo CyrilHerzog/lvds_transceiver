@@ -2,17 +2,20 @@
 
 ## Abstract
 
-Im Rahmen eines Auftrages zur Leistungssteigerung der Übertragungsrate in einem verteilten Embedded-System, wird ein neuer Transceiver auf einem FPGA entwickelt. Dabei wird neben einer höheren Datenrate auch eine selbstjustierende Abstimmung zwischen der Daten - und Taktleitung erwartet. Um die Funktionalitäten zu Prüfen, wird zusätzlich ein Test-Core entwickelt, welcher eingehende Kommandos via UART-Protokoll interpretiert. Das Bilden und Steuern dieser Kommandos wird von einer Client,-Server-Applikation getätigt welche in diesem Dokument beschrieben wird. Dabei ist der Server ein RaspberryPi welcher mit einer UART-Kommunikation Kommandos und Datenwerte mit dem FPGA (Test-Core) austauscht. Das Anstossen von Serverseitigen Befehlssequenzen erfolgt durch Benutzereingaben am HMI (Client).      
+Dieses Projekt beinhaltet Hardwarebeschreibungen zur Synthese eines Transceivers, welcher für das Zynq7000 - Boards entwickelt wurde. Die Schaltung unterstützt einen Datentransfer von 1200 MBit/s durch die Nutzung der SerDes - Ressourcen. Die Implementierung ist in zwei Hauptkomponenten, dem Physical - und dem Linklayer aufgeteilt. Die Receiverschaltungen 
 
 ---
 
-## Funktionsbeschreibung
+## Kompilieren
+
+
+## Funktionsweise Link - Layer
 
 ![Benutzerinterface](hmi.png)
 
-### Verbindungsaufbau
+### Sender (Paket Generator) 
 
-Für den Verbindungsaufbau muss das Stecker-Icon rechts neben der Überschrift gedrückt werden. Bei erfolgreichem Kommunikationsaufbau wird die Steckverbindung symbolisch geschlossen und mit einer grünen Umrandung signalisiert. Sollte die Kommunikation Systemseitig unterbrochen werden, so stellt sich ein roter Hintergrund ein. Die Kommunikation kann jederzeit durch ancklicken des Icons aufgebaut, respektive getrennt werden.
+Für den Verbindungsaufbau muss das Stecker-Icon rechts neben der Überschrift gedrückt werden. Bei erfolgreichem Kommunikationsaufbau wird die Steckverbindung symbolisch geschlossen und mit einer grünen Umrandung signalisiert. Sollte die Kommunikation Systemseitig unterbrochen werden, so stellt sich ein roter Hintergrund ein. Die Kommunikation kann jederzeit durch ancklicken
 
 ### UART-Kommunikation
 
