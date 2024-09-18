@@ -2,11 +2,16 @@
 
 ## Abstract
 
-Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Transceivers, welcher für das Zynq7000 - Boards entwickelt wurde. Die serielle Datenübertragung verwendet die SerDes - und IDelaye Primitiven.
+Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Transceivers, welcher für das Zynq7000 - Boards entwickelt wurde. Die serielle Datenübertragung erreicht durch die Nutzung der IOSerDes - und IDelaye Primitiven die Chip-spezifische Maximaldatenrate.
 
 ### Spezifikationen
-- Datenübertragung mit einer Datenrate  von 1200Mbit/s
-- 
+- Datenrate  von 1200Mbit/s (DDR bei 600MHz)
+- Gleichstromfreie Datenübertragung durch Anwendung einer 8B10B - Kodierung
+- Datenprüfung mittels CRC-8
+- Ack/Nack - Mechanismus
+- Bit Deskew
+- Optimiertes Senden durch direkte Verkettung anliegender Daten
+- Variable Datenbereite für parallele Datenübergabe
 
 
 ---
