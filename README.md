@@ -2,7 +2,12 @@
 
 ## Abstract
 
-Dieses Projekt beinhaltet Hardwarebeschreibungen zur Synthese eines Transceivers, welcher für das Zynq7000 - Boards entwickelt wurde. Die Schaltung unterstützt einen Datentransfer von 1200 MBit/s durch die Nutzung der SerDes - Ressourcen. Die Implementierung ist in zwei Hauptkomponenten, dem Physical - und dem Linklayer aufgeteilt. Die Receiverschaltungen 
+Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Transceivers, welcher für das Zynq7000 - Boards entwickelt wurde. Die serielle Datenübertragung verwendet die SerDes - und IDelaye Primitiven.
+
+### Spezifikationen
+- Datenübertragung mit einer Datenrate  von 1200Mbit/s
+- 
+
 
 ---
 
