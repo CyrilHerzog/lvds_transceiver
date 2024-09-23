@@ -20,8 +20,10 @@ Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibunge
 ![Workflow](doc/graphics/workflow.png)
 
 ### Anweisungen
-- Kompilieren für Icarus => mingw32-make "Modul" z.B mingw-make lvds_transceiver
-- Ausführen der Simulation => mingw32-make wave "Modul" z.b mingw-make wave lvds_transceiver 
+- Kompilieren für Icarus => mingw32-make "Modul"
+- Ausführen der Simulation (Testbench + GTK Wave) => mingw32-make wave "Modul"
+- Build für Xilinx Zynq7000 (Ausführen build.tcl) => mingw32-make build
+- Laden des Zynq7000 (Ausführen prog.tcl) => mingw32-make prog  
 
 
 ## Funktionsweise Link - Layer
