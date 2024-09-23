@@ -33,7 +33,10 @@ Die Taktversorgung der physikalischen Schnittstelle ist ein extern zugeführter 
 ### Auflistung Taktversorgung
 - Testcore => PLL 166 MHZ (BUFG)
 - Transceiver - Link Layer => MMCM 120 MHZ (BUFG)
-- Transceiver - Physical Layer => 600 MHZ (BUFIO) , 200 MHZ (BUFR), 120 MHZ (BUFR) 
+- Transceiver - Physical Layer => 600 MHZ (BUFIO) , 200 MHZ (BUFR), 120 MHZ (BUFR)
+
+Die Taktquelle ist der Onboard - Clock des FPGA (GCLK), welcher direkt dem PLL zugeführt wird. Der MMCM wird vom PLL mit einem generierten 50 MHz Takt über LVDS versorgt. (Port FMC_CLKx)
+
 ## Funktionsweise Link - Layer
 Der Link - Layer 
 
