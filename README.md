@@ -16,10 +16,16 @@ Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Tr
 
 ## Kompilieren
 
+Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibungen für Simulation und Zielhardware. Die entwickelten Module sind in Ordnerstrukturen organsisiert. Die make - Anweisungen werden jeweils auf den Modulordner referenziert.   
+![Workflow](doc/graphics/workflow.png)
+
+### Anweisungen
+- Kompilieren für Icarus => mingw32-make "Modul" z.B mingw-make lvds_transceiver
+- Ausführen der Simulation => mingw32-make wave "Modul" z.b mingw-make wave lvds_transceiver 
+
 
 ## Funktionsweise Link - Layer
 
-![Workflow](doc/graphics/workflow.png)
 
 ### Sender (Packet Generator) 
 
