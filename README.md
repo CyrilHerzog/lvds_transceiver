@@ -27,8 +27,13 @@ Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibunge
 - Laden des Zynq7000 (Ausführen prog.tcl) => mingw32-make prog  
 
 ## Takt - Verteilung
-Die Taktversorgung der physikalischen Schnittstelle ist ein extern zugeführter 600 MHz Takt über MMCM (Source) oder Taktleitung (Sink). Die Taktpufferung, repsektive Teilung erfolgt mit BUFIO (Direkte Taktversorgung IO - Primitiven) und BUFR (Regional). Der 
+Die Taktversorgung der physikalischen Schnittstelle ist ein extern zugeführter 600 MHz Takt über MMCM (Source) oder Taktleitung (Sink). Die Taktpufferung, repsektive Teilung erfolgt mit BUFIO (Direkte Taktversorgung IO - Primitiven) und BUFR (Regional). Der Link - Layer wird jeweils über globale Taktbuffer (BUFG) vom MMCM versorgt. Das Testsystem wird ebenfalls global über einen PLL in einer weiteren Taktdomäne versorgt. 
 ![Workflow](doc/graphics/clock_concept.png)
+
+### Auflistung Taktversorgung
+- Testcore => PLL 166 MHZ (BUFG)
+- Transceiver - Link Layer => MMCM 120 MHZ (BUFG)
+- Transceiver - Physical Layer => 600 MHZ (BUFIO) , 200 MHZ (BUFR), 120 MHZ (BUFR) 
 ## Funktionsweise Link - Layer
 Der Link - Layer 
 
