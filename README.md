@@ -19,7 +19,7 @@ Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Tr
 
 ## Funktionsweise Link - Layer
 
-![Benutzerinterface](doc\graphics/workflow.png)
+![Workflow](doc/graphics/workflow.png)
 
 ### Sender (Packet Generator) 
 
