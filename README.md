@@ -14,8 +14,6 @@ Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Tr
 - Variable Datenbereite für parallele Datenübergabe
 
 
----
-
 ## Kompilieren
 
 
