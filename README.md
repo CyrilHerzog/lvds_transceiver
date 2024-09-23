@@ -1,5 +1,6 @@
 # LVDS - Transceiver
 
+Dieses Dokument beschreibt grundlegende Informationen zum entwickelten Transceiver. Zwei Transceiver werden zusammen mit einer Testschaltung auf einem Zynq7000 synthesiert. Dabei wird der zweite Transceiver B (Sink) mit dem ersten Transceiver A (Source) synchronisiert. Die Testschaltung (Testcore) erlaubt das Transferieren von Datenpacketen zwischen den Transceivern. Das Steuern und Auswerten (Monitoring) erfolgt mittels Python - Skript, welcher Steuer - und Datenbytes an den Testcore mittels UART überträgt. Der Transceiver ist in der Lage Transaction - Layerpackete (TLP) sicher zu übertragen.  
 ## Abstract
 
 Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Transceivers, welcher für das Zynq7000 - Boards entwickelt wurde. Die serielle Datenübertragung erreicht durch die Nutzung der IOSerDes - und IDelaye Primitiven die Chip-spezifische Maximaldatenrate.
@@ -25,7 +26,9 @@ Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibunge
 - Build für Xilinx Zynq7000 (Ausführen build.tcl) => mingw32-make build
 - Laden des Zynq7000 (Ausführen prog.tcl) => mingw32-make prog  
 
-
+## Takt - Verteilung
+Die Taktversorgung der physikalischen Schnittstelle ist ein extern zugeführter 600 MHz Takt über MMCM (Source) oder Taktleitung (Sink). Die Taktpufferung, repsektive Teilung erfolgt mit BUFIO (Direkte Taktversorgung IO - Primitiven) und BUFR (Regional). Der 
+![Workflow](doc/graphics/clock_concept.png)
 ## Funktionsweise Link - Layer
 Der Link - Layer 
 
