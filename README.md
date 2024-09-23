@@ -25,12 +25,13 @@ Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibunge
 - Build für Xilinx Zynq7000 (Ausführen build.tcl) => mingw32-make build
 - Laden des Zynq7000 (Ausführen prog.tcl) => mingw32-make prog  
 
-### Ordnerstruktur
-
-
 
 ## Funktionsweise Link - Layer
+Der Link - Layer 
 
+### DLLP - Frame
+
+### TLP - Frame
 
 ### Sender (Packet Generator) 
 
@@ -42,11 +43,10 @@ Dieses Benutzerpanel dient zum Test und Überwachen des Datentransfers über die
 
 ### Link - Manager
 
-Der Datengenerator lässt 56 zufällige bytes auf dem Server erzeugen und sendet diese an das FPGA-Testsytsem. Dabei werden die erzeugten Daten zum direkten Verlgeich an die Client-Anwendung geshcickt und im Textfeld angezeigt. Das Datenpaket wird in einem RAM-Block innerhalb des Testsystems gesichert. esultate auf dem Client zusammen ausgegeben. Weiter folgt im Feld der Resultate (Rechte Seite) die Anzahl der Zyklen, welche ein Durchlauf vom Start-RAM in den Ziel-RAM beschreibt. Dieser Wert sowi
+
 
 ## Funktionsweise Physical - Layer
 
-Jeder
 
 ### SerDes
 
@@ -75,9 +75,7 @@ Jeder
 
 ## Offene Punkte
 
-### Link - Controller
 
-### Test
 
 
 
