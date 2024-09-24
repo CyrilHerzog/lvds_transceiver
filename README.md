@@ -151,7 +151,7 @@ Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Te
 - Wenn der Transfer gültig ist
 - Wenn die Identifikationsnummer in den Kopfdaten kleiner oder gleich der erwarteten Identifikationsnummer ist
 
-### Wann werden TLP's in die Endablage übernommen ?
+#### Wann werden TLP's in die Endablage übernommen ?
 - Wenn der Transfer gültig ist
 - Wenn die Identifikationsnummer genau der erwarteten Identifikationsnummer entspricht
 
