@@ -17,8 +17,7 @@ Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Tr
 ## Kompilieren
 
 Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibungen für Simulation und Zielhardware. Die entwickelten Module sind in Ordnerstrukturen organsisiert. Die make - Anweisungen werden jeweils auf den Modulordner referenziert.   
-![Workflow](doc/graphics/workflow.png)
-
+![Workflow](doc/graphics/workflow.png){ width=50% }
 ### Anweisungen
 - Kompilieren mit IVerilog => mingw32-make "Modul"
 - Ausführen der Simulation (Testbench + GTK Wave) => mingw32-make wave "Modul"
