@@ -198,9 +198,8 @@ Die Empfängerschaltung implementiert eine Bit - Deskew Schaltung zur Ausrichtun
 ![Workflow](doc/graphics/physical_receiver.png)
 
 #### Gearbox
-Die Gearbox schreibt eingehende 6 Bit Daten bei jeder steigenden Taktflanke (200 MHz) in einen RAM (Addressbereich 0 - 14). Ein 10 Bit Ausgabewort wird durch das Zusammenfügen der zuvor geschriebenen Daten mithilfe von drei Lesezeigern erreicht.
+Die Gearbox schreibt eingehende 6 Bit Daten bei jeder steigenden Taktflanke (200 MHz) in einen RAM (Addressbereich 0 - 14). Ein 10 Bit Ausgabewort wird durch das Zusammenfügen der zuvor geschriebenen Daten mithilfe von drei Lesezeigern und einem Multiplexer erreicht. Nachfolgende zusammengesetzte 10 Bit Daten werden zu einem 20 Bit Register verkettet und in der AUsrichtung verschoben (Bitslip). 
 
-xxxx
 
 
 #### Wortausrichtung
