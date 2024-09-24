@@ -213,10 +213,12 @@ Anschliessend werden die Tabs erhöht, bis ein Bitwechsel erkannt wird (Erste Ka
 ![Workflow](doc/graphics/initial_tab_cal.png)
 
 #### Überwachung (Monitoring) und Justage der Leitungsverzögerung  
-
+Die initiale Tab - Verzögerung des Monitor - ISERDES entspricht der vorbestimmten Verzögerung aus Initialer - Kalibrierung mit Abzug einer halben Bitbreite (Start bei linker Kante). Nun wird periodisch die Monitor - Tab Verzögerung um die Bitbreite erhöht, respektive verringert. Dabei findet gleichzeit jeweils ein Vergleich zwischen Master - ISERDES und Monitor - ISERDES statt. Ist ein Unterschied auf Linker Flanke, so werden beide Verzögerungen um 1 Inkrementiert. Ist ein Unterschied auf Rechter Flanke, so werden beide Dekrmentiert. (Siehe hierzu Zustandsdiagramm XAPP700)
 
 ![Workflow](doc/graphics/tab_monitor.png)
 
+##### Hinweis
+Weil die ermittelte Bitbreite für den Beobachtungsbereich verwendet wird und dieser genau am Umschaltpunkt kontrolliert, findet immer Tabwechsel von +-1 am Master - ISERDES statt. Damit wird auch jede Änderung des Leitungsverzögerung sofort erkannt. Es ist möglich, anstatt des   
 
 
 ## Testsystem (Test - Core)
