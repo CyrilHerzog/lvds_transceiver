@@ -17,7 +17,8 @@ Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Tr
 ## Kompilieren
 
 Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibungen für Simulation und Zielhardware. Die entwickelten Module sind in Ordnerstrukturen organsisiert. Die make - Anweisungen werden jeweils auf den Modulordner referenziert.   
-![Workflow](doc/graphics/workflow.png){ width=50% }
+![Workflow](doc/graphics/workflow.png]
+
 ### Anweisungen
 - Kompilieren mit IVerilog => mingw32-make "Modul"
 - Ausführen der Simulation (Testbench + GTK Wave) => mingw32-make wave "Modul"
@@ -37,6 +38,7 @@ Die Taktquelle ist der Onboard - Clock des FPGA (GCLK), welcher direkt dem PLL z
 
 
 ### Elastic - Buffer
+Die Datenübertragung von lokaler (BUFR) zur globalen (BUFG) Taktdomäne des Transceivers erfolgt über Elastische Buffer. Dieser ist in aktueller Ausführung aus einem Asynchronen FIFO mit Zusatzlogik für Lese- und Schreibbefehl zusammengebaut. Ziel des Buffers ist es, den Daten Füllstand mithilfe der Zu-, repsektive Abnahme von SKIP - Symbolen in der Mitte zu halten. Momentane implementierung nutzt nur SKIP - Symbole welche vom Packetgenerator am Ende einer Frameübertragung gesendet werden. Die Logik blockiert bei zu hohem Füllstand den Schreibzeiger wenn ein SKIP - Symbol am Eingang anliegt. Bei zu niedriegem Füllstand wird der Lesezeiger blockiert, wenn ein SKIP - Symbol am Ausgang anliegt. Diese Art der Implementierung erfordert eine dementsprechend grosse Speicherbreite, aufgrund fehlender SKIP - Symbolen bei übertragung längerer Nachrichten. Das führt zu hohen Latenzzeiten.
 
 ## Funktionsweise Link - Layer
 Der Link - Layer wird unterteilt in einen Datengenerator und einem Datenprüfer. Der Generator baut die nachfolgend beschriebene Framestruktur auf welche Byteweise an den physikalischen - Layer übergeben wird. Die Prüfschaltung kontrolliert empfangenen Byte-Packete und stellt die Dateninformation zur Abholung durch den Transaction - Layer bereit.   
