@@ -41,7 +41,7 @@ Der Link - Layer wird unterteilt in einen Datengenerator und einem Datenprüfer.
 
 ### DLLP (Data Link Layer Packet) - Frame
 Wird für die Link - Kommunikation zwischen zwei Transceivern verwendet. Die Sender, respektive Empfängerlogik erlaubt eine variable Datenbreite. Für den aktuell vorliegenden Link - Controller ist eine breite von 16 Bit festgelegt.
-
+![Workflow](doc/graphics/dllp_frame.png)
 
 ### TLP - Frame
 
