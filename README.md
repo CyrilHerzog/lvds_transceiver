@@ -12,8 +12,7 @@ Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Tr
 - Ack/Nack - Mechanismus
 - Bit Deskew
 - Optimiertes Senden durch direkte Verkettung anliegender Daten
-- Variable Datenbereite für parallele Datenübergabe
-
+- Variable Datenbereite für parallele Datenübergabe (TLP) 
 
 ## Kompilieren
 
@@ -38,11 +37,14 @@ Die Taktversorgung der physikalischen Schnittstelle ist ein extern zugeführter 
 Die Taktquelle ist der Onboard - Clock des FPGA (GCLK), welcher direkt dem PLL zugeführt wird. Der MMCM wird vom PLL mit einem generierten 50 MHz Takt über LVDS versorgt. (Port FMC_CLKx)
 
 ## Funktionsweise Link - Layer
-Der Link - Layer 
+Der Link - Layer wird unterteilt in einen Datengenerator und einem Datenprüfer. Der Generator baut die nachfolgend beschriebene Framestruktur auf welche Byteweise an den physikalischen - Layer übergeben wird. Die Prüfschaltung kontrolliert empfangenen Byte-Packete und stellt die Dateninformation zur Abholung durch den Transaction - Layer bereit.   
 
-### DLLP - Frame
+### DLLP (Data Link Layer Packet) - Frame
+Wird für die Link - Kommunikation zwischen zwei Transceivern verwendet. Die Sender, respektive Empfängerlogik erlaubt eine variable Datenbreite. Für den aktuell vorliegenden Link - Controller ist eine breite von 16 Bit festgelegt.
+
 
 ### TLP - Frame
+
 
 ### Sender (Packet Generator) 
 
