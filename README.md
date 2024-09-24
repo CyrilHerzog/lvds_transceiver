@@ -194,10 +194,14 @@ Der Sender kaskadiert zwei OSerdes - Primitiven für die Ausgabe von 10 Bit seri
 ![Workflow](doc/graphics/physical_transmitter.png)
 
 ### Empfänger
-Die Empfängerschaltung wird mit 
+Die Empfängerschaltung implementiert eine Bit - Deskew Schaltung zur Ausrichtung der Datenleitung auf das Taktsignal. Mithilfe von IDELAYE wird die Datenleitung deart verzögert, sodass der Abtastzeitpunkt auf die Mitte des Datenauges erfolgt. Der Einsatz von IDELAYE benötigt eine Instanzierung des IDELAYCTRL. Die Leitungsverzögerung wird durch die Anazahl TABS (0-31) am IDELAYE in Abhängigkeit der Taktfrequenz des IDELAYCTRL bestimmt. Für die Versorgung des IDELAYCTRL werden im Top - Design zwei Taktquellen (BUFG) mit 200 MHz (1 Tab = 78ps)  und 300MHz (1 Tab = 52ps) zur verfügung gestellt. Die Funktionserweiterung wird in die Module (INITIAL_TAB_CAL) und (TAB_MONITORING) aufgeteilt. Für das Monitoring ist zur Referenzierung eine weitere Equivalente Datenerfassung erforderlich, weshalb eine Kaskadierung nicht möglich ist. Der ISERDES wird mit 600 Mhz (BUFIO) und 200 MHz (BUFR) getaktet. Der serielle Datenstrom wird in 6 Bit - Blöcken einer Gearbox zur Ausgabe von 10 Bit mit einer Frequenz von 120 MHz (BUFR) weitergereicht. 
 ![Workflow](doc/graphics/physical_receiver.png)
 
 #### Gearbox
+Die Gearbox schreibt eingehende 6 Bit Daten bei jeder steigenden Taktflanke (200 MHz) in einen RAM (Addressbereich 0 - 14). Ein 10 Bit Ausgabewort wird durch das Zusammenfügen der zuvor geschriebenen Daten mithilfe von drei Lesezeigern erreicht.
+
+xxxx
+
 
 #### Wortausrichtung
 
