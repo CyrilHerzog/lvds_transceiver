@@ -190,6 +190,7 @@ Prozesse:
 
 
 ### Sender
+![Workflow](doc/graphics/physical_transmitter.png)
 
 ### Empfänger
 
@@ -212,13 +213,16 @@ Prozesse:
 ### Kommando 
 
 ## Test und Validierung
+Das letzte Kapitel zeigt die Ausgabe der synthsierten Schaltung bei Ausführung des Phyton - Testskripts. 
 
 ### Hardware
+Die 
 
 ### Testbench
-
+Für Schaltungssimulationen stehen in den Modulordnern Testbenches zur verfügung. Relevant sind die Testbenches für den Transceiver und das Testsystem. Ergebnisse werden direkt am Terminal ausgegeben. Bei Abschluss der Simulation wird der GTK - Wave geöffnet. Eine Simulation mit Testcore und Transceivern gemäss Top-File liegt nicht vor. Grund ist die Lange Simulationsdauer.  
 
 ### Python
+
 
 ## Mögliche Optimierungen
 - Erweiterung / Anpassen des Link - Controllers auf die entsprechende Endapplikation
