@@ -214,7 +214,10 @@ Anschliessend werden die Tabs erhöht, bis ein Bitwechsel erkannt wird (Erste Ka
 
 #### Überwachung (Monitoring) und Justage der Leitungsverzögerung  
 
-![Workflow](doc/graphics/tab_monitoring.png)
+
+![Workflow](doc/graphics/tab_monitor.png)
+
+
 
 ## Testsystem (Test - Core)
 UART - Parameter
