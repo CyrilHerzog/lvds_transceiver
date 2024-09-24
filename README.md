@@ -36,6 +36,9 @@ Die Taktversorgung der physikalischen Schnittstelle ist ein extern zugeführter 
 
 Die Taktquelle ist der Onboard - Clock des FPGA (GCLK), welcher direkt dem PLL zugeführt wird. Der MMCM wird vom PLL mit einem generierten 50 MHz Takt über LVDS versorgt. (Port FMC_CLKx)
 
+
+### Elastic - Buffer
+
 ## Funktionsweise Link - Layer
 Der Link - Layer wird unterteilt in einen Datengenerator und einem Datenprüfer. Der Generator baut die nachfolgend beschriebene Framestruktur auf welche Byteweise an den physikalischen - Layer übergeben wird. Die Prüfschaltung kontrolliert empfangenen Byte-Packete und stellt die Dateninformation zur Abholung durch den Transaction - Layer bereit.   
 Der Datenrahmen wird mit K - Steuercodes der 8B10B - Kodierung bestimmt. 
@@ -155,6 +158,9 @@ Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Te
 - Wenn der Transfer gültig ist
 - Wenn die Identifikationsnummer genau der erwarteten Identifikationsnummer entspricht
 
+#### Hinweise
+- Der Packetprüfen kann theoretisch mit eingefügten (Zwischen den Datenbytes) SKIP - Symbolen in der Nachricht umgehen (Nicht getestet)
+
 
 ### Link - Controller
 Dieser steuert die Transmitter und Receiver Schaltung und wertet deren Statussignale aus. Nach der Initialisierung erfolgt die Bearbeitung mit einem Sprungverteiler, welcher vier "Processe" repetierend ausführt.
@@ -173,12 +179,18 @@ Prozesse:
 - Wenn der Empfangsbuffer der Gegenstation nicht bereit ist (FIFO voll)
 - Wenn die Initialisierung der Gegenstation nicht abgeschlossen oder Fehlerhaft ist.
 
-
+#### Hinweise
+- Die Implementierte Zählerbreite für Initialisierungs - und Timeoutzeiten muss auf die Applikation angepasst sein. (Nachträgliche Anpassungen sind unter Umständen nötig)
+- Das Status - DLLP wird sowohl bei Zustandsänderungen der Bereitsschaft als auch periodisch gesendet (Das führt auch bei DLLP - Verlust dazu, dass der aktualisierte Status am Empfänger ankommt)
+- Ein Verbindungsstatus ist aktuell nicht implementiert. (Möglichkeit aufgrund periodischem Statusupdate, wäre ein Timeout für empfangene DLLP's zu implementieren)
+- Ein Rücksprung in die Initialisierungsphase ist nicht implementiert. Umsetzung ist Applikationsabhängig. Ein Reinitialiseren ist nur möglich, wenn beide Transceiver über den Initialisierungszeitraum ein SKIP - Symbol senden. Die jeweilige Gegenstation muss also über einen Kommunikations - Timeout in den Initialisierungsschritt gezwungen werden. 
 
 ## Funktionsweise Physical - Layer
 
 
-### SerDes
+### Sender
+
+### Empfänger
 
 
 #### Gearbox
@@ -195,16 +207,22 @@ Prozesse:
 
 ### Architektur
 
+
+### Kommando 
+
 ## Test und Validierung
 
 ### Hardware
 
 ### Testbench
 
+
 ### Python
 
-## Offene Punkte
-
+## Mögliche Optimierungen
+- Erweiterung / Anpassen des Link - Controllers auf die entsprechende Endapplikation
+- Implementierung von Statuswörtern ggf. mit zusätzlichem FIFO
+- Effizienteres Design der CDC - Elastic Buffer's zur Reduzierung von Latenzzeiten (Empfohlen!)
 
 
 
