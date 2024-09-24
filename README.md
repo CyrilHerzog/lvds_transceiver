@@ -110,7 +110,50 @@ Die Byteweise Ausgabe, respektive das zerlegten von TLP und DLLP - Daten erfolgt
 
 
 ### Empfänger (Packet Checker)
+Der Datenprüfer operiert ebenfalls mittels zentraler Steuerlogik. Eingehende DLLP und TLP's werden erkannt und nach erfolgreicher Datenprüfung (Frameaufbau, CRC) in die Empfangsbuffer geschrieben. Die Funktionalität der Steuereinheit in Bezug auf Auswertung von TLP's ist umfangreicher/koplexer als beim Packetgenerator. Aufgrund möglicher Multiframes müssen die TLP - Daten zwischengespeichert werden, bevor diese in die Endablage für den Zugriff des nächst höheren Layers geschrieben werden. TLP - Packete werden daher in zwei Prozessen geprüft. Im ersten werden TLP - Daten entsprechend der Parametrierten Datenlänge temporär abgelegt. Die Anzahl abgelegter Daten wird gezählt. Weiter werden die Transferinformationen mit Inhalt über Packetlänge und der Frameprüfung (CRC, Stop-Code) temporär abgelegt. (tr_info = {Gültigkeit (1Bit), Frame_Nummer (ID_WIDTH)}. Weiter werden die Kopfdaten des empfangenen TLP - Frames mitangefügt. Kopfdaten = {Frame_Nummer, Frame_ID} Das ergibt eine gesammte Prozessinformation von {Gültig, Frame_Nummer_Transfer, Frame_Nummer_Kopfdaten, ID_Nummer_Kopfdaten}
+Basierend auf diesen Informationen werden die Temporären TLP - Daten in einem zweiten Prozess verworfen, oder übernommen. Die Ergebnisse aus dem zweiten Prüfprozess werden vom Link - Controller für den ACK/NACK Prozess verwendet. Resultat = {Gültig (1bit), ID}. Fehlgeschlagene Transfers führen zu einem ungültigen Resultat. Gültige Transfers führen je zu einem gültigen Resultat für jedes einzelen TLP - Datenpacket. 
 
+![Workflow](doc/graphics/packet_checker.png)
+
+Fallbeispiel 1:
+- Empfang eines Multiframes mit 4 TLP's
+- Identifikationsnummer ist 3 
+- Keine Replay - Daten
+- Transfer ist gültig
+
+Es werden vier gültige Ergebnisse an den Link Controller gesendet. {1'b1, 4'b0011}, {1'b1, 4'b0100}, {1'b1, 4'b0101}, {1'b1, 4'b0110} => {Gültig, 3}, {Gültig, 4}....
+Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Die nächsten vier Temporären TLP - Daten werden in den Empfangsbuffer geschrieben.
+
+Fallbeispiel 2:
+- Empfang eines Multiframes mit 4 TLP's
+- Identifikationsnummer ist 3 
+- Keine Replay - Daten
+- Transfer ist ungültig
+
+Es wird ein Ergebniss an den Link - Controller übergeben. {1'b0, 4'bxxxx} Die Identifikationsnummer ist nicht relevant. (Kann ungültig sein => Kein Rückschluss möglich!). Der Link - Controller sendet ein Nicht Akzeptiert (NACK) an die Gegenstation. Alle Temporären Daten werden verworfen. Die nächsten vier Temporären TLP - Daten werden verworfen.
+
+Fallbeispiel 3:
+- Empfang eines Multiframes mit 4 TLP's
+- Identifikationsnummer ist 3 
+- Replay - Daten
+- Transfer ist gültig
+
+Es werden vier gültige Ergebnisse an den Link Controller gesendet. {1'b1, 4'b0011}, {1'b1, 4'b0100}, {1'b1, 4'b0101}, {1'b1, 4'b0110} => {Gültig, 3}, {Gültig, 4}....
+Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Temporäre TLP - Daten werden nur in die Endablage geschrieben, falls diese noch nicht vorgängig abgelegt wurden.
+
+### Fehlerfällte für ungültigen Transfer (NACK)
+- Fehlerhafte CRC Prüfung
+- Stop - Code nicht erkannt
+- Kontrollierte Packetlänge führt zu einem Überlauf (Aufgrund Fehlerhaftem Stop - Code)
+- Die Identifikationsnummer in den Kopfdaten ist grösse als die erwartete Identifikationsnummer
+
+### Wann wird ein ACK - Signal gesendet ?
+- Wenn der Transfer gültig ist
+- Wenn die Identifikationsnummer in den Kopfdaten kleiner oder gleich der erwarteten Identifikationsnummer ist
+
+### Wann werden TLP's in die Endablage übernommen ?
+- Wenn der Transfer gültig ist
+- Wenn die Identifikationsnummer genau der erwarteten Identifikationsnummer entspricht
 
 
 ### Link - Manager
