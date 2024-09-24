@@ -187,13 +187,15 @@ Prozesse:
 - Ein Rücksprung in die Initialisierungsphase ist nicht implementiert. Umsetzung ist Applikationsabhängig. Ein Reinitialiseren ist nur möglich, wenn beide Transceiver über den Initialisierungszeitraum ein SKIP - Symbol senden. Die jeweilige Gegenstation muss also über einen Kommunikations - Timeout in den Initialisierungsschritt gezwungen werden. 
 
 ## Funktionsweise Physical - Layer
-
+Die physikalische Ebene verwendet die IO - Ressourcen IOSERDES und IDELAYE. Die Datenübertragung erfolgt Differenziell. Einem IO - Port stehen damit maximal zwei SerDes - Primitiven zur verfügung. Die Datenbreite einzelner SerDes - Blöcke ist limitiert. Eine Datenbreite von 10Bit erfordert eine Kaskadierung oder das Hinzufügen einer Gearbox. Die Datenübetragung erfolgt in Double Data Rate (DDR) bei 600 MHz. Daraus resultiert eine Datenrate von 1200Mbit/s.
 
 ### Sender
+Der Sender kaskadiert zwei OSerdes - Primitiven für die Ausgabe von 10 Bit seriell. Die Taktversorgung erfolgt mit 600 MHz (BUFIO) und 120 MHz regional (BUFR). Datenpackete vom Link - Layer werden zusammen mit dem K - Steuerbit in eine gleichstromfreie 10 Bit Datenfolge umkodiert.  
 ![Workflow](doc/graphics/physical_transmitter.png)
 
 ### Empfänger
 
+![Workflow](doc/graphics/physical_receiver.png)
 
 #### Gearbox
 
