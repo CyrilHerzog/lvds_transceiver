@@ -70,6 +70,42 @@ Der Packetgenerator wird zentral von einem Controller gesteuert. Dieser stellt d
 
 ![Workflow](doc/graphics/packet_generator.png)
 
+Daten aus dem TLP - Buffer erhalten die jeweils nächste Verfügbare Identifikationsnummer des Zeigers für nicht bestätigter ID (NACK_PTR). Bei einer ID - Breichsbreite von 4 Bits können also maximal 16 TLP - Packete verschickt werden, bis ein weiteres Senden aufgrund fehlender Bestätigung blockiert wird. Kopfdatenzusammensetzung ist {Packet_Nummer, ID_Nummer}
+Fallbeispiel 1:
+- Im TLP Buffer liegt ein Datenpacket
+- Die nächste ID ist 3
+- Alle vorherigen Sendeaufträge sind bereits bestätigt
+
+Die Kopfdaten des Transfers wären {4b0000, 4b0011} für 0 = 1 Datenpacket und ID 3. Der Zeiger für nicht bestätigte ID's wird um 1 erhöht. Neue Verfügbare Daten können sofort wieder gesendet werden.
+
+Fallbeispiel 2:
+- Im TLP Buffer liegen 4 Datenpackete
+- Die nächste ID ist 3
+- Alle vorherigen Sendeaufträge sind bereits bestätigt
+
+Die Kopfdaten des Transfers wären {4b0011, 4b0011} für 3 = 4 Datenpacket und ID 3. Der Zeiger für nicht bestätigte ID's wird um 4 erhöht. Neue Verfügbare Daten können sofort wieder gesendet werden.
+
+Fallbeispiel 3:
+- Im TLP Buffer liegen 16 Datenpackete
+- Die nächste ID ist 3
+- Alle vorherigen Sendeaufträge sind bereits bestätigt
+
+Die Kopfdaten des Transfers wären {4b1111, 4b0011} für 15 = 16 Datenpacket und ID 3. Der Zeiger für nicht bestätigte ID's wird um 16 erhöht. Neue Verfügbare Daten können nicht sofort wieder gesendet werden. Ein weiterer Transfer ist nur möglich, sobald mindestens eine Identifikationsnummer bestätigt wird. 
+
+Fallbeispiel 4:
+- Im TLP Buffer liegen 16 Datenpackete
+- Die nächste ID ist 3
+- Nicht alle vorherigen Sendeaufträge sind bestätigt
+
+Die Kopfdaten des Transfers wären {4bxxxx, 4b0011} für xxxx = Soviele Datenpackete bis der Nack_Zeiger den Ack_Zeiger nicht überholt und ID 3.
+
+### Replay Buffer
+Das Schreiben in den Replay Buffer erfolgt mit der nicht bestätigten Identifikationsnummer. Die Speicherablage entspricht dem Identifikationsbereich. Das Widergeben gespeicherter Daten erfolgt mit dem Addresszeiger bestätigter ID's. Dieser wird während des Replay - Vorgangs auf den Wert der nicht bestätigten ID's inkrementiert. Ein Replay - Vorgang sendet also immer alle nicht bestätigten Datenpackete als "Multiframe".  
+![Workflow](doc/graphics/replay_buffer.png)
+
+### Byte - Splitter
+Die Byteweise Ausgabe, respektive das zerlegten von TLP und DLLP - Daten erfolgt mit einer Register - Multiplexer Pipeline Struktur. Die Zusammensetzung ergibt sich aus Parametrierter Datenlänge für TLP und DLLP Packeten. Solange Daten im TLP - Buffer verfügbar sind, wird dieser kontinuierlich nachgeladen, sofern der Identifikationszeiger dies zulässt.   
+![Workflow](doc/graphics/byte_splitter.png)
 
 ### Empfänger (Packet Checker)
 
