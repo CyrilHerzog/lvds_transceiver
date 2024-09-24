@@ -39,10 +39,18 @@ Die Taktquelle ist der Onboard - Clock des FPGA (GCLK), welcher direkt dem PLL z
 ## Funktionsweise Link - Layer
 Der Link - Layer wird unterteilt in einen Datengenerator und einem Datenprüfer. Der Generator baut die nachfolgend beschriebene Framestruktur auf welche Byteweise an den physikalischen - Layer übergeben wird. Die Prüfschaltung kontrolliert empfangenen Byte-Packete und stellt die Dateninformation zur Abholung durch den Transaction - Layer bereit.   
 Der Datenrahmen wird mit K - Steuercodes der 8B10B - Kodierung bestimmt. 
+- SLF (Start Link Frame) mit K28.0 (0x1C)
+- SDF (Start Data Frame) mit K28.1 (0x3C)
+- EOF (End of Frame) mit K28.2 (0x5C)
+- SKP (Skip) mit K28.3 (0x7C)
+
+Alle Frames werden zusammen mit einer Prüfsumme (CRC-8) gesendet, respektive validiert. Der Datentransfer erfolgt immer Byteweise. Datenbreiten die nicht dem Modulo 8 entsprechen, werden mit Zusatzbits erweitert, um eine Ganzzahlige Bytegrösse zu erreichen. (Datenbreite 34 Bits => 40 Bits) 
 
 ### DLLP (Data Link Layer Packet) - Frame
 Wird für die Link - Kommunikation zwischen zwei Transceivern verwendet. Die Sender, respektive Empfängerlogik erlaubt eine variable Datenbreite. Für den aktuell vorliegenden Link - Controller ist eine breite von 16 Bit festgelegt.
 ![Workflow](doc/graphics/dllp_frame.png)
+
+Für die Zustandsübermittlung werden nur zwei Bits des MSB Bytes verwendet. Das LSB - Byte dient zur übermittlung der Identifikationsnummer zur Verifizierung (ACK). Die Zustandsbits (c) werden den nachfolgenden Nachrichten zugeordnet.  
 
 - 00 => Empfang nicht bereit (Empfangspuffer voll)
 - 01 => Empfang bereit
@@ -50,7 +58,8 @@ Wird für die Link - Kommunikation zwischen zwei Transceivern verwendet. Die Sen
 - 11 => Daten erfolgreich erhalten (Ack)
 
 ### TLP - Frame
-
+Das Transaction Layer Packet beinhaltet zusätzliche Kopfdaten mit Angabe der Anzahl und einer Identifikationsnummer. Die Breite der Kopfinformation ist abhängig vom Parameter ID_WIDTH. Standartmässig ist der Bereich der Identifikationsnummer auf 0 - 15 festgelegt. Das entspricht jeweils der gleichen Anzahl möglicher hintereinanderfolgender TLP - Packete (0 - 15).
+Die Kopfdaten benötigen in diesem Fall nur 1 Byte (4Bit + 4 Bit). Identifikationsnummern im Bereich 0 - 31 würde zu einer Kopfdatenbreite von 2 Bytes führen (5Bit + 5Bit) 
 
 ### Sender (Packet Generator) 
 
