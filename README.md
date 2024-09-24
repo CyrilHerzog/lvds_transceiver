@@ -218,7 +218,7 @@ Die initiale Tab - Verzögerung des Monitor - ISERDES entspricht der vorbestimmt
 ![Workflow](doc/graphics/tab_monitor.png)
 
 ##### Hinweis
-Weil die ermittelte Bitbreite für den Beobachtungsbereich verwendet wird und dieser genau am Umschaltpunkt kontrolliert, findet immer ein Tabwechsel von +-1 am Master - ISERDES statt. Damit wird auch jede Änderung des Leitungsverzögerung sofort erkannt. Sollte ein ständiger Tabwechsel nicht gewünscht sein, kann eine Fensterbreite über Parameter anstelle der Datenbreite verwendet werden. Eine Reaktion würde dementsprechend erst Folgen, wenn die eine Änderung der Verzögerung so gross ist, dass diese Innerhalb dieses Fensters liegt. 
+Weil die ermittelte Bitbreite für den Beobachtungsbereich verwendet wird und dieser genau am Umschaltpunkt kontrolliert, findet immer ein Tabwechsel von +-1 am Master - ISERDES statt. Damit wird auch jede Änderung der Leitungsverzögerung sofort erkannt. Sollte ein ständiger Tabwechsel nicht gewünscht sein, kann eine Fensterbreite über Parameter anstelle der Datenbreite verwendet werden. Eine Reaktion wird dementsprechend erst Folgen, wenn eine Änderung der Verzögerung so gross ist, dass diese Innerhalb dieses Fensters liegt. 
 
 Beispiel:
 - Definieren eines Parameters WINDOW_WIDTH = 12
@@ -228,6 +228,7 @@ Beispiel:
 Beide Lösungsansätze sind möglich und an sich korrekt, solange die Fensterbreite so gewählt ist, dass ein gültiger Abtastzeitpunkt garantiert wird. 
 
 ## Testsystem (Test - Core)
+
 UART - Parameter
 - Parity = ODD
 - Baudrate = 1996
@@ -241,12 +242,17 @@ UART - Parameter
 Das letzte Kapitel zeigt die Ausgabe der synthsierten Schaltung bei Ausführung des Phyton - Testskripts. 
 
 ### Hardware
-Die 
+Die Auswertung der Schaltung wird auf einem Zynq7000 Entwicklungsboard geprüft. Die Daten und Taktleitungen werden mit einem FMC - Loopback Moduls verbunden. Die Datenübertragung vom PC (Python) erfolgt mit einem PMOD USB - UART Modul.
+
+![Workflow](doc/graphics/hardware.png)
 
 ### Testbench
 Für Schaltungssimulationen stehen in den Modulordnern Testbenches zur verfügung. Relevant sind die Testbenches für den Transceiver und das Testsystem. Ergebnisse werden direkt am Terminal ausgegeben. Bei Abschluss der Simulation wird der GTK - Wave geöffnet. Eine Simulation mit Testcore und Transceivern gemäss Top-File liegt nicht vor. Grund ist die Lange Simulationsdauer.  
 
-### Python
+### Auswertung mit Python
+Mittels Python Skipt werden Befehlssequenzen und Statuswerte an den Test-Core gesendet/empfangen. Die Serielle PC - Schnittstelle nutzt LSB - First, wodurch die Bitfolgen dementsprechend angepasst werden.
+
+
 
 
 ## Mögliche Optimierungen
