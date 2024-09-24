@@ -198,13 +198,19 @@ Die Empfängerschaltung implementiert eine Bit - Deskew Schaltung zur Ausrichtun
 ![Workflow](doc/graphics/physical_receiver.png)
 
 #### Gearbox
-Die Gearbox schreibt eingehende 6 Bit Daten bei jeder steigenden Taktflanke (200 MHz) in einen RAM (Addressbereich 0 - 14). Ein 10 Bit Ausgabewort wird durch das Zusammenfügen der zuvor geschriebenen Daten mithilfe von drei Lesezeigern und einem Multiplexer erreicht. Nachfolgende zusammengesetzte 10 Bit Daten werden zu einem 20 Bit Register verkettet und in der AUsrichtung verschoben (Bitslip). 
-
+Die Gearbox schreibt eingehende 6 Bit Daten bei jeder steigenden Taktflanke (200 MHz) in einen RAM (Addressbereich 0 - 14). Ein 10 Bit Ausgabewort wird durch das Zusammenfügen der zuvor geschriebenen Daten mithilfe von drei Lesezeigern und einem Multiplexer erreicht. Nachfolgende zusammengesetzte 10 Bit Daten werden zu einem 20 Bit Register verkettet und in der Ausrichtung verschoben (Bitslip). 
+![Workflow](doc/graphics/gearbox.png)
 
 
 #### Wortausrichtung
+Der Word - Aligner bestimmt die Anzahl notwendiger Bitverschiebungen im Bereich 0 - 9. Die Ausgabe der Gearbox wird mit dem 8B10B Kodierten SKIP - Symbolen (0x33C für RD-, 0x0C3 für RD+) verglichen. Der Bitslip wird jeweils nach einer Wartezeit solange erhöht, bis das Vergleichsmuster erkannt wird. Wird eine Maximalverschiebung von neun überschritten, ist die Kalibration fehlgeschlagen.       
+![Workflow](doc/graphics/word_aligner.png)
 
 #### Initiale Tab - Kalibration
+Die 6Bit Datenausgabe des ISERDES wird für die Bestimmung der Grundverzögerung zur Positionierung der Datenleitung auf das Taktsignal verwendet. Bei konstanter Übertragung von 10 Bits werden sich diese folglich in einem Intervall von 5 Wiederholen. (=> |xxxxxx xxxx|xx xxxxxx xx|xxxx xxxxxx|) Das 8B10B - Kodierte SKIP - Symbol wechselt in jedem Zyklus, wodurch der Intervall auf 10 verdoppelt wird. Der Blick gilt jeweils einem Fenster des 6 Bit - Datenstromes innerhalb des Invervalls. Das Warten um einen Zyklus führt zu einem Fensterwechsel. Dieser Fensterwechsel wird solange durchgeführt, bis eine Bitkombination gefunden wird, in welcher sich mindestens zwei Bits von den übrigen unterscheiden. (z.B 8b001111)      
+Anschliessend werden die Tabs erhöht, bis ein Bitwechsel erkannt wird (Erste Kante erkannt). Die Tabs werden weiter erhöht bis ein erneuter Bitwechsel detektiert wurde (Zweite Kante erkannt). Ein zusätzlicher Zähler erfasst die Tabs zwischen erster und zweiter Kantenfindung. Diese entspricht der Bitbreite. (1200 MHz DDR => 833.33ps => Tabs = 16/17 (300MHz) oder 11/12 (200MHz). Für die Positionierung wird die Tabverzögerung um die Hälfte der Bitbreite reduziert. (Daten sind nun zentriert).    
+
+![Workflow](doc/graphics/initial_tab_cal.png)
 
 #### Überwachung (Monitoring) und Justage der Leitungsverzögerung  
 
