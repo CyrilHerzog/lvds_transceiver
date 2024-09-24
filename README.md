@@ -38,10 +38,16 @@ Die Taktquelle ist der Onboard - Clock des FPGA (GCLK), welcher direkt dem PLL z
 
 ## Funktionsweise Link - Layer
 Der Link - Layer wird unterteilt in einen Datengenerator und einem Datenprüfer. Der Generator baut die nachfolgend beschriebene Framestruktur auf welche Byteweise an den physikalischen - Layer übergeben wird. Die Prüfschaltung kontrolliert empfangenen Byte-Packete und stellt die Dateninformation zur Abholung durch den Transaction - Layer bereit.   
+Der Datenrahmen wird mit K - Steuercodes der 8B10B - Kodierung bestimmt. 
 
 ### DLLP (Data Link Layer Packet) - Frame
 Wird für die Link - Kommunikation zwischen zwei Transceivern verwendet. Die Sender, respektive Empfängerlogik erlaubt eine variable Datenbreite. Für den aktuell vorliegenden Link - Controller ist eine breite von 16 Bit festgelegt.
 ![Workflow](doc/graphics/dllp_frame.png)
+
+- 00 => Empfang nicht bereit (Empfangspuffer voll)
+- 01 => Empfang bereit
+- 10 => Ungültige Daten empfangen (Nack)
+- 11 => Daten erfolgreich erhalten (Ack)
 
 ### TLP - Frame
 
