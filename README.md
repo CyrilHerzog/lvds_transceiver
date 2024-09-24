@@ -141,13 +141,13 @@ Fallbeispiel 3:
 Es werden vier gültige Ergebnisse an den Link Controller gesendet. {1'b1, 4'b0011}, {1'b1, 4'b0100}, {1'b1, 4'b0101}, {1'b1, 4'b0110} => {Gültig, 3}, {Gültig, 4}....
 Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Temporäre TLP - Daten werden nur in die Endablage geschrieben, falls diese noch nicht vorgängig abgelegt wurden.
 
-### Fehlerfällte für ungültigen Transfer (NACK)
+#### Fehlerfällte für ungültigen Transfer (NACK)
 - Fehlerhafte CRC Prüfung
 - Stop - Code nicht erkannt
 - Kontrollierte Packetlänge führt zu einem Überlauf (Aufgrund Fehlerhaftem Stop - Code)
 - Die Identifikationsnummer in den Kopfdaten ist grösse als die erwartete Identifikationsnummer
 
-### Wann wird ein ACK - Signal gesendet ?
+#### Wann wird ein ACK - Signal gesendet ?
 - Wenn der Transfer gültig ist
 - Wenn die Identifikationsnummer in den Kopfdaten kleiner oder gleich der erwarteten Identifikationsnummer ist
 
@@ -156,7 +156,22 @@ Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Te
 - Wenn die Identifikationsnummer genau der erwarteten Identifikationsnummer entspricht
 
 
-### Link - Manager
+### Link - Controller
+Dieser steuert die Transmitter und Receiver Schaltung und wertet deren Statussignale aus. Nach der Initialisierung erfolgt die Bearbeitung mit einem Sprungverteiler, welcher vier "Processe" repetierend ausführt.
+
+Prozesse:
+- Status - Update => Sendet Status DLLP mit Bereitschaftsbit
+- Lesen DLLP => Auswertung empfangener DLLP - Daten
+- Lesen Transfer-Ergebnisse => Senden von NACK / ACK - DLLP
+- Status Transmitter => Auswertung ACK / NACK Timeout
+
+#### Wann wird ein Replay Ausgeführt ?
+- Ein NACK - DLLP wurde empfangen
+- Timeout beim erwarteten (offener Sendeauftrag) Empfang von NACK/ACK - DLLP
+
+#### Wann wird das Senden von TLP's blockiert ?
+- Wenn der Empfangsbuffer der Gegenstation nicht bereit ist (FIFO voll)
+- Wenn die Initialisierung der Gegenstation nicht abgeschlossen oder Fehlerhaft ist.
 
 
 
@@ -166,13 +181,13 @@ Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Te
 ### SerDes
 
 
-### Gearbox
+#### Gearbox
 
-### Wortausrichtung
+#### Wortausrichtung
 
-### Initiale Tab - Kalibration
+#### Initiale Tab - Kalibration
 
-### Überwachung der 
+#### Überwachung (Monitoring) und Justage der Leitungsverzögerung  
 
 
 
