@@ -194,7 +194,7 @@ Der Sender kaskadiert zwei OSerdes - Primitiven für die Ausgabe von 10 Bit seri
 ![Workflow](doc/graphics/physical_transmitter.png)
 
 ### Empfänger
-Die Empfängerschaltung implementiert eine Bit - Deskew 
+Die Empfängerschaltung wird mit 
 ![Workflow](doc/graphics/physical_receiver.png)
 
 #### Gearbox
@@ -208,6 +208,9 @@ Die Empfängerschaltung implementiert eine Bit - Deskew
 
 
 ## Testsystem (Test - Core)
+UART - Parameter
+- Parity = ODD
+- Baudrate = 1996
 
 ### Architektur
 
