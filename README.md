@@ -194,7 +194,7 @@ Der Sender kaskadiert zwei OSerdes - Primitiven für die Ausgabe von 10 Bit seri
 ![Workflow](doc/graphics/physical_transmitter.png)
 
 ### Empfänger
-
+Die Empfängerschaltung implementiert eine Bit - Deskew 
 ![Workflow](doc/graphics/physical_receiver.png)
 
 #### Gearbox
