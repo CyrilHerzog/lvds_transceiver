@@ -218,8 +218,14 @@ Die initiale Tab - Verzögerung des Monitor - ISERDES entspricht der vorbestimmt
 ![Workflow](doc/graphics/tab_monitor.png)
 
 ##### Hinweis
-Weil die ermittelte Bitbreite für den Beobachtungsbereich verwendet wird und dieser genau am Umschaltpunkt kontrolliert, findet immer Tabwechsel von +-1 am Master - ISERDES statt. Damit wird auch jede Änderung des Leitungsverzögerung sofort erkannt. Es ist möglich, anstatt des   
+Weil die ermittelte Bitbreite für den Beobachtungsbereich verwendet wird und dieser genau am Umschaltpunkt kontrolliert, findet immer ein Tabwechsel von +-1 am Master - ISERDES statt. Damit wird auch jede Änderung des Leitungsverzögerung sofort erkannt. Sollte ein ständiger Tabwechsel nicht gewünscht sein, kann eine Fensterbreite über Parameter anstelle der Datenbreite verwendet werden. Eine Reaktion würde dementsprechend erst Folgen, wenn die eine Änderung der Verzögerung so gross ist, dass diese Innerhalb dieses Fensters liegt. 
 
+Beispiel:
+- Definieren eines Parameters WINDOW_WIDTH = 12
+- Der Monitoring Delay wird vor dem Vergleich jeweils um +-12 bewegt. (Anstelle von +-16 mit Bitbreite)
+- Jetzt ist eine Leitungsverzögerung von mindestens 4 Tabs nötig, bis eine Reaktion folgen wird
+
+Beide Lösungsansätze sind möglich und an sich korrekt, solange die Fensterbreite so gewählt ist, dass ein gültiger Abtastzeitpunkt garantiert wird. 
 
 ## Testsystem (Test - Core)
 UART - Parameter
