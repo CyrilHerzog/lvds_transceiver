@@ -234,9 +234,10 @@ UART - Parameter
 - Baudrate = 1996
 
 ### Architektur
-
+![Workflow](doc/graphics/Test_Core.png)
 
 ### Kommando 
+![Workflow](doc/graphics/pc_interface_frame.png)
 
 ## Test und Validierung
 Das letzte Kapitel zeigt die Ausgabe der synthsierten Schaltung bei Ausführung des Phyton - Testskripts. 
