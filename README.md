@@ -228,12 +228,18 @@ Beispiel:
 Beide Lösungsansätze sind möglich und an sich korrekt, solange die Fensterbreite so gewählt ist, dass ein gültiger Abtastzeitpunkt garantiert wird. 
 
 ## Testsystem (Test - Core)
+Das Testsystem dient zur Daten Ein- und Ausgabe zum Validieren der entwickelten Transceivern. Für einen umfangreichen Test ist neben dem Transfer von erzeugten TLP's auch das Manipulieren, respektive Erfassen von Prozesszuständen am Prüfobjekt notwendig. Die Vorgabe von Testsequenzen, sowie die Darstellung deren Resultat erfolgt auf einem externen Computersystem mit einem Python-Interpreter. Zur Prüfung der implementierten Module werden folgende minimale Grundoperationen vorausgesetzt:
 
-UART - Parameter
-- Parity = ODD
-- Baudrate = 1996
+- Schreiben von zufällig erzeugten Test-Pattern für den Test eines TLP-Transfers zwischen den Transceivern
+- Lesen der transferierten Daten zum Vergleich auf eventuelle Datenbeschädigungen oder Fehlimplementierungen in Sender und Empfängerlogik
+- Monitoring von Status und Prozessdaten in der Transceiverlogik, im Speziellen der Ermittelten Tabverzögerungen zur Verifikation der Initialsequenz
+- Aktivieren von hardwareseitigen Testschaltungen zur Prüfung auf Datenverlusten, mit Manipulation von Leitungsverzögerungen oder dem Verfälschen von Datenbits
+- Erfassen der Transferzeit zwischen Sender und Empfänger zur Verifizierung der Datenrate
+
 
 ### Architektur
+Die Anforderungen legen eine Art Load - Store Architektur nahe. Dies vereinfacht die Implementierung eines Kommandointerpreters, indem nur zwischen Schreibe - und Leseoperation unterschieden wird. Eine im Kommando integrierte Adressangabe bestimmt den Speicherbereich sowie die Selektierung verschiedener Datenbanken. Damit entfällt die Synthese grösserer kombinatorischen Schaltungen sowie die Definition von spezifischen Instruktionen. Das Hinzufügen weiterer Steuer - und Beobachtungsdaten kann einfach nachträglich einem Speicherbereich zugeordnet, respektive verknüpft werden.
+Die Eingabe von Schreibe - und Leseoperationen erfolgt über einen Uart - Transceiver. Das Transferieren von Testdaten wird in einem Loop über beide Transceivern in einer separaten Schaltung gesteuert. Nachfolgende Abbildung zeigt ein Blockschaltbild der Architektur mit der sichtlichen Verknüpfung der Funktionsmodule.     
 ![Workflow](doc/graphics/Test_Core.png)
 
 ### Kommando 
