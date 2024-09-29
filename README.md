@@ -244,7 +244,7 @@ Die Eingabe von Schreibe - und Leseoperationen erfolgt über einen Uart - Transc
 Die jeweils orangen Pfeile markieren die Adressleitungen zum Selektieren der Speicherpositionen der Datenbanken. Die grünen Pfeile zeigen den Datenfluss mit den jeweils benachbarten Komponenten innerhalb und ausserhalb der Hauptkomponente. Die Loop - Handler werden mit den entwickelten LVDS - Transceivern verlinkt, um ein vorgegebenes Testpattern zyklisch mit einer oder mehreren Wiederholungen zu transferieren. Der "Handler" für den Transceiver B fungiert dabei als Abschluss, welcher die Daten empfängt und zeitgleich wieder in Auftrag gibt. Der "Handler A" bildet die Schnittstelle zum Datensystem und speist die Prüfdaten in den Transceiver A ein.
 Das Ziel und Quellensystem für Daten ist eine übergeordnete Python - Applikation, zum Lesen und Schreiben der Datenbanken. Die Übersicht zeigt nicht alle Verschaltungen im Detail, insbesondere nicht die Verlinkung aller Prüfschaltungen innerhalb des TOP - Designs. Es ist auch nicht abschliessend festgelegt, welche Werte gesteuert, respektive beobachtet werden müssen. Das Design wurde dafür konzipiert, die Verlinkungen während Validierungsprozesses jederzeit mit anderen Prüfschaltungen zu verlinken. Dennoch bleiben einige Speicherbereiche, respektive Port-Verlinkungen fester Bestandteil des Funktionsumfanges.
 
-![Workflow](doc/graphics/io_belegung.png)
+![Workflow](doc/graphics/test_core_io_belegung.png)
 
 
 ### Kommando 
