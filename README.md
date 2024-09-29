@@ -236,6 +236,13 @@ Das Testsystem dient zur Daten Ein- und Ausgabe zum Validieren der entwickelten 
 - Aktivieren von hardwareseitigen Testschaltungen zur Prüfung auf Datenverlusten, mit Manipulation von Leitungsverzögerungen oder dem Verfälschen von Datenbits
 - Erfassen der Transferzeit zwischen Sender und Empfänger zur Verifizierung der Datenrate
 
+Die UART - Parameter können im TOP - Level angepasst werden. Aktuell sind folgende Parameter gesetzt:
+- Baudtrate (Frei einstellbar) = 115200
+- Parity (NONE, EVEN, ODD)  = EVEN 
+- Stopbits (1, 1.5, 2) = 1
+- Datenbreite (Frei einstellbar) = 8 Bits
+
+Grafiken zum Aufbau und Architektur des UART - Transceivers finden sich im Modulordner "UART". 
 
 ### Architektur
 Die Anforderungen legen eine Art Load - Store Architektur nahe. Dies vereinfacht die Implementierung eines Kommandointerpreters, indem nur zwischen Schreibe - und Leseoperation unterschieden wird. Eine im Kommando integrierte Adressangabe bestimmt den Speicherbereich sowie die Selektierung verschiedener Datenbanken. Damit entfällt die Synthese grösserer kombinatorischen Schaltungen sowie die Definition von spezifischen Instruktionen. Das Hinzufügen weiterer Steuer - und Beobachtungsdaten kann einfach nachträglich einem Speicherbereich zugeordnet, respektive verknüpft werden.
@@ -283,6 +290,7 @@ Mittels Python Skipt werden Befehlssequenzen und Statuswerte an den Test-Core ge
 - Erweiterung / Anpassen des Link - Controllers auf die entsprechende Endapplikation
 - Implementierung von Statuswörtern ggf. mit zusätzlichem FIFO
 - Effizienteres Design der CDC - Elastic Buffer's zur Reduzierung von Latenzzeiten (Empfohlen!)
+- Es könnte generell eine bessere Idee sein, ein Master/Slave - Protokoll zu implementieren (Ähnlich dem SPI). Das ist möglich mit einem Re-Design des Link - Controllers für Master, respektive Slave - Station. Durch das periodische Anfordern von Daten am Slave könnte ein koordinierter Datentransfer erziehlt werden. 
 
 
 
