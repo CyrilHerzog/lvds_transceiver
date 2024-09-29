@@ -241,9 +241,22 @@ Das Testsystem dient zur Daten Ein- und Ausgabe zum Validieren der entwickelten 
 Die Anforderungen legen eine Art Load - Store Architektur nahe. Dies vereinfacht die Implementierung eines Kommandointerpreters, indem nur zwischen Schreibe - und Leseoperation unterschieden wird. Eine im Kommando integrierte Adressangabe bestimmt den Speicherbereich sowie die Selektierung verschiedener Datenbanken. Damit entfällt die Synthese grösserer kombinatorischen Schaltungen sowie die Definition von spezifischen Instruktionen. Das Hinzufügen weiterer Steuer - und Beobachtungsdaten kann einfach nachträglich einem Speicherbereich zugeordnet, respektive verknüpft werden.
 Die Eingabe von Schreibe - und Leseoperationen erfolgt über einen Uart - Transceiver. Das Transferieren von Testdaten wird in einem Loop über beide Transceivern in einer separaten Schaltung gesteuert. Nachfolgende Abbildung zeigt ein Blockschaltbild der Architektur mit der sichtlichen Verknüpfung der Funktionsmodule.     
 ![Workflow](doc/graphics/Test_Core.png)
+Die jeweils orangen Pfeile markieren die Adressleitungen zum Selektieren der Speicherpositionen der Datenbanken. Die grünen Pfeile zeigen den Datenfluss mit den jeweils benachbarten Komponenten innerhalb und ausserhalb der Hauptkomponente. Die Loop - Handler werden mit den entwickelten LVDS - Transceivern verlinkt, um ein vorgegebenes Testpattern zyklisch mit einer oder mehreren Wiederholungen zu transferieren. Der "Handler" für den Transceiver B fungiert dabei als Abschluss, welcher die Daten empfängt und zeitgleich wieder in Auftrag gibt. Der "Handler A" bildet die Schnittstelle zum Datensystem und speist die Prüfdaten in den Transceiver A ein.
+Das Ziel und Quellensystem für Daten ist eine übergeordnete Python - Applikation, zum Lesen und Schreiben der Datenbanken. Die Übersicht zeigt nicht alle Verschaltungen im Detail, insbesondere nicht die Verlinkung aller Prüfschaltungen innerhalb des TOP - Designs. Es ist auch nicht abschliessend festgelegt, welche Werte gesteuert, respektive beobachtet werden müssen. Das Design wurde dafür konzipiert, die Verlinkungen während Validierungsprozesses jederzeit mit anderen Prüfschaltungen zu verlinken. Dennoch bleiben einige Speicherbereiche, respektive Port-Verlinkungen fester Bestandteil des Funktionsumfanges.
+
+![Workflow](doc/graphics/io_belegung.png)
+
 
 ### Kommando 
+Das Interface - Modul verknüpft den UART - Transceiver mit einer "Handler - FSM" zur Dekodierung empfangener Befehlssequenzen. Die resultierenden Operationen steuern den Datenfluss zwischen Datenbank und der Python - Applikation (Via. UART). Der Aufbau einer Befehlsanweisung ist wie folgt definiert:
 ![Workflow](doc/graphics/pc_interface_frame.png)
+Das Lese- und Schreibbit definiert klar die Grundoperation. Ein dahinter gelegenes Zusatzbit definiert den Modus der Operation. Es stehen zwei Modi zur Verfügung: 
+
+- Single R/W: Operation wird nur auf der angegebenen Adresse angewendet
+- Continuos R/W: Operation erfolgt von der angegebenen bis zur maximalen Adresse
+
+Die Angabe des Adressbereiches wird mit den letzten vier Bits definiert. Die ersten drei Bits umfassen den maximalen Adressbereich von Speicherregister 0 - 7. Das vierte Bit dient zur Selektierung der Datenbank. Für die Bankanwahl ist nur ein Bit notwendig, auch wenn es sich in der Summe um vier Banken handelt. Da alle Banken nur entweder gelesen oder beschrieben werden können, beschränkt sich die Selektierung auf die beiden Option (Pattern / Loop) oder (Status / Control) - Bank. Auf einer Schreibinstruktion müssen mindestens so viele Datenbytes wie die Grösse der Speicherzelle folgen. Folglich gilt für die C - Bank eine Mindestdatenlänge von zwei und für die P - Bank von sieben Bytes. Eine Leseoperation benötigt nur den Byte - Steuercode. Es werden Bytes im Umfang der entsprechenden Zieladresse und dem Modus erwartet.
+
 
 ## Test und Validierung
 Das letzte Kapitel zeigt die Ausgabe der synthsierten Schaltung bei Ausführung des Phyton - Testskripts. 
