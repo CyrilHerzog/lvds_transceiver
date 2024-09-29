@@ -242,7 +242,7 @@ Die Anforderungen legen eine Art Load - Store Architektur nahe. Dies vereinfacht
 Die Eingabe von Schreibe - und Leseoperationen erfolgt über einen Uart - Transceiver. Das Transferieren von Testdaten wird in einem Loop über beide Transceivern in einer separaten Schaltung gesteuert. Nachfolgende Abbildung zeigt ein Blockschaltbild der Architektur mit der sichtlichen Verknüpfung der Funktionsmodule.     
 ![Workflow](doc/graphics/Test_Core.png)
 Die jeweils orangen Pfeile markieren die Adressleitungen zum Selektieren der Speicherpositionen der Datenbanken. Die grünen Pfeile zeigen den Datenfluss mit den jeweils benachbarten Komponenten innerhalb und ausserhalb der Hauptkomponente. Die Loop - Handler werden mit den entwickelten LVDS - Transceivern verlinkt, um ein vorgegebenes Testpattern zyklisch mit einer oder mehreren Wiederholungen zu transferieren. Der "Handler" für den Transceiver B fungiert dabei als Abschluss, welcher die Daten empfängt und zeitgleich wieder in Auftrag gibt. Der "Handler A" bildet die Schnittstelle zum Datensystem und speist die Prüfdaten in den Transceiver A ein.
-Das Ziel und Quellensystem für Daten ist eine übergeordnete Python - Applikation, zum Lesen und Schreiben der Datenbanken. Die Übersicht zeigt nicht alle Verschaltungen im Detail, insbesondere nicht die Verlinkung aller Prüfschaltungen innerhalb des TOP - Designs. Es ist auch nicht abschliessend festgelegt, welche Werte gesteuert, respektive beobachtet werden müssen. Das Design wurde dafür konzipiert, die Verlinkungen während Validierungsprozesses jederzeit mit anderen Prüfschaltungen zu verlinken. Dennoch bleiben einige Speicherbereiche, respektive Port-Verlinkungen fester Bestandteil des Funktionsumfanges.
+Das Ziel und Quellensystem für Daten ist eine übergeordnete Python - Applikation, zum Lesen und Schreiben der Datenbanken. Die Übersicht zeigt nicht alle Verschaltungen im Detail, insbesondere nicht die Verlinkung aller Prüfschaltungen innerhalb des TOP - Designs. Es ist auch nicht abschliessend festgelegt, welche Werte gesteuert, respektive beobachtet werden müssen. Das Design wurde dafür konzipiert, die Verlinkungen während Validierungsprozesses jederzeit mit anderen Prüfschaltungen zu verlinken. Dennoch bleiben einige Speicherbereiche, respektive Port-Verlinkungen fester Bestandteil des Funktionsumfanges. Die mit der Farbe Grün umrandeten Positionen, sind für die Teilschaltungen des Testsystems irrelevant und können problemlos mit anderen Schaltungen verknüpft werden. 
 
 ![Workflow](doc/graphics/test_core_io_belegung.png)
 
@@ -257,9 +257,13 @@ Das Lese- und Schreibbit definiert klar die Grundoperation. Ein dahinter gelegen
 
 Die Angabe des Adressbereiches wird mit den letzten vier Bits definiert. Die ersten drei Bits umfassen den maximalen Adressbereich von Speicherregister 0 - 7. Das vierte Bit dient zur Selektierung der Datenbank. Für die Bankanwahl ist nur ein Bit notwendig, auch wenn es sich in der Summe um vier Banken handelt. Da alle Banken nur entweder gelesen oder beschrieben werden können, beschränkt sich die Selektierung auf die beiden Option (Pattern / Loop) oder (Status / Control) - Bank. Auf einer Schreibinstruktion müssen mindestens so viele Datenbytes wie die Grösse der Speicherzelle folgen. Folglich gilt für die C - Bank eine Mindestdatenlänge von zwei und für die P - Bank von sieben Bytes. Eine Leseoperation benötigt nur den Byte - Steuercode. Es werden Bytes im Umfang der entsprechenden Zieladresse und dem Modus erwartet.
 
+### Hinweise zum Testablauf
+- Die Pattern - Daten werden beim ersten Zyklus vom Transceiver A aus der P - Bank geladen und abschliessend in die L - Bank geschrieben.
+- Falls ein Kontinuierlicher Loop gestartet wird, so werden für jeden weiteren Ziklus nur noch die Daten aus der L - Bank geladen. Da somit ein Kommunikationsfehler "mitwandert" Kann die Funktionalität besser verifiziert werden.
+-  Ein Loop - Timeout ist aktuell nicht implementiert. Sollte ein Fehler auftreten, so muss die Schaltung neu geladen werden.  
 
 ## Test und Validierung
-Das letzte Kapitel zeigt die Ausgabe der synthsierten Schaltung bei Ausführung des Phyton - Testskripts. 
+Das letzte Kapitel zeigt die Ausgabe der synthsierten Schaltung bei Ausführung des Python - Testskripts. 
 
 ### Hardware
 Die Auswertung der Schaltung wird auf einem Zynq7000 Entwicklungsboard geprüft. Die Daten und Taktleitungen werden mit einem FMC - Loopback Moduls verbunden. Die Datenübertragung vom PC (Python) erfolgt mit einem PMOD USB - UART Modul.
