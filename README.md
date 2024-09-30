@@ -62,12 +62,13 @@ Für die Zustandsübermittlung werden nur zwei Bits des MSB Bytes verwendet. Das
 - 11 => Daten erfolgreich erhalten (Ack)
 
 ### TLP - Frame
-Das Transaction Layer Packet beinhaltet zusätzliche Kopfdaten mit Angabe der Anzahl und einer Identifikationsnummer. Die Breite der Kopfinformation ist abhängig vom Parameter ID_WIDTH. Standartmässig ist der Bereich der Identifikationsnummer auf 0 - 15 festgelegt. Das entspricht jeweils der gleichen Anzahl möglicher hintereinanderfolgender TLP - Packete (0 - 15).
-Die Kopfdaten benötigen in diesem Fall nur 1 Byte (4Bit + 4 Bit). Identifikationsnummern im Bereich 0 - 31 würde zu einer Kopfdatenbreite von 2 Bytes führen (5Bit + 5Bit) 
+Das Transaction Layer Packet beinhaltet zusätzliche Kopfdaten mit Angabe der Anzahl und einer Identifikationsnummer. Die Breite der Kopfinformation ist abhängig vom Parameter ID_WIDTH. Standartmässig ist der Bereich der Identifikationsnummer auf 0 - 7 festgelegt. Das entspricht jeweils der gleichen Anzahl möglicher hintereinanderfolgender TLP - Packete (0 - 7).
+Die Kopfdaten benötigen in diesem Fall nur 1 Byte (Nullbit + 3Bit(Num) + Msb-Bit(ID) + 3 Bit(ID)). Identifikationsnummern im Bereich 0 - 15 würde zu einer Kopfdatenbreite von 2 Bytes führen. Die Anzahl - Framenummern wird mit einem Nullbit als MSB ergänzt. Die ID erhält ein zusätzliches MSB um in der Empfängerschaltung eine Unterscheidung zwischen bereits Bestätigten und Nicht - Bestätigten TLP's durchzuführen. Das ist wichtig, damit keine Datensätze doppelt in den Abholbuffer des Empfängers geschrieben werden.   
 
 ![Workflow](doc/graphics/tlp_frame.png)
 
-Das Erhöhen des Nummernbereiches für die Identifikationsnummer macht dann Sinn, wenn der Sendepuffer jeweils immer mit mehr als 16 TLP - Packete nachgeladen wird. (Applikationsabhängig)
+Das Erhöhen des Nummernbereiches für die Identifikationsnummer macht dann Sinn, wenn der Sendepuffer jeweils immer mit mehr als 7 TLP - Packete nachgeladen wird. (Applikationsabhängig)
+Ein Senden und Empfangen ist bei jeder ID - Breite sichergestellt. Je grösser die ID - Breite, desto mehr Datenpackete können für einen Datentransfer gebündelt werden.  
 
 ### Sender (Packet Generator) 
 Der Packetgenerator wird zentral von einem Controller gesteuert. Dieser stellt die Weichen für den Datenfluss durch das steuern der Multiplexer. Zentral für die Funktionalität ist eine implementierte FIFO - Zeigerlogik für Bestätigte, respektive Fehlerhafte ID übertragungen im Controller. Das Senden von DLLP hat eine höhere Priorität als das Senden von TLP - Packeten. Der Transfer von TLP - Packeten muss vom Link - Manager freigegeben werden. (Erfolgt mit Steuerflags "Start" und "Stop")
@@ -284,14 +285,14 @@ Für Schaltungssimulationen stehen in den Modulordnern Testbenches zur verfügun
 Mittels Python Skipt werden Befehlssequenzen und Statuswerte an den Test-Core gesendet/empfangen. Die Serielle PC - Schnittstelle nutzt LSB - First, wodurch die Bitfolgen dementsprechend angepasst werden.
 Im Transceiver wurden für Testzwecke Handshake - Synchronizer für das Anzeigen der Delaye - Tabs hinzugefügt. Weiter ist eine CRC - Testschaltung implementiert, welche bei Aktivierung das nächstfolgende TLP oder DLLP (Aus der 
 Transmitterschaltung des Link - Layers) im Datensatz verändert und somit beim Empfänger zu einem CRC - Fehler führen muss.  
-Damit der Test möglichst Zielgerichtet ist, werden nur ACK/NACK - DLLP's verändert. 
+Damit der Test möglichst Zielgerichtet ist, werden nur ACK/NACK - DLLP's verändert. Eine Replay Start - Flanke wird zur Anzeige gehalten und mit einem Status - Reset gelöscht.  
 
 Damit lassen sich folgende Fehlerprüfungen durchführen:
-- Replay durch empfangenem NACK  (CRC - Fehler im TLP)
+- Replay nach empfangenem "NACK"  (CRC - Fehler im TLP)
 - Replay durch ACK/NACK - Timeout (CRC - Fehler im ACK/NACK - DLLP)
 
 Der Testablauf ist wie folgt:
-1. Echo - Test
+1. Echo - Test (Verbindungskontrolle mit Test - Core)
 2. Lesen/Rücksetzen Transceiver Status Bits
 3. Lesen der Initialen Tab - Verzögerung
 4. Schreiben der Pattern - Daten
