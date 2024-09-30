@@ -47,6 +47,8 @@ module test_core_top #(
     input wire [4:0] i_trx_a_delay_tabs,
     output wire o_trx_a_wr_delay_tabs,
     output wire [4:0] o_trx_a_delay_tabs,
+    //
+    output wire[7:0] o_trx_a_test_flags,
     // TRANSCEIVER B
     //
     // LOOP - PATTERN
@@ -58,7 +60,11 @@ module test_core_top #(
     input wire [4:0] i_trx_b_edge_tabs,
     input wire [4:0] i_trx_b_delay_tabs,
     output wire o_trx_b_wr_delay_tabs,
-    output wire [4:0] o_trx_b_delay_tabs
+    output wire [4:0] o_trx_b_delay_tabs,
+    //
+    output wire[7:0] o_trx_b_test_flags,
+    //
+    input wire[15:0] i_status_monitor
  );
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,8 +110,8 @@ module test_core_top #(
         .o_bank_c_data_1         (), // pattern number
         .o_bank_c_data_2         (), // sim tab delay transceiver a
         .o_bank_c_data_3         (), // sim tab delay transceiver b
-        .o_bank_c_data_4         (), // reserve
-        .o_bank_c_data_5         (), // reserve
+        .o_bank_c_data_4         (), // debug control trnasceiver a
+        .o_bank_c_data_5         (), // debug control transceiver b
         .o_bank_c_data_6         (), // reserve
         .o_bank_c_data_7         (), // uart echo
         // STATUS BANK INTERFACE
@@ -115,7 +121,7 @@ module test_core_top #(
         .i_bank_s_data_3         ({11'b0, inst_bank_s_trx_a_tab_delay_i.o_data}), // delay tabs transceiver a
         .i_bank_s_data_4         ({11'b0, inst_bank_s_trx_b_edge_tabs.o_data}), // edge tabs transceiver b
         .i_bank_s_data_5         ({11'b0, inst_bank_s_trx_b_tab_delay_i.o_data}), // delay tabs transceiver b
-        .i_bank_s_data_6         (16'b0), // reserve
+        .i_bank_s_data_6         (inst_bank_s_status_monitor.o_data), // free monitoring signals
         .i_bank_s_data_7         (inst_bank_c_echo.o_data)
     );
 
@@ -235,6 +241,30 @@ module test_core_top #(
         .o_data     (o_trx_b_delay_tabs)
     );
 
+    // TRANSCEIVER A - TEST FLAGS
+    register #(
+        .DATA_WIDTH (8)
+    ) inst_bank_c_trx_a_test_flags_o ( 
+        .i_clk      (i_clk),
+        .i_arst_n   (inst_local_reset.o_rst),
+        .i_wr       (inst_pc_interface_top.o_bank_c_wr[4]),
+        .i_clr      (~inst_pc_interface_top.o_bank_c_wr[4]), 
+        .i_data     (inst_pc_interface_top.o_bank_c_data_4[7:0]), // pulse
+        .o_data     (o_trx_a_test_flags)
+    );
+
+    // TRANSCEIVER B - TEST FLAGS
+    register #(
+        .DATA_WIDTH (8)
+    ) inst_bank_c_trx_b_test_flags_o ( 
+        .i_clk      (i_clk),
+        .i_arst_n   (inst_local_reset.o_rst),
+        .i_wr       (inst_pc_interface_top.o_bank_c_wr[5]),
+        .i_clr      (~inst_pc_interface_top.o_bank_c_wr[5]),
+        .i_data     (inst_pc_interface_top.o_bank_c_data_5[7:0]), // pulse
+        .o_data     (o_trx_b_test_flags)
+    );
+
 
     // ECHO 
     register #(
@@ -275,7 +305,7 @@ module test_core_top #(
         .o_data     ()
     );
 
-    // TRANSCEIVER A
+    // TRANSCEIVER B
     register #(
         .DATA_WIDTH (5)
     ) inst_bank_s_trx_b_edge_tabs ( 
@@ -295,6 +325,18 @@ module test_core_top #(
         .i_wr       (1'b1),
         .i_clr      (1'b0),
         .i_data     (i_trx_b_delay_tabs),
+        .o_data     ()
+    );
+
+    // DEBUG
+    register #(
+        .DATA_WIDTH (16)
+    ) inst_bank_s_status_monitor ( 
+        .i_clk      (i_clk),
+        .i_arst_n   (inst_local_reset.o_rst),
+        .i_wr       (1'b1),
+        .i_clr      (1'b0),
+        .i_data     (i_status_monitor),
         .o_data     ()
     );
 
