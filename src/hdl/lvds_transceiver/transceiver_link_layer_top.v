@@ -25,6 +25,7 @@
 module transceiver_link_layer_top #(
     parameter TLP_TX_WIDTH          = `DEFAULT_TLP_WIDTH,
     parameter TLP_RX_WIDTH          = `DEFAULT_TLP_WIDTH,
+    parameter TLP_ID_WIDTH          = `CONFIG_TLP_ID_WIDTH,
     parameter TLP_BUFFER_TYPE       = `DEFAULT_TLP_BUFFER_TYPE,
     parameter TLP_BUFFER_ADDR_WIDTH = `DEFAULT_TLP_BUFFER_ADDR_WIDTH,
     parameter CRC_INIT              = `DEFAULT_CRC_INIT,
@@ -45,7 +46,13 @@ module transceiver_link_layer_top #(
     input wire i_phys_packet_k_en,
     input wire[7:0] i_phys_packet_byte,
     output wire o_phys_packet_k_en,
-    output wire[7:0] o_phys_packet_byte
+    output wire[7:0] o_phys_packet_byte,
+    //
+    // status bits
+    output wire o_status_connect,
+    //
+    // link - state (only for testing)
+    output wire o_tx_state_rply
 );
 
 
@@ -53,7 +60,7 @@ module transceiver_link_layer_top #(
 // LINK - CONTROLLER
 
 transceiver_link_controller #(
-    .TLP_ID_WIDTH           (`CONFIG_TLP_ID_WIDTH)
+    .TLP_ID_WIDTH           (TLP_ID_WIDTH)
 ) inst_transceiver_link_controller (
     .i_clk                  (i_sys_clk_120), 
     .i_arst_n               (i_sys_arst_n),
@@ -80,10 +87,13 @@ transceiver_link_controller #(
     .i_rx_id_result         (inst_receiver_packet_interface_top.o_status_id),
     .o_rx_id_result_rd      (),
     //
-    // physical
+    // PHYSICAL
     .i_phys_cal_done        (i_phys_cal_done),
     .i_phys_cal_fail        (i_phys_cal_fail),
-    .o_phys_cal_start       (o_phys_cal_start)
+    .o_phys_cal_start       (o_phys_cal_start),
+    //
+    // STATUS
+    .o_status_connect       (o_status_connect)
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +101,7 @@ transceiver_link_controller #(
 
 transmitter_packet_interface_top #(
     .TLP_WIDTH              (TLP_TX_WIDTH),
-    .TLP_ID_WIDTH           (`CONFIG_TLP_ID_WIDTH),
+    .TLP_ID_WIDTH           (TLP_ID_WIDTH),
     .TLP_BUFFER_TYPE        (TLP_BUFFER_TYPE),
     .TLP_BUFFER_ADDR_WIDTH  (TLP_BUFFER_ADDR_WIDTH),       
     .DLLP_WIDTH             (`CONFIG_DLLP_WIDTH),
@@ -115,7 +125,7 @@ transmitter_packet_interface_top #(
     .i_tlp_stop             (inst_transceiver_link_controller.o_tx_stop),
     .i_tlp_rply_start       (inst_transceiver_link_controller.o_tx_rply),
     .i_tlp_id_ack           (inst_transceiver_link_controller.o_tx_id_ack),
-    .o_tlp_rply_act         (), // replay is active
+    .o_tlp_rply_act         (o_tx_state_rply), // replay is active
     .o_tlp_id_all_ack       (), // standby => no jobs
     .o_tlp_id_wait_ack      (), // transmittion stopped => wait for acknowledge
     .o_tlp_id_nack          (), // not accepted id's => msg in transmission
@@ -130,7 +140,7 @@ transmitter_packet_interface_top #(
 
 receiver_packet_interface_top #(
     .TLP_WIDTH              (TLP_RX_WIDTH),
-    .TLP_ID_WIDTH           (`CONFIG_TLP_ID_WIDTH),
+    .TLP_ID_WIDTH           (TLP_ID_WIDTH),
     .TLP_BUFFER_TYPE        (TLP_BUFFER_TYPE),
     .TLP_BUFFER_ADDR_WIDTH  (TLP_BUFFER_ADDR_WIDTH),       
     .DLLP_WIDTH             (`CONFIG_DLLP_WIDTH),
