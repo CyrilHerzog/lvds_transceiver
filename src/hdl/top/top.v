@@ -165,6 +165,8 @@ module top(
         .i_trx_a_delay_tabs         (inst_transceiver_a.o_mon_delay_tabs),
         .o_trx_a_wr_delay_tabs      (),
         .o_trx_a_delay_tabs         (),
+        // 
+        .o_trx_a_test_flags         (), // 8 bit => BIT0 = ACK_STATUS, BIT1 = TLP_CRC_TEST, BIT2 = DLLP_CRC_TEST
         // TRANSCEIVER B
         //
         // LOOP - PATTERN
@@ -178,7 +180,11 @@ module top(
         .i_trx_b_edge_tabs          (inst_transceiver_b.o_mon_edge_tabs),
         .i_trx_b_delay_tabs         (inst_transceiver_b.o_mon_delay_tabs),
         .o_trx_b_wr_delay_tabs      (),
-        .o_trx_b_delay_tabs         ()
+        .o_trx_b_delay_tabs         (),
+        //
+        .o_trx_b_test_flags         (), // 8 bit => BIT0 = ACK_STATUS, BIT1 = TLP_CRC_TEST, BIT2 = DLLP_CRC_TEST
+        //
+        .i_status_monitor           ({7'b0, inst_transceiver_b.o_mon_status_rply, 7'b0, inst_transceiver_a.o_mon_status_rply})
     );
 
     /*
@@ -218,7 +224,7 @@ module top(
 
     // DELAY - CONTROL
     IDELAYCTRL inst_delay_control (      
-	    .REFCLK	    (inst_mmcm.o_bufg_clk_300),
+	    .REFCLK	    (inst_mmcm.o_bufg_clk_300), // 300 MHz = 52ps / 200 MHz = 78ps
 	    .RST		(1'b0),
 	    .RDY		()
     );
@@ -228,13 +234,13 @@ module top(
     // TRANSCEIVER A (SOURCE)
     lvds_transceiver_top #(
         .SIMULATION_ENABLE      (0),
-        .PHYS_CTRL_MON_ENABLE   (1),
+        .CTRL_MON_ENABLE        (1),
         .IDELAYE_REF_FREQ       (300),
         //
         .CONNECTION_TYPE        (0),    // SOURCE
         .TLP_TX_WIDTH           (56),
         .TLP_RX_WIDTH           (34),
-        .TLP_ID_WIDTH           (4),
+        .TLP_ID_WIDTH           (3),
         .TLP_BUFFER_TYPE        (1),    // ASYNCHRONOUS FIFO
         .TLP_BUFFER_ADDR_WIDTH  (4),
         .CRC_POLY               (8'h07),             
@@ -265,9 +271,16 @@ module top(
         .o_phys_clk_600_n       (FMC_LA02_N),
         .o_phys_tx_p            (FMC_LA04_P),
         .o_phys_tx_n            (FMC_LA04_N),
+        ///////////////////////////////////////////////////////////////
         // CONTROL & MONITOR
         .i_ctrl_mon_clk         (inst_pll.o_bufg_clk_166),
-        .i_ctrl_mon_arst_n      (1'b1),
+        .i_ctrl_mon_arst_n      (inst_rst_test_core.o_rst),
+        // LINK 
+        .i_ctrl_pls_crc_dllp    (inst_test_core.o_trx_a_test_flags[2]),
+        .i_ctrl_pls_crc_tlp     (inst_test_core.o_trx_a_test_flags[1]),
+        .i_ctrl_pls_status_ack  (inst_test_core.o_trx_a_test_flags[0]),
+        .o_mon_status_rply      (),
+        // PHYSICAL
         .i_ctrl_tab_delay_wr    (1'b0),
         .i_ctrl_tab_delay       (5'b00000),
         .o_mon_edge_tabs        (),
@@ -277,20 +290,20 @@ module top(
     // TRANSCEIVER B (SINK)
     lvds_transceiver_top #(
         .SIMULATION_ENABLE      (0),
-        .PHYS_CTRL_MON_ENABLE   (1),
+        .CTRL_MON_ENABLE        (1),
         .IDELAYE_REF_FREQ       (300),
         //
         .CONNECTION_TYPE        (1),    // SINK
         .TLP_TX_WIDTH           (34),
         .TLP_RX_WIDTH           (56),
-        .TLP_ID_WIDTH           (4),
+        .TLP_ID_WIDTH           (3),
         .TLP_BUFFER_TYPE        (1),    // ASYNCHRONOUS FIFO
         .TLP_BUFFER_ADDR_WIDTH  (4),
         .CRC_POLY               (8'h07),             
         .CRC_INIT               (8'hff)
     ) inst_transceiver_b (
         .i_sys_clk_120          (inst_mmcm.o_bufg_clk_120), 
-        .i_sys_arst_n           (1'b1),
+        .i_sys_arst_n           (inst_rst_trx.o_rst),
         //
         // TLP
         .i_tlp_wr_clk           (inst_pll.o_bufg_clk_166),
@@ -313,9 +326,16 @@ module top(
         .o_phys_clk_600_n       (),
         .o_phys_tx_p            (FMC_LA08_P),
         .o_phys_tx_n            (FMC_LA08_N),
+        ////////////////////////////////////////////////////////////////
         // CONTROL & MONITOR
         .i_ctrl_mon_clk         (inst_pll.o_bufg_clk_166),
-        .i_ctrl_mon_arst_n      (1'b1),
+        .i_ctrl_mon_arst_n      (inst_rst_test_core.o_rst),
+        // LINK
+        .i_ctrl_pls_crc_dllp    (inst_test_core.o_trx_b_test_flags[2]),
+        .i_ctrl_pls_crc_tlp     (inst_test_core.o_trx_b_test_flags[1]),
+        .i_ctrl_pls_status_ack  (inst_test_core.o_trx_b_test_flags[0]),
+        .o_mon_status_rply      (),
+        // PHYSICAL
         .i_ctrl_tab_delay_wr    (1'b0),
         .i_ctrl_tab_delay       (5'b00000),
         .o_mon_edge_tabs        (),
