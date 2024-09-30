@@ -20,12 +20,14 @@
 //
 `include "src/hdl/cdc/async_reset.v"
 `include "src/hdl/cdc/synchronizer.v"
-`include "src/hdl/cdc/handshake_synchronizer.v"
+`include "src/hdl/cdc/mux_handshake_synchronizer.v"
+//
+`include "src/hdl/lvds_transceiver/debug/transceiver_crc_test.v"
 
 
 module lvds_transceiver_top #(
     parameter SIMULATION_ENABLE     = 1,
-    parameter PHYS_CTRL_MON_ENABLE  = 1,
+    parameter CTRL_MON_ENABLE       = 1,
     parameter IDELAYE_REF_FREQ      = 200,
     //
     parameter CONNECTION_TYPE       = `DEFAULT_CONNECTION_TYPE,
@@ -52,9 +54,18 @@ module lvds_transceiver_top #(
     input wire i_phys_rx_p, i_phys_rx_n,
     output wire o_phys_clk_600_p, o_phys_clk_600_n,
     output wire o_phys_tx_p, o_phys_tx_n,
+    // STATUS
+    output wire o_status_connect,
+    //
     // CONTROL & MONITOR
     input wire i_ctrl_mon_clk,
     input wire i_ctrl_mon_arst_n,
+    // LINK
+    input wire i_ctrl_pls_crc_dllp,
+    input wire i_ctrl_pls_crc_tlp,
+    input wire i_ctrl_pls_status_ack,
+    output wire o_mon_status_rply,
+    // PHYSICAL
     input wire i_ctrl_tab_delay_wr,
     input wire[4:0] i_ctrl_tab_delay,
     output wire[4:0] o_mon_edge_tabs,
@@ -82,6 +93,7 @@ module lvds_transceiver_top #(
     transceiver_link_layer_top #(
         .TLP_TX_WIDTH          (TLP_TX_WIDTH),
         .TLP_RX_WIDTH          (TLP_RX_WIDTH),
+        .TLP_ID_WIDTH          (TLP_ID_WIDTH),
         .TLP_BUFFER_TYPE       (TLP_BUFFER_TYPE),
         .TLP_BUFFER_ADDR_WIDTH (TLP_BUFFER_ADDR_WIDTH),
         .CRC_INIT              (CRC_INIT),
@@ -107,9 +119,14 @@ module lvds_transceiver_top #(
         .i_phys_packet_k_en    (inst_rx_packet_buffer.o_data[8]),
         .i_phys_packet_byte    (inst_rx_packet_buffer.o_data[7:0]), 
         .o_phys_packet_k_en    (), 
-        .o_phys_packet_byte    () 
+        .o_phys_packet_byte    (),
+        //
+        // STATE 
+        .o_status_connect      (o_status_connect),
+        //
+        // STATE ( TEST - MONITORING)
+        .o_tx_state_rply       ()
     );
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // CDC => SYS_CLK_120 <=> PHYS_CLK_120
@@ -148,6 +165,8 @@ module lvds_transceiver_top #(
     );
 
     //
+    wire [8:0] tx_packet_data_in;
+
     transceiver_elastic_buffer #(
         .DATA_WIDTH     (9),
         .ADDR_WIDTH     (6)
@@ -156,7 +175,7 @@ module lvds_transceiver_top #(
         .i_wr_arst_n    (local_master_reset),
         .i_rd_clk       (inst_physical_layer_top.o_clk_120),
         .i_rd_arst_n    (local_master_reset),
-        .i_data         ({inst_link_layer_top.o_phys_packet_k_en, inst_link_layer_top.o_phys_packet_byte}),
+        .i_data         (tx_packet_data_in), // {inst_link_layer_top.o_phys_packet_k_en, inst_link_layer_top.o_phys_packet_byte}
         .o_data         ()
     );
 
@@ -224,14 +243,14 @@ module lvds_transceiver_top #(
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // PHYSICAL CONTROL & MONITOR
+    // CONTROL & MONITOR
 
     wire[4:0] internal_ctrl_delay_tabs;
 
     generate
-        if (PHYS_CTRL_MON_ENABLE == 1) begin
-            //
-            handshake_synchronizer #(
+        if (CTRL_MON_ENABLE == 1) begin
+            // PHYSICAL
+            mux_handshake_synchronizer #(
                 .SYNC_STAGES    (2),
                 .DATA_WIDTH     (5)
             ) inst_cdc_mon_edge_tabs (
@@ -247,7 +266,7 @@ module lvds_transceiver_top #(
                 .o_out_data     (o_mon_edge_tabs)
             );
 
-            handshake_synchronizer #(
+            mux_handshake_synchronizer #(
                 .SYNC_STAGES    (2),
                 .DATA_WIDTH     (5)
             ) inst_cdc_mon_delay_tabs (
@@ -264,7 +283,7 @@ module lvds_transceiver_top #(
             );
 
             /*
-            handshake_synchronizer #(
+            mux_handshake_synchronizer #(
                 .SYNC_STAGES    (2),
                 .DATA_WIDTH     (5)
             ) inst_cdc_ctrl_delay_tabs (
@@ -281,12 +300,35 @@ module lvds_transceiver_top #(
             );
 
             */
+
+            // LINK
+            transceiver_crc_test inst_crc_test (
+                .i_sys_clk_120        (i_sys_clk_120), 
+                .i_sys_arst_n         (local_master_reset),
+                .i_ctrl_mon_clk       (i_ctrl_mon_clk),
+                .i_ctrl_mon_arst_n    (i_ctrl_mon_arst_n),
+                //
+                .i_link_status_rply   (inst_link_layer_top.o_tx_state_rply),
+                //
+                // CONTROL => MANIPULATE
+                .i_ctrl_start_dllp    (i_ctrl_pls_crc_dllp), // reset by i_link_status_rply 
+                .i_ctrl_start_tlp     (i_ctrl_pls_crc_tlp),
+                //
+                .i_ctrl_status_ack    (i_ctrl_pls_status_ack),
+                .o_mon_status_rply    (o_mon_status_rply),
+                // DATA
+                .i_data               ({inst_link_layer_top.o_phys_packet_k_en, inst_link_layer_top.o_phys_packet_byte}),
+                .o_data               (tx_packet_data_in)
+            );
+
         end else begin
             //
             assign o_mon_edge_tabs  = 5'b00000;
             assign o_mon_delay_tabs = 5'b00000;
             //
             //assign internal_ctrl_delay_tabs = 5'b00000;
+            //
+            assign tx_packet_data_in = {inst_link_layer_top.o_phys_packet_k_en, inst_link_layer_top.o_phys_packet_byte};
         end
 
     endgenerate

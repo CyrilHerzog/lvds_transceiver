@@ -40,8 +40,8 @@ module packet_checker_controller #(
     output wire[TLP_ID_WIDTH-1:0] o_tlp_temp_rd_addr,
     // handle tlp - temporary storage
     input wire i_tr_result_valid,
-    input wire [(TLP_ID_WIDTH * 3):0] i_tr_result,
-    output wire[TLP_ID_WIDTH:0] o_tr_result,
+    input wire [((TLP_ID_WIDTH + 1) * 3) - 1:0] i_tr_result,
+    output wire[TLP_ID_WIDTH:0] o_tr_result,  // {{valid}, num_frame}
     output wire o_tr_result_wr,
     output wire o_tr_result_rd,
     //
@@ -150,6 +150,8 @@ module packet_checker_controller #(
                 ri_tr_byte_cnt = r_tr_byte_cnt - {{BYTE_CNT_WIDTH{1'b0}}, i_k_skp_n};
                 if (tr_bytes_done && tr_frame_valid)
                     ri_tr_state = S_TR_WRITE_DLLP;
+                else if (tr_bytes_done && ~tr_frame_valid)
+                    ri_tr_state = S_TR_IDLE; 
             end
 
             S_TR_WRITE_DLLP: begin
@@ -205,21 +207,22 @@ module packet_checker_controller #(
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PROCESS - FSM
     
-    localparam [6:0] S_PROC_IDLE         = 7'b0000001, // 0
-                     S_PROC_CHECK        = 7'b0000010, // 1
-                     S_PROC_DISCARD      = 7'b0000100, // 2
-                     S_PROC_ACCEPT       = 7'b0001000, // 3
-                     S_PROC_WAIT_TLP_RDY = 7'b0010000, // 4
-                     S_PROC_WRITE_TLP    = 7'b0100000, // 5
-                     S_PROC_WRITE_RESULT = 7'b1000000; // 6
+    localparam [7:0] S_PROC_IDLE         = 8'b00000001, // 0
+                     S_PROC_CHECK        = 8'b00000010, // 1
+                     S_PROC_DISCARD_NACK = 8'b00000100, // 2
+                     S_PROC_DISCARD_ACK  = 8'b00001000, // 3
+                     S_PROC_ACCEPT       = 8'b00010000, // 4
+                     S_PROC_WAIT_TLP_RDY = 8'b00100000, // 5
+                     S_PROC_WRITE_TLP    = 8'b01000000, // 6
+                     S_PROC_WRITE_RESULT = 8'b10000000; // 7
 
     (* fsm_encoding = "user_encoding" *)
-    reg[6:0] r_proc_state = S_PROC_IDLE;
-    reg[6:0] ri_proc_state;
+    reg[7:0] r_proc_state = S_PROC_IDLE;
+    reg[7:0] ri_proc_state;
 
-    assign o_tlp_wr       = r_proc_state[5]; // S_PROC_WRITE_TLP
+    assign o_tlp_wr       = r_proc_state[6]; // S_PROC_WRITE_TLP
     assign o_tr_result_rd = r_proc_state[1]; // S_PROC_CHECK
-    assign o_id_result_wr = r_proc_state[6]; // S_PROC_WRITE_STATUS
+    assign o_id_result_wr = r_proc_state[7]; // S_PROC_WRITE_STATUS
     
 
 
@@ -227,8 +230,8 @@ module packet_checker_controller #(
 
     reg[TLP_ID_WIDTH:0] r_proc_frame_id_ref, ri_proc_frame_id_ref;
     reg[TLP_ID_WIDTH:0] r_proc_frame_id_header, ri_proc_frame_id_header;
+    reg[TLP_ID_WIDTH:0] r_proc_frame_num_header, ri_proc_frame_num_header;
     reg[TLP_ID_WIDTH-1:0] r_proc_frame_num_tr, ri_proc_frame_num_tr;
-    reg[TLP_ID_WIDTH-1:0] r_proc_frame_num_header, ri_proc_frame_num_header;
     reg r_proc_valid_tr, ri_proc_valid_tr;
 
     // result after process-fsm => {ack/nack, ref_id}
@@ -258,9 +261,8 @@ module packet_checker_controller #(
         end
 
     // transfer valid => crc_ok & stop_detect & (tr_frame_num == header_frame_num) & (header_id <= ref_id)
-    assign proc_tr_ack      = (r_proc_valid_tr && (r_proc_frame_num_tr == r_proc_frame_num_header) && (r_proc_frame_id_header <= r_proc_frame_id_ref));  
+    assign proc_tr_ack      = (r_proc_valid_tr && ({1'b0, r_proc_frame_num_tr} == r_proc_frame_num_header) && (r_proc_frame_id_header <= r_proc_frame_id_ref));  
     assign proc_frames_done = (r_proc_frame_num_tr == 0);
-
 
     always @ * begin
 
@@ -277,9 +279,9 @@ module packet_checker_controller #(
 
             S_PROC_IDLE: begin
                 // save {(crc_ok & stop_ok), tr_frame_num,  tlp_header_num}
-                {ri_proc_valid_tr, ri_proc_frame_num_tr, ri_proc_frame_num_header} = i_tr_result[(3 * TLP_ID_WIDTH):TLP_ID_WIDTH];
+                {ri_proc_valid_tr, ri_proc_frame_num_tr, ri_proc_frame_num_header} = i_tr_result[(3 * (TLP_ID_WIDTH + 1))-1:(TLP_ID_WIDTH + 1)];
                 // save header
-                ri_proc_frame_id_header = {r_proc_frame_id_header[TLP_ID_WIDTH], i_tr_result[TLP_ID_WIDTH-1:0]};
+                ri_proc_frame_id_header = i_tr_result[TLP_ID_WIDTH:0];
                 if (i_tr_result_valid)
                     ri_proc_state = S_PROC_CHECK;
             end
@@ -288,24 +290,30 @@ module packet_checker_controller #(
                 if (proc_tr_ack) 
                     ri_proc_state = S_PROC_ACCEPT; 
                 else
-                    ri_proc_state = S_PROC_DISCARD; 
+                    ri_proc_state = S_PROC_DISCARD_NACK; 
             end
 
-            S_PROC_DISCARD: begin
-                ri_proc_id_result = {1'b0, r_proc_frame_id_ref[TLP_ID_WIDTH-1:0]}; // {nack, ref_id}
+            S_PROC_DISCARD_NACK: begin
+                ri_proc_id_result    = {1'b0, r_proc_frame_id_ref[TLP_ID_WIDTH-1:0]}; // {nack, ref_id}
                 ri_proc_frame_num_tr = r_proc_frame_num_tr - 1;
-                ri_tlp_temp_rd_addr = r_tlp_temp_rd_addr + 1;
+                ri_tlp_temp_rd_addr  = r_tlp_temp_rd_addr + 1;
                 if (proc_frames_done)
                     ri_proc_state = S_PROC_WRITE_RESULT;
+            end 
+
+            S_PROC_DISCARD_ACK: begin
+                ri_tlp_temp_rd_addr  = r_tlp_temp_rd_addr + 1;
+                //
+                ri_proc_state = S_PROC_WRITE_RESULT;
             end 
 
 
 
             S_PROC_ACCEPT: begin
-                ri_proc_id_result = {1'b1, r_proc_frame_id_header[TLP_ID_WIDTH-1:0]}; // {ack, frame_id}
+                ri_proc_id_result       = {1'b1, r_proc_frame_id_header[TLP_ID_WIDTH-1:0]}; // {ack, frame_id}
                 ri_proc_frame_id_header = r_proc_frame_id_header + 1;
                 if (r_proc_frame_id_ref > r_proc_frame_id_header)
-                    ri_proc_state = S_PROC_DISCARD;
+                    ri_proc_state = S_PROC_DISCARD_ACK;
                 else
                     ri_proc_state = S_PROC_WAIT_TLP_RDY;
             end
@@ -318,16 +326,17 @@ module packet_checker_controller #(
 
             S_PROC_WRITE_TLP: begin
                 ri_proc_frame_id_ref = r_proc_frame_id_ref + 1;
-                ri_proc_state = S_PROC_WRITE_RESULT;
                 ri_tlp_temp_rd_addr = r_tlp_temp_rd_addr + 1;
+                //
+                ri_proc_state = S_PROC_WRITE_RESULT;
             end
 
             S_PROC_WRITE_RESULT: begin
                 ri_proc_frame_num_tr = r_proc_frame_num_tr - 1;
-                if (proc_frames_done)
-                    ri_proc_state = S_PROC_IDLE;
+                if (~proc_frames_done && r_proc_valid_tr)
+                    ri_proc_state = S_PROC_ACCEPT;
                 else
-                    ri_proc_state  = S_PROC_ACCEPT;
+                    ri_proc_state  = S_PROC_IDLE;
             end
 
             default: begin

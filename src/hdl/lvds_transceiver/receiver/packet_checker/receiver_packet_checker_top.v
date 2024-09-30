@@ -50,7 +50,7 @@ module receiver_packet_checker_top #(
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INTERNAL CONSTANT'S
 
-    localparam TLP_HEADER_BYTES = `fun_sizeof_byte(TLP_ID_WIDTH << 1);
+    localparam TLP_HEADER_BYTES = `fun_sizeof_byte((TLP_ID_WIDTH + 1) << 1);
     localparam TLP_BYTES        = `fun_sizeof_byte(TLP_WIDTH) + TLP_HEADER_BYTES;  
     localparam DLLP_BYTES       = `fun_sizeof_byte(DLLP_WIDTH);
 
@@ -186,14 +186,14 @@ module receiver_packet_checker_top #(
     
     // transfer information for eval the temporary tlp data
     sync_fifo #(
-        .DATA_WIDTH ((3 * TLP_ID_WIDTH) + 1), // {{crc_ok & frame_ok}, tr_frame_num, tlp_header} => tlp_header = {frame_num, frame_id} 
+        .DATA_WIDTH (3 * (TLP_ID_WIDTH + 1)), // {{crc_ok & frame_ok}, tr_frame_num, tlp_header} => tlp_header = {frame_num, frame_id}
         .ADDR_WIDTH (TLP_ID_WIDTH)
     ) inst_tr_result_buffer (
         .i_clk      (i_clk),
         .i_arst_n   (local_reset_n),
         .i_wr       (inst_controller.o_tr_result_wr),
         .i_rd       (inst_controller.o_tr_result_rd),
-        .i_data     ({inst_controller.o_tr_result, inst_frame_shift_in.o_frame[(8 + (TLP_ID_WIDTH << 1))-1:8]}),
+        .i_data     ({inst_controller.o_tr_result, inst_frame_shift_in.o_frame[(8 + ((TLP_ID_WIDTH + 1) << 1))-1:8]}),
         .o_data     (), 
         .o_full     (), // not used
         .o_empty    () 
