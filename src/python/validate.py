@@ -42,7 +42,7 @@ def generate_random_numbers(num_bytes=2):
 
 # uart - parameter
 ser = serial.Serial(
-    'COM3',      # define your com - port 
+    'COM5',      # define your com - port 
     115200,
     timeout=5,
     parity=serial.PARITY_EVEN,
@@ -74,6 +74,10 @@ try:
 
     # wait    
     time.sleep(1)
+
+    ############################################################################################################
+    # read/ack receiver status
+    
 
     ############################################################################################################
     # read edge tabs of both transceivers  
@@ -131,6 +135,22 @@ try:
     ser.write(bytes([reverse_bits(PATTERN_NUM)])) # pattern num
     time.sleep(0.1)
 
+    
+    # test crc
+    print("crc tlp - error on trx b") 
+    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b00100000])) # bank c address 4  
+    ser.write(bytes([0b00000000]))
+    ser.write(bytes([0b01100000])) # crc fail dllp
+    time.sleep(0.1)
+
+    # test crc
+    print("crc tlp - error on trx a") 
+    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b10100000])) # bank c address 4  
+    ser.write(bytes([0b00000000]))
+    ser.write(bytes([0b01100000])) # crc fail dllp
+    time.sleep(0.1)
+    
+    
     print("start single loop")
     ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b00000000])) # bank c address 0
     ser.write(bytes([0b00000000]))
@@ -237,6 +257,19 @@ try:
         print("error: read loop cycle's")
 
 
+
+    # read debug status word {6'b0, trx_a_rply, trx_a_init, 6'b0, trx_b_rply, trx_b_init}
+    time.sleep(1) # wait
+    ser.write(bytes([reverse_bits(SINGLE_READ) | 0b01100000])) # bank s address 6
+    response = ser.read(2)
+    
+    if len(response) == 2:
+        msb_converted = [reverse_bits(byte) for byte in response]
+        msb_first_value = (msb_converted[0] << 8) | msb_converted[1]
+        bin_value = f'{msb_first_value:016b}'  # 16-Bit
+        print(f"status word (bin): {bin_value}")
+    else:
+        print("error: read status word")
     
 finally:
     ser.close()
