@@ -283,14 +283,18 @@ Für Schaltungssimulationen stehen in den Modulordnern Testbenches zur verfügun
 ### Auswertung mit Python
 Mittels Python Skipt werden Befehlssequenzen und Statuswerte an den Test-Core gesendet/empfangen. Die Serielle PC - Schnittstelle nutzt LSB - First, wodurch die Bitfolgen dementsprechend angepasst werden.
 
+Der Testablauf ist wie folgt:
+1. Echo - Test
+2. Lesen/Rücksetzen Transceiver Status Bits  
+
 
 
 
 ## Mögliche Optimierungen
 - Erweiterung / Anpassen des Link - Controllers auf die entsprechende Endapplikation
+- Implementierung von Connection - Timeout mit Re-Initialisation (Durch zusätzliche Timer)
 - Implementierung von Statuswörtern ggf. mit zusätzlichem FIFO
-- Effizienteres Design der CDC - Elastic Buffer's zur Reduzierung von Latenzzeiten (Empfohlen!)
-- Es könnte generell eine bessere Idee sein, ein Master/Slave - Protokoll zu implementieren (Ähnlich dem SPI). Das ist möglich mit einem Re-Design des Link - Controllers für Master, respektive Slave - Station. Durch das periodische Anfordern von Daten am Slave könnte ein koordinierter Datentransfer erziehlt werden. 
+- Effizienteres Design der CDC - Elastic Buffer's zur Reduzierung von Latenzzeiten (Empfohlen!) 
 
 
 
