@@ -282,21 +282,48 @@ Für Schaltungssimulationen stehen in den Modulordnern Testbenches zur verfügun
 
 ### Auswertung mit Python
 Mittels Python Skipt werden Befehlssequenzen und Statuswerte an den Test-Core gesendet/empfangen. Die Serielle PC - Schnittstelle nutzt LSB - First, wodurch die Bitfolgen dementsprechend angepasst werden.
+Im Transceiver wurden für Testzwecke Handshake - Synchronizer für das Anzeigen der Delaye - Tabs hinzugefügt. Weiter ist eine CRC - Testschaltung implementiert, welche bei Aktivierung das nächstfolgende TLP oder DLLP (Aus der 
+Transmitterschaltung des Link - Layers) im Datensatz verändert und somit beim Empfänger zu einem CRC - Fehler führen muss.  
+Damit der Test möglichst Zielgerichtet ist, werden nur ACK/NACK - DLLP's verändert. 
+
+Damit lassen sich folgende Fehlerprüfungen durchführen:
+- Replay durch empfangenem NACK  (CRC - Fehler im TLP)
+- Replay durch ACK/NACK - Timeout (CRC - Fehler im ACK/NACK - DLLP)
 
 Der Testablauf ist wie folgt:
 1. Echo - Test
-2. Lesen/Rücksetzen Transceiver Status Bits  
-
-
+2. Lesen/Rücksetzen Transceiver Status Bits
+3. Lesen der Initialen Tab - Verzögerung
+4. Schreiben der Pattern - Daten
+5. Starten eines Einzel - Datentransfers (Single - Loop)
+6. Kontrolle durch Datenvergleich (Gesendet/Empfangen)
+7. Starten eines Zirkulierenden Datentransfers für 10 Sekunden
+8. Lesen der Tab - Verzögerungen (Kontrolle Arbeitsweise Tab - Monitoring) 
+9. Kontrolle durch Datenvergleich (Gesendet/Empfangen)
+10. Erneutes Durchführen der Tests mit Auslösen von CRC - Fehlern
+11. Kontrolle der Statusbits (Wurde ein Replay - Ausgeführt ?)
 
 
 ## Mögliche Optimierungen
 - Erweiterung / Anpassen des Link - Controllers auf die entsprechende Endapplikation
 - Implementierung von Connection - Timeout mit Re-Initialisation (Durch zusätzliche Timer)
 - Implementierung von Statuswörtern ggf. mit zusätzlichem FIFO
-- Effizienteres Design der CDC - Elastic Buffer's zur Reduzierung von Latenzzeiten (Empfohlen!) 
+- Effizienteres Design der CDC - Elastic Buffer's zur Reduzierung von Latenzzeiten (Empfohlen!)
+- Anpassung der Testbench für bessere Einblicke der Fehlerhandhabung
+- Ergänzung eines Timeout im Loop - Interface des Test-Cores (Nur falls weiter mit dem Testsystem gearbeitet wird)
 
+### Ideen für den Link - Controller (Erweiterung)
+- Für den Zustandswechsel der Empfangsbereitschaft, könnte ein Handshake via DLLP eine bessere Lösung sein
+- Periodisch gesendete DLLP's könnten für ein Watchdog verwendet werden (Timeout - Handling)
+- Im Falle eines Drahtbruchs (Unterbrechung des Leitungstaktes) könnte ein Asynchroner Reset der SerDes - Primitiven eventuell erforderlich sein
+- Timeout - Handling / Ack/Nack - Timeout... erfordert abgestimmte Zeiten in Bezug auf die Endapplikation.
+- Statuswörter mit Angabe über den Link - Zustand, Akzeptierter/Offener - ID .. könnte ein Debugging verbessern
 
+### Weitere Hinweise
+- Alle Testschaltungen sind nicht relevant für die Funktionsweise des Transceivers und könnten entfernt werden
+- Das Steuern von CRC - Fehlern via Python ist im Skript auskommentiert. Es wird empfohlen den ersten Test ohne Fehleraufschaltung zu durchzuführen.
+- Der Link - Controller kann nach belieben umgestaltet werden. Die Schaltungen des Transmitters/Receivers müssen dazu nicht verändert werden.
+- Grundsätzlich ist nicht garantiert, dass alle Schaltungen bei Änderungen der Parameter funktionieren. Es muss jeweils eine erneute Prüfung erfolgen.
 
-
-
+### Offene Punkte (Betrifft nur die Test - Funktion)
+-  Das aktive Simulieren der Leitungsverzögerung mit einem kaskadierten IDELAYE funktioniert nicht. Die Distanz zwischen den IDELAYE ist schätzungsweise bei Betrachtung der "Platzierung" zu gross. Eventuell kann "Händisch" eine näherliegende IDLEAYE - Ressource verwendet werden.    
