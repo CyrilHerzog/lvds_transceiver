@@ -47,7 +47,7 @@ module packet_generator_controller #(
     output wire o_packet_run,
     output wire o_packet_stop,   
     // 
-    output wire[(TLP_ID_WIDTH << 1)-1:0] o_tlp_header,
+    output wire[((TLP_ID_WIDTH + 1) << 1)-1:0] o_tlp_header,
     output wire [TLP_ID_WIDTH-1:0] o_rply_id,
     output wire [TLP_ID_WIDTH-1:0] o_tlp_id_nack,
     output wire [TLP_ID_WIDTH-1:0] o_tlp_id_ack
@@ -118,11 +118,11 @@ module packet_generator_controller #(
     assign o_tlp_id_all_ack  = r_tlp_id_all_ack;
     assign o_tlp_id_wait_ack = r_tlp_id_wait_ack;
     
-    assign ri_tlp_enable = (i_tlp_start | r_tlp_enable) & ~(i_tlp_stop | r_rply_enable);
+    assign ri_tlp_enable = (i_tlp_start | r_tlp_enable) && ~(i_tlp_stop | r_rply_enable);
     
     //
     wire tlp_enable; 
-    assign tlp_enable = (i_tlp_valid & r_tlp_enable & ~r_tlp_id_wait_ack);  
+    assign tlp_enable = (i_tlp_valid && r_tlp_enable && ~r_tlp_id_wait_ack);  
     
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,8 +173,8 @@ module packet_generator_controller #(
     reg [$clog2(MAX_MSG_BYTES-1):0] r_byte_cnt;
     reg [$clog2(MAX_MSG_BYTES-1):0] ri_byte_cnt;
 
-    reg [TLP_ID_WIDTH-1:0] r_tlp_id, r_frame_cnt;
-    reg [TLP_ID_WIDTH-1:0] ri_tlp_id, ri_frame_cnt;
+    reg[TLP_ID_WIDTH:0] r_tlp_id, ri_tlp_id;
+    reg [TLP_ID_WIDTH-1:0] r_frame_cnt, ri_frame_cnt; // r_tlp_id
     reg[TLP_ID_WIDTH:0] r_tlp_id_rply, ri_tlp_id_rply; // with extra bit for equal with pointer logic
 
     wire reload_flag, done_flag;
@@ -214,7 +214,7 @@ module packet_generator_controller #(
             S_IDLE: begin
                 ri_byte_cnt    = 0;
                 ri_frame_cnt   = 0;
-                ri_tlp_id      = r_tlp_id_nack[TLP_ID_WIDTH-1:0];
+                ri_tlp_id      = r_tlp_id_nack;
                 ri_tlp_id_rply = r_tlp_id_nack[TLP_ID_WIDTH-1:0];
         
                 if (i_dllp_valid) 
@@ -237,7 +237,7 @@ module packet_generator_controller #(
             end
 
             S_PREP_RPLY: begin 
-                ri_tlp_id      = r_tlp_id_ack[TLP_ID_WIDTH-1:0];
+                ri_tlp_id      = r_tlp_id_ack;
                 ri_tlp_id_rply = r_tlp_id_ack[TLP_ID_WIDTH-1:0];
                 ri_state       = S_START_RPLY;
             end
@@ -316,7 +316,7 @@ module packet_generator_controller #(
     end
 
 
-    assign o_tlp_header = {r_frame_cnt, r_tlp_id};
+    assign o_tlp_header = {1'b0, r_frame_cnt, r_tlp_id};
     assign o_rply_id    = r_tlp_id_rply[TLP_ID_WIDTH-1:0];   
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -54,7 +54,7 @@ module transmitter_packet_generator_top #(
     /////////////////////////////////////////////////////////////////////////////////////////
     // CONSTANT'S
 
-    localparam TLP_HEADER_BYTES = `fun_sizeof_byte(TLP_ID_WIDTH << 1);
+    localparam TLP_HEADER_BYTES = `fun_sizeof_byte((TLP_ID_WIDTH + 1) << 1);
     localparam TLP_BYTES        = `fun_sizeof_byte(TLP_WIDTH) + TLP_HEADER_BYTES;  
     localparam DLLP_BYTES       = `fun_sizeof_byte(DLLP_WIDTH);
 
@@ -62,7 +62,7 @@ module transmitter_packet_generator_top #(
     localparam TLP_FRAME_WIDTH  = (TLP_BYTES  << 3);  
     localparam TLP_HEADER_WIDTH = (TLP_HEADER_BYTES << 3);
 
-    localparam TLP_HEADER_PADDING = `fun_padding_bits(TLP_ID_WIDTH << 1);
+    localparam TLP_HEADER_PADDING = `fun_padding_bits((TLP_ID_WIDTH + 1) << 1);
     localparam TLP_FRAME_PADDING  = `fun_padding_bits(TLP_WIDTH);
     localparam DLLP_FRAME_PADDING = `fun_padding_bits(DLLP_WIDTH);
 
@@ -163,6 +163,10 @@ module transmitter_packet_generator_top #(
    
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // CRC
+    wire[7:0] crc_data_i;
+
+    // MUX 2x1
+    assign crc_data_i = (inst_controller.o_sel_rply) ? inst_replay_data.o_byte : inst_fifo_data.o_byte;
 
     crc_8 #(
         .POLY  (CRC_POLY), 
@@ -172,7 +176,7 @@ module transmitter_packet_generator_top #(
         .i_arst_n (local_reset_n),
         .i_init   (inst_controller.o_crc_init),
         .i_calc   (inst_controller.o_crc_calc),
-        .i_data   (inst_fifo_data.o_byte),
+        .i_data   (crc_data_i),
         .o_crc    ()
     );
 
