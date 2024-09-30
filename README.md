@@ -1,6 +1,7 @@
 # LVDS - Transceiver
 
-Dieses Dokument beschreibt grundlegende Informationen zum entwickelten Transceiver. Zwei Transceiver werden zusammen mit einer Testschaltung auf einem Zynq7000 synthesiert. Dabei wird der zweite Transceiver B (Sink) mit dem ersten Transceiver A (Source) synchronisiert. Die Testschaltung (Testcore) erlaubt das Transferieren von Datenpacketen zwischen den Transceivern. Das Steuern und Auswerten (Monitoring) erfolgt mittels Python - Skript, welcher Steuer - und Datenbytes an den Testcore mittels UART überträgt. Der Transceiver ist in der Lage Transaction - Layerpackete (TLP) sicher zu übertragen.  
+Dieses Dokument beschreibt grundlegende Informationen zum entwickelten Transceiver. Zwei Transceiver werden zusammen mit einer Testschaltung auf einem Zynq7000 synthesiert. Dabei wird der zweite Transceiver B (Sink) mit dem ersten Transceiver A (Source) synchronisiert. Die Testschaltung (Testcore) erlaubt das Transferieren von Datenpacketen zwischen den Transceivern. Das Steuern und Auswerten (Monitoring) erfolgt mittels Python - Skript, welcher Steuer - und Datenbytes an den Testcore mittels UART überträgt. Der Transceiver ist in der Lage Transaction - Layerpackete (TLP) zu übertragen.
+
 ## Abstract
 
 Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Transceivers, welcher für das Zynq7000 - Boards entwickelt wurde. Die serielle Datenübertragung erreicht durch die Nutzung der IOSerDes - und IDelaye Primitiven die Chip-spezifische Maximaldatenrate.
@@ -63,7 +64,7 @@ Für die Zustandsübermittlung werden nur zwei Bits des MSB Bytes verwendet. Das
 
 ### TLP - Frame
 Das Transaction Layer Packet beinhaltet zusätzliche Kopfdaten mit Angabe der Anzahl und einer Identifikationsnummer. Die Breite der Kopfinformation ist abhängig vom Parameter ID_WIDTH. Standartmässig ist der Bereich der Identifikationsnummer auf 0 - 7 festgelegt. Das entspricht jeweils der gleichen Anzahl möglicher hintereinanderfolgender TLP - Packete (0 - 7).
-Die Kopfdaten benötigen in diesem Fall nur 1 Byte (Nullbit + 3Bit(Num) + Msb-Bit(ID) + 3 Bit(ID)). Identifikationsnummern im Bereich 0 - 15 würde zu einer Kopfdatenbreite von 2 Bytes führen. Die Anzahl - Framenummern wird mit einem Nullbit als MSB ergänzt. Die ID erhält ein zusätzliches MSB um in der Empfängerschaltung eine Unterscheidung zwischen bereits Bestätigten und Nicht - Bestätigten TLP's durchzuführen. Das ist wichtig, damit keine Datensätze doppelt in den Abholbuffer des Empfängers geschrieben werden.   
+Die Kopfdaten benötigen in diesem Fall nur 1 Byte (8 Bits => Nullbit + 3Bit(Num) + Msb-Bit(ID) + 3 Bit(ID)). Identifikationsnummern im Bereich 0 - 15 würde zu einer Kopfdatenbreite von 2 Bytes führen (10 Bits). Die Anzahl - Framenummern wird mit einem Nullbit als MSB ergänzt. Die ID erhält ein zusätzliches MSB um in der Empfängerschaltung eine Unterscheidung zwischen bereits Bestätigten und Nicht - Bestätigten TLP's durchzuführen. Das ist wichtig, damit keine Datensätze doppelt in den Abholbuffer des Empfängers geschrieben werden.   
 
 ![Workflow](doc/graphics/tlp_frame.png)
 
@@ -75,7 +76,7 @@ Der Packetgenerator wird zentral von einem Controller gesteuert. Dieser stellt d
 
 ![Workflow](doc/graphics/packet_generator.png)
 
-Daten aus dem TLP - Buffer erhalten die jeweils nächste Verfügbare Identifikationsnummer des Zeigers für nicht bestätigter ID (NACK_PTR). Bei einer ID - Breichsbreite von 4 Bits können also maximal 16 TLP - Packete verschickt werden, bis ein weiteres Senden aufgrund fehlender Bestätigung blockiert wird. Kopfdatenzusammensetzung ist {Packet_Nummer, ID_Nummer}
+Daten aus dem TLP - Buffer erhalten die jeweils nächste Verfügbare Identifikationsnummer des Zeigers für nicht bestätigter ID (NACK_PTR). Bei einer ID - Breichsbreite von 3 Bits können also maximal 8 TLP - Packete verschickt werden, bis ein weiteres Senden aufgrund fehlender Bestätigung blockiert wird. Kopfdatenzusammensetzung ist {Packet_Nummer, ID_Nummer}
 
 Fallbeispiel 1:
 - Im TLP Buffer liegt ein Datenpacket
