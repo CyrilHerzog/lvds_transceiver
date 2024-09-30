@@ -92,18 +92,18 @@ Fallbeispiel 2:
 Die Kopfdaten des Transfers wären {4b0011, 4b0011} für 3 = 4 Datenpacket und ID 3. Der Zeiger für nicht bestätigte ID's wird um 4 erhöht. Neue Verfügbare Daten können sofort wieder gesendet werden.
 
 Fallbeispiel 3:
-- Im TLP Buffer liegen 16 Datenpackete
+- Im TLP Buffer liegen 8 Datenpackete
 - Die nächste ID ist 3
 - Alle vorherigen Sendeaufträge sind bereits bestätigt
 
-Die Kopfdaten des Transfers wären {4b1111, 4b0011} für 15 = 16 Datenpacket und ID 3. Der Zeiger für nicht bestätigte ID's wird um 16 erhöht. Neue Verfügbare Daten können nicht sofort wieder gesendet werden. Ein weiterer Transfer ist nur möglich, sobald mindestens eine Identifikationsnummer bestätigt wird. 
+Die Kopfdaten des Transfers wären {4b0111, 4b0011} für 7 = 8 Datenpacket und ID 3. Der Zeiger für nicht bestätigte ID's wird um 8 erhöht. Neue Verfügbare Daten können nicht sofort wieder gesendet werden. Ein weiterer Transfer ist nur möglich, sobald mindestens eine Identifikationsnummer bestätigt wird. 
 
 Fallbeispiel 4:
-- Im TLP Buffer liegen 16 Datenpackete
+- Im TLP Buffer liegen 8 Datenpackete
 - Die nächste ID ist 3
 - Nicht alle vorherigen Sendeaufträge sind bestätigt
 
-Die Kopfdaten des Transfers wären {4bxxxx, 4b0011} für xxxx = Soviele Datenpackete bis der Nack_Zeiger den Ack_Zeiger nicht überholt und ID 3.
+Die Kopfdaten des Transfers wären {4b0xxx, 4b0011} für xxx = Soviele Datenpackete bis der Nack_Zeiger den Ack_Zeiger nicht überholt und ID 3.
 
 ### Replay Buffer
 Das Schreiben in den Replay Buffer erfolgt mit der nicht bestätigten Identifikationsnummer. Die Speicherablage entspricht dem Identifikationsbereich. Das Widergeben gespeicherter Daten erfolgt mit dem Addresszeiger bestätigter ID's. Dieser wird während des Replay - Vorgangs auf den Wert der nicht bestätigten ID's inkrementiert. Ein Replay - Vorgang sendet also immer alle nicht bestätigten Datenpackete als "Multiframe".  
@@ -126,7 +126,7 @@ Fallbeispiel 1:
 - Keine Replay - Daten
 - Transfer ist gültig
 
-Es werden vier gültige Ergebnisse an den Link Controller gesendet. {1'b1, 4'b0011}, {1'b1, 4'b0100}, {1'b1, 4'b0101}, {1'b1, 4'b0110} => {Gültig, 3}, {Gültig, 4}....
+Es werden vier gültige Ergebnisse an den Link Controller gesendet. {1'b1, 3'b011}, {1'b1, 3'b100}, {1'b1, 3'b101}, {1'b1, 3'b110} => {Gültig, 3}, {Gültig, 4}....
 Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Die nächsten vier Temporären TLP - Daten werden in den Empfangsbuffer geschrieben.
 
 Fallbeispiel 2:
@@ -135,7 +135,7 @@ Fallbeispiel 2:
 - Keine Replay - Daten
 - Transfer ist ungültig
 
-Es wird ein Ergebniss an den Link - Controller übergeben. {1'b0, 4'bxxxx} Die Identifikationsnummer ist nicht relevant. (Kann ungültig sein => Kein Rückschluss möglich!). Der Link - Controller sendet ein Nicht Akzeptiert (NACK) an die Gegenstation. Alle Temporären Daten werden verworfen. Die nächsten vier Temporären TLP - Daten werden verworfen.
+Es wird ein Ergebniss an den Link - Controller übergeben. {1'b0, 3'bxxx} Die Identifikationsnummer ist nicht relevant. (Kann ungültig sein => Kein Rückschluss möglich!). Der Link - Controller sendet ein Nicht Akzeptiert (NACK) an die Gegenstation. Alle Temporären Daten werden verworfen. Die nächsten vier Temporären TLP - Daten werden verworfen.
 
 Fallbeispiel 3:
 - Empfang eines Multiframes mit 4 TLP's
@@ -143,10 +143,10 @@ Fallbeispiel 3:
 - Replay - Daten
 - Transfer ist gültig
 
-Es werden vier gültige Ergebnisse an den Link Controller gesendet. {1'b1, 4'b0011}, {1'b1, 4'b0100}, {1'b1, 4'b0101}, {1'b1, 4'b0110} => {Gültig, 3}, {Gültig, 4}....
+Es werden vier gültige Ergebnisse an den Link Controller gesendet. {1'b1, 3'b011}, {1'b1, 3'b100}, {1'b1, 3'b101}, {1'b1, 3'b110} => {Gültig, 3}, {Gültig, 4}....
 Der Link Controller sendet vier mal ein Akzeptiert (ACK) an die Gegenstation. Temporäre TLP - Daten werden nur in die Endablage geschrieben, falls diese noch nicht vorgängig abgelegt wurden.
 
-#### Fehlerfällte für ungültigen Transfer (NACK)
+#### Fehlerfälle für ungültigen Transfer (NACK)
 - Fehlerhafte CRC Prüfung
 - Stop - Code nicht erkannt
 - Kontrollierte Packetlänge führt zu einem Überlauf (Aufgrund Fehlerhaftem Stop - Code)
