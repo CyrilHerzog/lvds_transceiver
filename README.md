@@ -327,5 +327,7 @@ Der Testablauf ist wie folgt:
 - Der Link - Controller kann nach belieben umgestaltet werden. Die Schaltungen des Transmitters/Receivers müssen dazu nicht verändert werden.
 - Grundsätzlich ist nicht garantiert, dass alle Schaltungen bei Änderungen der Parameter funktionieren. Es muss jeweils eine erneute Prüfung erfolgen.
 
-### Offene Punkte (Betrifft nur die Test - Funktion)
--  Das aktive Simulieren der Leitungsverzögerung mit einem kaskadierten IDELAYE funktioniert nicht. Die Distanz zwischen den IDELAYE ist schätzungsweise bei Betrachtung der "Platzierung" zu gross. Eventuell kann "Händisch" eine näherliegende IDLEAYE - Ressource verwendet werden.    
+### Offene Punkte (Bekannte Fehler)
+-  Das aktive Simulieren der Leitungsverzögerung mit einem kaskadierten IDELAYE funktioniert nicht. Die Distanz zwischen den IDELAYE ist schätzungsweise bei Betrachtung der "Platzierung" zu gross. Eventuell kann "Händisch" eine näherliegende IDLEAYE - Ressource verwendet werden (Fehler nur für Testzwecke relevant).
+-  Der Transfer mit einem höheren ID - Bereich (z.B 4) funktioniert nicht. Der höhere ID - Bereich erzeugt ein 2 - Byte Header. Der Transmitter schreibt diesen im Sendemodus ab FIFO korrekt auf die Leitung. Im Replay - Modus zeigt sich ein Fehler. In der Receiver - Schaltung zeigt sich immer ein Fehler. Alle Zähler, respektive selektierte Bereiche in den Schieberegistern werden anhand der Anzahl TLP - Bytes ermittelt. Dies ist über Parameter festgelegt. Dieser wird bestimmt aus TLP - Bytes + Header - Bytes. Dieser Ansatz ist aber falsch! Teile der Schaltungen müssen immer TLP - Bytes + 1 haben und andere wiederum TLP-Bytes + Header-Bytes. Da die aktuelle ID - Breich bis 3 immer nur ein Byte - Header verwednet, fällt dieser Fehler nicht auf. Es müssen alle Schaltungen des Transmitters und Receivers in Bezug auf diese Parameter analysiert werden. (Das ist womöglich mit höherem Aufwand verbunden)
+
