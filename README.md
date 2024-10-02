@@ -294,7 +294,6 @@ Damit lassen sich folgende Fehlerprüfungen durchführen:
 
 Der Testablauf ist wie folgt:
 1. Echo - Test (Verbindungskontrolle mit Test - Core)
-2. Lesen/Rücksetzen Transceiver Status Bits
 3. Lesen der Initialen Tab - Verzögerung
 4. Schreiben der Pattern - Daten
 5. Starten eines Einzel - Datentransfers (Single - Loop)
@@ -304,6 +303,7 @@ Der Testablauf ist wie folgt:
 9. Kontrolle durch Datenvergleich (Gesendet/Empfangen)
 10. Erneutes Durchführen der Tests mit Auslösen von CRC - Fehlern
 11. Kontrolle der Statusbits (Wurde ein Replay - Ausgeführt ?)
+12. Zurücksetzen der Statusbits
 
 
 ## Mögliche Optimierungen
