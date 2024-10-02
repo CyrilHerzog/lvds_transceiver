@@ -409,6 +409,7 @@ initial
 
             byte_count = 0;
 
+
             // read delay / edge - tabs
             $display("read edge and delay tabs");
             sim_pc_data_in = {MULTI_READ | 3'b010}; // bank s address 2
@@ -417,7 +418,7 @@ initial
             @(posedge sim_clk_166) sim_pc_wr = 1'b0;
 
 
-            while (byte_count < 12) begin
+            while (byte_count < 8) begin
                 wait (dut_uart_transceiver_pc.o_rx_valid);
                 gen_data[byte_count] = dut_uart_transceiver_pc.o_data;
                 @(posedge sim_clk_166) sim_pc_rd = 1'b1;
@@ -454,6 +455,7 @@ initial
             byte_count = 0;
 
 
+       
     $finish;
             
     end
