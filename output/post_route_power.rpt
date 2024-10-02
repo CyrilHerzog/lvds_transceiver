@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date             : Tue Sep 17 15:31:35 2024
+| Date             : Wed Oct  2 12:35:35 2024
 | Host             : DESKTOP-76F846E running 64-bit major release  (build 9200)
 | Command          : report_power -file ./output/post_route_power.rpt
 | Design           : top
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.625        |
+| Total On-Chip Power (W)  | 0.626        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.509        |
+| Dynamic (W)              | 0.510        |
 | Device Static (W)        | 0.116        |
 | Effective TJA (C/W)      | 11.5         |
 | Max Ambient (C)          | 77.8         |
@@ -52,20 +52,20 @@ Table of Contents
 +--------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
-| Clocks                   |     0.031 |       16 |       --- |             --- |
-| Slice Logic              |     0.012 |     6468 |       --- |             --- |
-|   LUT as Logic           |     0.008 |     2250 |     53200 |            4.23 |
-|   LUT as Distributed RAM |     0.002 |      504 |     17400 |            2.90 |
-|   Register               |    <0.001 |     2529 |    106400 |            2.38 |
-|   CARRY4                 |    <0.001 |       28 |     13300 |            0.21 |
+| Clocks                   |     0.029 |       16 |       --- |             --- |
+| Slice Logic              |     0.012 |     6477 |       --- |             --- |
+|   LUT as Logic           |     0.009 |     2204 |     53200 |            4.14 |
+|   LUT as Distributed RAM |     0.003 |      508 |     17400 |            2.92 |
+|   Register               |    <0.001 |     2572 |    106400 |            2.42 |
+|   CARRY4                 |    <0.001 |       26 |     13300 |            0.20 |
 |   F7/F8 Muxes            |    <0.001 |        5 |     53200 |           <0.01 |
-|   Others                 |     0.000 |      223 |       --- |             --- |
-| Signals                  |     0.012 |     4748 |       --- |             --- |
+|   Others                 |     0.000 |      240 |       --- |             --- |
+| Signals                  |     0.013 |     4752 |       --- |             --- |
 | MMCM                     |     0.119 |        1 |         4 |           25.00 |
 | PLL                      |     0.106 |        1 |         4 |           25.00 |
-| I/O                      |     0.229 |       27 |       200 |           13.50 |
+| I/O                      |     0.230 |       27 |       200 |           13.50 |
 | Static Power             |     0.116 |          |           |                 |
-| Total                    |     0.625 |          |           |                 |
+| Total                    |     0.626 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -75,7 +75,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.082 |       0.072 |      0.009 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.082 |       0.073 |      0.009 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.153 |       0.141 |      0.012 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.074 |       0.073 |      0.001 |       NA    | Unspecified | NA         |
@@ -164,17 +164,16 @@ Table of Contents
 +---------------------------------------------+-----------+
 | Name                                        | Power (W) |
 +---------------------------------------------+-----------+
-| top                                         |     0.509 |
+| top                                         |     0.510 |
 |   inst_mmcm                                 |     0.126 |
 |   inst_pll                                  |     0.155 |
-|   inst_test_core                            |     0.007 |
-|     inst_bank_l                             |     0.001 |
+|   inst_test_core                            |     0.006 |
 |     inst_loop_interface_top                 |     0.002 |
 |     inst_pc_interface_top                   |     0.003 |
 |       inst_handler                          |     0.001 |
-|       inst_pc_interface                     |     0.002 |
+|       inst_pc_interface                     |     0.001 |
 |   inst_transceiver_a                        |     0.129 |
-|     inst_link_layer_top                     |     0.009 |
+|     inst_link_layer_top                     |     0.008 |
 |       inst_receiver_packet_interface_top    |     0.005 |
 |       inst_transmitter_packet_interface_top |     0.003 |
 |     inst_physical_layer_top                 |     0.114 |
@@ -185,7 +184,7 @@ Table of Contents
 |       inst_async_fifo                       |     0.002 |
 |     inst_tx_packet_buffer                   |     0.003 |
 |       inst_async_fifo                       |     0.002 |
-|   inst_transceiver_b                        |     0.089 |
+|   inst_transceiver_b                        |     0.090 |
 |     inst_link_layer_top                     |     0.009 |
 |       inst_receiver_packet_interface_top    |     0.005 |
 |       inst_transmitter_packet_interface_top |     0.003 |
@@ -195,7 +194,7 @@ Table of Contents
 |       inst_physical_iob_tx                  |     0.042 |
 |     inst_rx_packet_buffer                   |     0.003 |
 |       inst_async_fifo                       |     0.002 |
-|     inst_tx_packet_buffer                   |     0.002 |
+|     inst_tx_packet_buffer                   |     0.003 |
 |       inst_async_fifo                       |     0.002 |
 +---------------------------------------------+-----------+
 

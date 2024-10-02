@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Tue Sep 17 15:31:08 2024
+| Date         : Wed Oct  2 12:35:08 2024
 | Host         : DESKTOP-76F846E running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -file ./output/post_place_timing_summary.rpt
 | Design       : top
@@ -137,7 +137,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      0.561        0.000                      0                 8030       -0.066       -0.559                     13                 8030        0.000        0.000                       0                  3469  
+      0.632        0.000                      0                 7885       -0.075       -0.192                      5                 7885        0.000        0.000                       0                  3524  
 
 
 Timing constraints are not met.
@@ -174,17 +174,17 @@ GCLK              {0.000 5.000}        10.000          100.000
 Clock                 WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----                 -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
 FMC_CLK0_P                                                                                                                                                          7.000        0.000                       0                     1  
-  mmcm_clk_120_o        2.753        0.000                      0                 4014       -0.066       -0.559                     13                 4014        2.917        0.000                       0                  1602  
+  mmcm_clk_120_o        2.809        0.000                      0                 3858       -0.075       -0.192                      5                 3858        2.917        0.000                       0                  1628  
   mmcm_clk_300_o                                                                                                                                                    0.109        0.000                       0                     3  
   mmcm_clk_600_o                                                                                                                                                    0.000        0.000                       0                    11  
-    o_clk_120_1         4.120        0.000                      0                  294        0.149        0.000                      0                  294        2.083        0.000                       0                   250  
-    o_clk_200_1         0.716        0.000                      0                  343        0.186        0.000                      0                  343        0.417        0.000                       0                   192  
+    o_clk_120_1         3.846        0.000                      0                  294        0.119        0.000                      0                  294        2.083        0.000                       0                   250  
+    o_clk_200_1         0.632        0.000                      0                  343        0.200        0.000                      0                  343        0.417        0.000                       0                   192  
   mmcm_clk_fb_o                                                                                                                                                    18.751        0.000                       0                     2  
 FMC_LA00_CC_N                                                                                                                                                       0.000        0.000                       0                     9  
-  o_clk_120             4.138        0.000                      0                  294        0.099        0.000                      0                  294        2.084        0.000                       0                   246  
-  o_clk_200             0.561        0.000                      0                  343        0.184        0.000                      0                  343        0.417        0.000                       0                   192  
+  o_clk_120             4.083        0.000                      0                  294        0.062        0.000                      0                  294        2.084        0.000                       0                   246  
+  o_clk_200             0.707        0.000                      0                  343        0.182        0.000                      0                  343        0.417        0.000                       0                   192  
 GCLK                                                                                                                                                                3.000        0.000                       0                     1  
-  pll_clk_166_o         0.641        0.000                      0                 2742        0.022        0.000                      0                 2742        1.750        0.000                       0                   955  
+  pll_clk_166_o         0.635        0.000                      0                 2753        0.061        0.000                      0                 2753        1.750        0.000                       0                   984  
   pll_clk_50_o                                                                                                                                                     17.845        0.000                       0                     3  
   pll_clk_fb_o                                                                                                                                                      8.751        0.000                       0                     2  
 
@@ -242,27 +242,27 @@ High Pulse Width  Slow    MMCME2_ADV/CLKIN1  n/a            3.000         10.000
 From Clock:  mmcm_clk_120_o
   To Clock:  mmcm_clk_120_o
 
-Setup :            0  Failing Endpoints,  Worst Slack        2.753ns,  Total Violation        0.000ns
-Hold  :           13  Failing Endpoints,  Worst Slack       -0.066ns,  Total Violation       -0.559ns
+Setup :            0  Failing Endpoints,  Worst Slack        2.809ns,  Total Violation        0.000ns
+Hold  :            5  Failing Endpoints,  Worst Slack       -0.075ns,  Total Violation       -0.192ns
 PW    :            0  Failing Endpoints,  Worst Slack        2.917ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             2.753ns  (required time - arrival time)
-  Source:                 inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state_reg[3]/C
+Slack (MET) :             2.809ns  (required time - arrival time)
+  Source:                 inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_replay_data/r_buffer_addr_reg[0]/C
                             (rising edge-triggered cell FDCE clocked by mmcm_clk_120_o  {rise@0.000ns fall@4.167ns period=8.333ns})
-  Destination:            inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state_reg[0]/CE
+  Destination:            inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/r_crc_reg[1]/D
                             (rising edge-triggered cell FDPE clocked by mmcm_clk_120_o  {rise@0.000ns fall@4.167ns period=8.333ns})
   Path Group:             mmcm_clk_120_o
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.333ns  (mmcm_clk_120_o rise@8.333ns - mmcm_clk_120_o rise@0.000ns)
-  Data Path Delay:        5.239ns  (logic 1.600ns (30.540%)  route 3.639ns (69.460%))
-  Logic Levels:           5  (LUT4=3 LUT6=2)
-  Clock Path Skew:        -0.063ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.687ns = ( 14.020 - 8.333 ) 
-    Source Clock Delay      (SCD):    6.082ns
+  Data Path Delay:        5.464ns  (logic 1.104ns (20.205%)  route 4.360ns (79.795%))
+  Logic Levels:           5  (LUT2=1 LUT4=2 LUT6=1 RAMS32=1)
+  Clock Path Skew:        -0.062ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.666ns = ( 13.999 - 8.333 ) 
+    Source Clock Delay      (SCD):    6.060ns
     Clock Pessimism Removal (CPR):    0.332ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -281,22 +281,23 @@ Slack (MET) :             2.753ns  (required time - arrival time)
                                                       0.089     2.290 r  inst_mmcm/inst_mmcm_adv/CLKOUT1
                          net (fo=1, estimated)        1.889     4.179    inst_mmcm/mmcm_clk_120_o
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.101     4.280 r  inst_mmcm/inst_bufg_clk_120/O
-                         net (fo=1600, estimated)     1.802     6.082    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_rst_reg[1]
-    SLICE_X104Y41        FDCE                                         r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state_reg[3]/C
+                         net (fo=1626, estimated)     1.780     6.060    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_replay_data/r_buffer_addr_reg[5]_1
+    SLICE_X101Y85        FDCE                                         r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_replay_data/r_buffer_addr_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X104Y41        FDCE (Prop_fdce_C_Q)         0.518     6.600 r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state_reg[3]/Q
-                         net (fo=20, estimated)       0.881     7.481    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/Q[0]
-    SLICE_X103Y42        LUT4 (Prop_lut4_I3_O)        0.150     7.631 r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/ri_tr_state_inferred__1/i_/O
-                         net (fo=1, estimated)        0.815     8.446    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/ri_tr_state_inferred__1/i__n_0
-    SLICE_X104Y42        LUT4 (Prop_lut4_I0_O)        0.332     8.778 f  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/ri_tr_state_inferred__1/i___3/O
-                         net (fo=1, estimated)        0.460     9.238    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/ri_tr_state_inferred__1/i___3_n_0
-    SLICE_X105Y43        LUT6 (Prop_lut6_I4_O)        0.124     9.362 r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state[7]_i_10/O
-                         net (fo=1, estimated)        0.523     9.885    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state[7]_i_10_n_0
-    SLICE_X104Y43        LUT4 (Prop_lut4_I3_O)        0.148    10.033 r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state[7]_i_4/O
-                         net (fo=1, estimated)        0.447    10.480    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state[7]_i_4_n_0
-    SLICE_X104Y42        LUT6 (Prop_lut6_I2_O)        0.328    10.808 r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state[7]_i_1/O
-                         net (fo=8, estimated)        0.513    11.321    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state[7]_i_1_n_0
-    SLICE_X103Y41        FDPE                                         r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state_reg[0]/CE
+    SLICE_X101Y85        FDCE (Prop_fdce_C_Q)         0.456     6.516 r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_replay_data/r_buffer_addr_reg[0]/Q
+                         net (fo=22, estimated)       1.213     7.729    inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_replay_data/replay_buffer_reg_0_15_0_0__0__0/A0
+    SLICE_X104Y85        RAMS32 (Prop_rams32_ADR0_O)
+                                                      0.124     7.853 r  inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_replay_data/replay_buffer_reg_0_15_0_0__0__0/SP/O
+                         net (fo=1, estimated)        1.020     8.873    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/r_kd_reg[1]_0
+    SLICE_X106Y85        LUT4 (Prop_lut4_I0_O)        0.124     8.997 r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/o_byte_inferred_i_7/O
+                         net (fo=2, estimated)        0.549     9.546    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/r_crc_reg[3]_1[1]
+    SLICE_X103Y85        LUT4 (Prop_lut4_I2_O)        0.124     9.670 r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/i__i_1__0/O
+                         net (fo=3, estimated)        0.582    10.252    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/i__i_1__0_n_0
+    SLICE_X105Y85        LUT6 (Prop_lut6_I4_O)        0.124    10.376 r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/crc_lut/i_/O
+                         net (fo=1, estimated)        0.996    11.372    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/crc_lut/i__n_0
+    SLICE_X105Y85        LUT2 (Prop_lut2_I0_O)        0.152    11.524 r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/r_crc[1]_i_1__0/O
+                         net (fo=1, routed)           0.000    11.524    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/ri_crc[1]
+    SLICE_X105Y85        FDPE                                         r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/r_crc_reg[1]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock mmcm_clk_120_o rise edge)
@@ -309,16 +310,16 @@ Slack (MET) :             2.753ns  (required time - arrival time)
                                                       0.084    10.511 r  inst_mmcm/inst_mmcm_adv/CLKOUT1
                          net (fo=1, estimated)        1.795    12.305    inst_mmcm/mmcm_clk_120_o
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.091    12.396 r  inst_mmcm/inst_bufg_clk_120/O
-                         net (fo=1600, estimated)     1.624    14.020    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_rst_reg[1]
-    SLICE_X103Y41        FDPE                                         r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state_reg[0]/C
-                         clock pessimism              0.332    14.352    
-                         clock uncertainty           -0.074    14.278    
-    SLICE_X103Y41        FDPE (Setup_fdpe_C_CE)      -0.205    14.073    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_tr_state_reg[0]
+                         net (fo=1626, estimated)     1.603    13.999    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/r_crc_reg[0]_0
+    SLICE_X105Y85        FDPE                                         r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/r_crc_reg[1]/C
+                         clock pessimism              0.332    14.331    
+                         clock uncertainty           -0.074    14.257    
+    SLICE_X105Y85        FDPE (Setup_fdpe_C_D)        0.075    14.332    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_packet_generator/inst_crc_8/r_crc_reg[1]
   -------------------------------------------------------------------
-                         required time                         14.073    
-                         arrival time                         -11.321    
+                         required time                         14.332    
+                         arrival time                         -11.524    
   -------------------------------------------------------------------
-                         slack                                  2.753    
+                         slack                                  2.809    
 
 
 
@@ -326,19 +327,19 @@ Slack (MET) :             2.753ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.066ns  (arrival time - required time)
-  Source:                 inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_frame_shift_in/r_stage_reg[2][6]/C
-                            (rising edge-triggered cell FDRE clocked by mmcm_clk_120_o  {rise@0.000ns fall@4.167ns period=8.333ns})
-  Destination:            inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_sync_fifo_dllp/r_ram_reg_0_15_12_15/RAMB/I
+Slack (VIOLATED) :        -0.075ns  (arrival time - required time)
+  Source:                 inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_proc_id_result_reg[0]/C
+                            (rising edge-triggered cell FDCE clocked by mmcm_clk_120_o  {rise@0.000ns fall@4.167ns period=8.333ns})
+  Destination:            inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_id_result_buffer/r_ram_reg_0_7_0_3/RAMA/I
                             (rising edge-triggered cell RAMD32 clocked by mmcm_clk_120_o  {rise@0.000ns fall@4.167ns period=8.333ns})
   Path Group:             mmcm_clk_120_o
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (mmcm_clk_120_o rise@0.000ns - mmcm_clk_120_o rise@0.000ns)
-  Data Path Delay:        0.356ns  (logic 0.141ns (39.609%)  route 0.215ns (60.390%))
+  Data Path Delay:        0.349ns  (logic 0.141ns (40.374%)  route 0.208ns (59.626%))
   Logic Levels:           0  
-  Clock Path Skew:        0.276ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.754ns
-    Source Clock Delay      (SCD):    2.367ns
+  Clock Path Skew:        0.277ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.753ns
+    Source Clock Delay      (SCD):    2.365ns
     Clock Pessimism Removal (CPR):    0.111ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -353,12 +354,12 @@ Slack (VIOLATED) :        -0.066ns  (arrival time - required time)
                                                       0.051     0.937 r  inst_mmcm/inst_mmcm_adv/CLKOUT1
                          net (fo=1, estimated)        0.796     1.733    inst_mmcm/mmcm_clk_120_o
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.026     1.759 r  inst_mmcm/inst_bufg_clk_120/O
-                         net (fo=1600, estimated)     0.608     2.367    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_frame_shift_in/r_stage_reg[6][7]_0
-    SLICE_X103Y50        FDRE                                         r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_frame_shift_in/r_stage_reg[2][6]/C
+                         net (fo=1626, estimated)     0.606     2.365    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_rst_reg[1]
+    SLICE_X91Y50         FDCE                                         r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_proc_id_result_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X103Y50        FDRE (Prop_fdre_C_Q)         0.141     2.508 r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_frame_shift_in/r_stage_reg[2][6]/Q
-                         net (fo=3, estimated)        0.215     2.723    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_sync_fifo_dllp/r_ram_reg_0_15_12_15/DIB0
-    SLICE_X104Y48        RAMD32                                       r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_sync_fifo_dllp/r_ram_reg_0_15_12_15/RAMB/I
+    SLICE_X91Y50         FDCE (Prop_fdce_C_Q)         0.141     2.506 r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_controller/r_proc_id_result_reg[0]/Q
+                         net (fo=1, estimated)        0.208     2.714    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_id_result_buffer/r_ram_reg_0_7_0_3/DIA0
+    SLICE_X92Y47         RAMD32                                       r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_id_result_buffer/r_ram_reg_0_7_0_3/RAMA/I
   -------------------------------------------------------------------    -------------------
 
                          (clock mmcm_clk_120_o rise edge)
@@ -371,16 +372,16 @@ Slack (VIOLATED) :        -0.066ns  (arrival time - required time)
                                                       0.054     1.003 r  inst_mmcm/inst_mmcm_adv/CLKOUT1
                          net (fo=1, estimated)        0.838     1.841    inst_mmcm/mmcm_clk_120_o
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.029     1.870 r  inst_mmcm/inst_bufg_clk_120/O
-                         net (fo=1600, estimated)     0.884     2.754    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_sync_fifo_dllp/r_ram_reg_0_15_12_15/WCLK
-    SLICE_X104Y48        RAMD32                                       r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_sync_fifo_dllp/r_ram_reg_0_15_12_15/RAMB/CLK
-                         clock pessimism             -0.111     2.643    
-    SLICE_X104Y48        RAMD32 (Hold_ramd32_CLK_I)
-                                                      0.146     2.789    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_sync_fifo_dllp/r_ram_reg_0_15_12_15/RAMB
+                         net (fo=1626, estimated)     0.883     2.753    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_id_result_buffer/r_ram_reg_0_7_0_3/WCLK
+    SLICE_X92Y47         RAMD32                                       r  inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_id_result_buffer/r_ram_reg_0_7_0_3/RAMA/CLK
+                         clock pessimism             -0.111     2.642    
+    SLICE_X92Y47         RAMD32 (Hold_ramd32_CLK_I)
+                                                      0.147     2.789    inst_transceiver_a/inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/inst_id_result_buffer/r_ram_reg_0_7_0_3/RAMA
   -------------------------------------------------------------------
                          required time                         -2.789    
-                         arrival time                           2.723    
+                         arrival time                           2.714    
   -------------------------------------------------------------------
-                         slack                                 -0.066    
+                         slack                                 -0.075    
 
 
 
@@ -396,8 +397,8 @@ Sources:            { inst_mmcm/inst_mmcm_adv/CLKOUT1 }
 Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location         Pin
 Min Period        n/a     BUFG/I              n/a            2.155         8.333       6.178      BUFGCTRL_X0Y17   inst_mmcm/inst_bufg_clk_120/I
 Max Period        n/a     MMCME2_ADV/CLKOUT1  n/a            213.360       8.333       205.027    MMCME2_ADV_X1Y1  inst_mmcm/inst_mmcm_adv/CLKOUT1
-Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         4.167       2.917      SLICE_X100Y44    inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/r_ram_reg_0_15_0_5/RAMA/CLK
-High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         4.167       2.917      SLICE_X100Y44    inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/r_ram_reg_0_15_0_5/RAMA/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         4.167       2.917      SLICE_X98Y55     inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/r_ram_reg_0_7_0_5/RAMA/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         4.167       2.917      SLICE_X98Y55     inst_link_layer_top/inst_receiver_packet_interface_top/inst_packet_checker/r_ram_reg_0_7_0_5/RAMA/CLK
 
 
 
@@ -451,28 +452,28 @@ Max Period  n/a     MMCME2_ADV/CLKOUT0  n/a            213.360       1.667      
 From Clock:  o_clk_120_1
   To Clock:  o_clk_120_1
 
-Setup :            0  Failing Endpoints,  Worst Slack        4.120ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.149ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        3.846ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.119ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        2.083ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             4.120ns  (required time - arrival time)
-  Source:                 inst_transceiver_a/inst_tx_packet_buffer/r_data_o_reg[4]/C
-                            (rising edge-triggered cell FDPE clocked by o_clk_120_1  {rise@0.000ns fall@3.333ns period=8.333ns})
-  Destination:            inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[9]/D
-                            (rising edge-triggered cell FDRE clocked by o_clk_120_1  {rise@0.000ns fall@3.333ns period=8.333ns})
+Slack (MET) :             3.846ns  (required time - arrival time)
+  Source:                 inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync_reg[6]/C
+                            (rising edge-triggered cell FDCE clocked by o_clk_120_1  {rise@0.000ns fall@3.333ns period=8.333ns})
+  Destination:            inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]/D
+                            (rising edge-triggered cell FDCE clocked by o_clk_120_1  {rise@0.000ns fall@3.333ns period=8.333ns})
   Path Group:             o_clk_120_1
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.333ns  (o_clk_120_1 rise@8.333ns - o_clk_120_1 rise@0.000ns)
-  Data Path Delay:        4.122ns  (logic 1.371ns (33.261%)  route 2.751ns (66.739%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.063ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.856ns = ( 13.189 - 8.333 ) 
-    Source Clock Delay      (SCD):    5.198ns
-    Clock Pessimism Removal (CPR):    0.279ns
+  Data Path Delay:        4.464ns  (logic 1.968ns (44.086%)  route 2.496ns (55.914%))
+  Logic Levels:           4  (CARRY4=2 LUT2=1 LUT6=1)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.930ns = ( 13.263 - 8.333 ) 
+    Source Clock Delay      (SCD):    5.275ns
+    Clock Pessimism Removal (CPR):    0.320ns
   Clock Uncertainty:      0.060ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.098ns
@@ -490,20 +491,22 @@ Slack (MET) :             4.120ns  (required time - arrival time)
                                                       0.089     2.290 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        1.063     3.353    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y7            BUFR (Prop_bufr_I_O)         1.031     4.384 r  inst_mmcm/inst_bufr_120/O
-                         net (fo=250, estimated)      0.814     5.198    inst_transceiver_a/inst_tx_packet_buffer/CLK
-    SLICE_X108Y67        FDPE                                         r  inst_transceiver_a/inst_tx_packet_buffer/r_data_o_reg[4]/C
+                         net (fo=250, estimated)      0.891     5.275    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/i_wr_clk
+    SLICE_X102Y51        FDCE                                         r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync_reg[6]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X108Y67        FDPE (Prop_fdpe_C_Q)         0.478     5.676 r  inst_transceiver_a/inst_tx_packet_buffer/r_data_o_reg[4]/Q
-                         net (fo=9, estimated)        0.993     6.669    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[9]_0[4]
-    SLICE_X112Y68        LUT6 (Prop_lut6_I0_O)        0.295     6.964 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/ngdb.disp_run_i_3/O
-                         net (fo=1, estimated)        0.852     7.816    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/ngdb.disp_run_i_3_n_0
-    SLICE_X112Y68        LUT3 (Prop_lut3_I2_O)        0.146     7.962 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/ngdb.disp_run_i_2/O
-                         net (fo=6, estimated)        0.464     8.426    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/pdes6__13
-    SLICE_X111Y69        LUT3 (Prop_lut3_I0_O)        0.328     8.754 f  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout[9]_i_2/O
-                         net (fo=2, estimated)        0.442     9.196    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout[9]_i_2_n_0
-    SLICE_X113Y69        LUT6 (Prop_lut6_I0_O)        0.124     9.320 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout[9]_i_1/O
-                         net (fo=1, routed)           0.000     9.320    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/b4[3]
-    SLICE_X113Y69        FDRE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[9]/D
+    SLICE_X102Y51        FDCE (Prop_fdce_C_Q)         0.478     5.753 r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync_reg[6]/Q
+                         net (fo=12, estimated)       1.024     6.777    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync[6]
+    SLICE_X102Y49        LUT2 (Prop_lut2_I0_O)        0.321     7.098 r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_8/O
+                         net (fo=1, estimated)        0.505     7.603    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_8_n_0
+    SLICE_X102Y49        LUT6 (Prop_lut6_I5_O)        0.328     7.931 r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_2__1/O
+                         net (fo=1, estimated)        0.967     8.898    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_2__1_n_0
+    SLICE_X103Y50        CARRY4 (Prop_carry4_DI[2]_CO[3])
+                                                      0.507     9.405 r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry/CO[3]
+                         net (fo=1, estimated)        0.000     9.405    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_n_0
+    SLICE_X103Y51        CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.334     9.739 r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry__0/O[1]
+                         net (fo=1, routed)           0.000     9.739    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0[5]
+    SLICE_X103Y51        FDCE                                         r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_120_1 rise edge)
@@ -516,16 +519,16 @@ Slack (MET) :             4.120ns  (required time - arrival time)
                                                       0.084    10.511 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        1.010    11.520    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y7            BUFR (Prop_bufr_I_O)         0.918    12.438 r  inst_mmcm/inst_bufr_120/O
-                         net (fo=250, estimated)      0.751    13.189    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/CLK
-    SLICE_X113Y69        FDRE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[9]/C
-                         clock pessimism              0.279    13.468    
-                         clock uncertainty           -0.060    13.408    
-    SLICE_X113Y69        FDRE (Setup_fdre_C_D)        0.032    13.440    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[9]
+                         net (fo=250, estimated)      0.825    13.263    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/i_wr_clk
+    SLICE_X103Y51        FDCE                                         r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]/C
+                         clock pessimism              0.320    13.583    
+                         clock uncertainty           -0.060    13.523    
+    SLICE_X103Y51        FDCE (Setup_fdce_C_D)        0.062    13.585    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]
   -------------------------------------------------------------------
-                         required time                         13.440    
-                         arrival time                          -9.320    
+                         required time                         13.585    
+                         arrival time                          -9.739    
   -------------------------------------------------------------------
-                         slack                                  4.120    
+                         slack                                  3.846    
 
 
 
@@ -533,20 +536,20 @@ Slack (MET) :             4.120ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.149ns  (arrival time - required time)
-  Source:                 inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_bin_reg[5]/C
+Slack (MET) :             0.119ns  (arrival time - required time)
+  Source:                 inst_transceiver_a/inst_rx_packet_buffer/r_data_i_reg[1]/C
                             (rising edge-triggered cell FDCE clocked by o_clk_120_1  {rise@0.000ns fall@3.333ns period=8.333ns})
-  Destination:            inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_6_8/RAMA/WADR5
+  Destination:            inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMB/I
                             (rising edge-triggered cell RAMD64E clocked by o_clk_120_1  {rise@0.000ns fall@3.333ns period=8.333ns})
   Path Group:             o_clk_120_1
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (o_clk_120_1 rise@0.000ns - o_clk_120_1 rise@0.000ns)
-  Data Path Delay:        0.356ns  (logic 0.141ns (39.563%)  route 0.215ns (60.437%))
+  Data Path Delay:        0.281ns  (logic 0.141ns (50.113%)  route 0.140ns (49.887%))
   Logic Levels:           0  
-  Clock Path Skew:        0.037ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.205ns
-    Source Clock Delay      (SCD):    1.918ns
-    Clock Pessimism Removal (CPR):    0.251ns
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.231ns
+    Source Clock Delay      (SCD):    1.943ns
+    Clock Pessimism Removal (CPR):    0.273ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -560,12 +563,12 @@ Slack (MET) :             0.149ns  (arrival time - required time)
                                                       0.051     0.937 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        0.448     1.385    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y7            BUFR (Prop_bufr_I_O)         0.270     1.655 r  inst_mmcm/inst_bufr_120/O
-                         net (fo=250, estimated)      0.263     1.918    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/i_wr_clk
-    SLICE_X109Y50        FDCE                                         r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_bin_reg[5]/C
+                         net (fo=250, estimated)      0.288     1.943    inst_transceiver_a/inst_rx_packet_buffer/i_wr_clk
+    SLICE_X105Y50        FDCE                                         r  inst_transceiver_a/inst_rx_packet_buffer/r_data_i_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X109Y50        FDCE (Prop_fdce_C_Q)         0.141     2.059 r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_bin_reg[5]/Q
-                         net (fo=22, estimated)       0.215     2.274    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_6_8/ADDRD5
-    SLICE_X112Y50        RAMD64E                                      r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_6_8/RAMA/WADR5
+    SLICE_X105Y50        FDCE (Prop_fdce_C_Q)         0.141     2.084 r  inst_transceiver_a/inst_rx_packet_buffer/r_data_i_reg[1]/Q
+                         net (fo=1, estimated)        0.140     2.224    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/DIB
+    SLICE_X104Y50        RAMD64E                                      r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMB/I
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_120_1 rise edge)
@@ -578,16 +581,16 @@ Slack (MET) :             0.149ns  (arrival time - required time)
                                                       0.054     1.003 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        0.472     1.474    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y7            BUFR (Prop_bufr_I_O)         0.431     1.905 r  inst_mmcm/inst_bufr_120/O
-                         net (fo=250, estimated)      0.300     2.205    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_6_8/WCLK
-    SLICE_X112Y50        RAMD64E                                      r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_6_8/RAMA/CLK
-                         clock pessimism             -0.251     1.955    
-    SLICE_X112Y50        RAMD64E (Hold_ramd64e_CLK_WADR5)
-                                                      0.170     2.125    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_6_8/RAMA
+                         net (fo=250, estimated)      0.326     2.231    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/WCLK
+    SLICE_X104Y50        RAMD64E                                      r  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMB/CLK
+                         clock pessimism             -0.273     1.959    
+    SLICE_X104Y50        RAMD64E (Hold_ramd64e_CLK_I)
+                                                      0.146     2.105    inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMB
   -------------------------------------------------------------------
-                         required time                         -2.125    
-                         arrival time                           2.274    
+                         required time                         -2.105    
+                         arrival time                           2.224    
   -------------------------------------------------------------------
-                         slack                                  0.149    
+                         slack                                  0.119    
 
 
 
@@ -602,8 +605,8 @@ Sources:            { inst_mmcm/inst_bufr_120/O }
 
 Check Type        Corner  Lib Pin           Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
 Min Period        n/a     OSERDESE2/CLKDIV  n/a            1.667         8.333       6.666      OLOGIC_X1Y70   inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_tx/inst_oserdes/inst_oserdese2_master/CLKDIV
-Low Pulse Width   Slow    RAMD64E/CLK       n/a            1.250         5.000       3.750      SLICE_X112Y52  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
-High Pulse Width  Slow    RAMD64E/CLK       n/a            1.250         3.333       2.083      SLICE_X112Y52  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
+Low Pulse Width   Slow    RAMD64E/CLK       n/a            1.250         5.000       3.750      SLICE_X104Y50  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
+High Pulse Width  Slow    RAMD64E/CLK       n/a            1.250         3.333       2.083      SLICE_X104Y50  inst_transceiver_a/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
 
 
 
@@ -611,28 +614,28 @@ High Pulse Width  Slow    RAMD64E/CLK       n/a            1.250         3.333  
 From Clock:  o_clk_200_1
   To Clock:  o_clk_200_1
 
-Setup :            0  Failing Endpoints,  Worst Slack        0.716ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.186ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        0.632ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.200ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        0.417ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.716ns  (required time - arrival time)
-  Source:                 inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[5]/C
+Slack (MET) :             0.632ns  (required time - arrival time)
+  Source:                 inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[8]/C
                             (rising edge-triggered cell FDCE clocked by o_clk_200_1  {rise@0.000ns fall@1.667ns period=5.000ns})
   Destination:            inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift_reg[0]/CE
                             (rising edge-triggered cell FDCE clocked by o_clk_200_1  {rise@0.000ns fall@1.667ns period=5.000ns})
   Path Group:             o_clk_200_1
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (o_clk_200_1 rise@5.000ns - o_clk_200_1 rise@0.000ns)
-  Data Path Delay:        3.691ns  (logic 0.918ns (24.871%)  route 2.773ns (75.129%))
+  Data Path Delay:        3.906ns  (logic 0.856ns (21.915%)  route 3.050ns (78.085%))
   Logic Levels:           3  (LUT4=1 LUT5=2)
-  Clock Path Skew:        -0.126ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.864ns = ( 9.864 - 5.000 ) 
-    Source Clock Delay      (SCD):    5.269ns
-    Clock Pessimism Removal (CPR):    0.279ns
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.868ns = ( 9.868 - 5.000 ) 
+    Source Clock Delay      (SCD):    5.207ns
+    Clock Pessimism Removal (CPR):    0.314ns
   Clock Uncertainty:      0.060ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.098ns
@@ -650,18 +653,18 @@ Slack (MET) :             0.716ns  (required time - arrival time)
                                                       0.089     2.290 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        1.063     3.353    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y6            BUFR (Prop_bufr_I_O)         1.031     4.384 r  inst_mmcm/inst_bufr_300/O
-                         net (fo=192, estimated)      0.885     5.269    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/i_clk_200
-    SLICE_X104Y60        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[5]/C
+                         net (fo=192, estimated)      0.823     5.207    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/i_clk_200
+    SLICE_X111Y50        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[8]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X104Y60        FDCE (Prop_fdce_C_Q)         0.518     5.787 f  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[5]/Q
-                         net (fo=13, estimated)       0.795     6.582    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg_n_0_[5]
-    SLICE_X104Y61        LUT4 (Prop_lut4_I1_O)        0.124     6.706 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2/O
-                         net (fo=4, estimated)        0.838     7.544    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2_n_0
-    SLICE_X105Y61        LUT5 (Prop_lut5_I0_O)        0.124     7.668 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__2/O
-                         net (fo=2, estimated)        0.678     8.346    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__2_n_0
-    SLICE_X105Y61        LUT5 (Prop_lut5_I0_O)        0.152     8.498 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift[7]_i_1/O
-                         net (fo=8, estimated)        0.462     8.960    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/ri_filter_shift
-    SLICE_X106Y61        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift_reg[0]/CE
+    SLICE_X111Y50        FDCE (Prop_fdce_C_Q)         0.456     5.663 f  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[8]/Q
+                         net (fo=10, estimated)       0.674     6.337    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg_n_0_[8]
+    SLICE_X113Y49        LUT4 (Prop_lut4_I0_O)        0.124     6.461 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2/O
+                         net (fo=4, estimated)        0.691     7.152    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2_n_0
+    SLICE_X113Y49        LUT5 (Prop_lut5_I0_O)        0.124     7.276 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__2/O
+                         net (fo=2, estimated)        1.121     8.397    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__2_n_0
+    SLICE_X113Y50        LUT5 (Prop_lut5_I0_O)        0.152     8.549 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift[7]_i_1/O
+                         net (fo=8, estimated)        0.564     9.113    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/ri_filter_shift
+    SLICE_X112Y50        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift_reg[0]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_200_1 rise edge)
@@ -674,16 +677,16 @@ Slack (MET) :             0.716ns  (required time - arrival time)
                                                       0.084     7.177 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        1.010     8.187    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y6            BUFR (Prop_bufr_I_O)         0.918     9.105 r  inst_mmcm/inst_bufr_300/O
-                         net (fo=192, estimated)      0.759     9.864    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/i_clk_200
-    SLICE_X106Y61        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift_reg[0]/C
-                         clock pessimism              0.279    10.143    
-                         clock uncertainty           -0.060    10.082    
-    SLICE_X106Y61        FDCE (Setup_fdce_C_CE)      -0.407     9.675    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift_reg[0]
+                         net (fo=192, estimated)      0.763     9.868    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/i_clk_200
+    SLICE_X112Y50        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift_reg[0]/C
+                         clock pessimism              0.314    10.182    
+                         clock uncertainty           -0.060    10.121    
+    SLICE_X112Y50        FDCE (Setup_fdce_C_CE)      -0.377     9.744    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_filter_shift_reg[0]
   -------------------------------------------------------------------
-                         required time                          9.675    
-                         arrival time                          -8.960    
+                         required time                          9.744    
+                         arrival time                          -9.113    
   -------------------------------------------------------------------
-                         slack                                  0.716    
+                         slack                                  0.632    
 
 
 
@@ -691,20 +694,20 @@ Slack (MET) :             0.716ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.186ns  (arrival time - required time)
-  Source:                 inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_wr_addr_reg[2]/C
+Slack (MET) :             0.200ns  (arrival time - required time)
+  Source:                 inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay_reg[4]/C
                             (rising edge-triggered cell FDCE clocked by o_clk_200_1  {rise@0.000ns fall@1.667ns period=5.000ns})
-  Destination:            inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/WADR2
-                            (rising edge-triggered cell RAMD32 clocked by o_clk_200_1  {rise@0.000ns fall@1.667ns period=5.000ns})
+  Destination:            inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/inst_idelaye2/CNTVALUEIN[4]
+                            (rising edge-triggered cell IDELAYE2 clocked by o_clk_200_1  {rise@0.000ns fall@1.667ns period=5.000ns})
   Path Group:             o_clk_200_1
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (o_clk_200_1 rise@0.000ns - o_clk_200_1 rise@0.000ns)
-  Data Path Delay:        0.456ns  (logic 0.141ns (30.929%)  route 0.315ns (69.070%))
+  Data Path Delay:        0.294ns  (logic 0.141ns (47.889%)  route 0.153ns (52.111%))
   Logic Levels:           0  
-  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.205ns
-    Source Clock Delay      (SCD):    1.917ns
-    Clock Pessimism Removal (CPR):    0.273ns
+  Clock Path Skew:        0.034ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.200ns
+    Source Clock Delay      (SCD):    1.916ns
+    Clock Pessimism Removal (CPR):    0.251ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -718,12 +721,12 @@ Slack (MET) :             0.186ns  (arrival time - required time)
                                                       0.051     0.937 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        0.448     1.385    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y6            BUFR (Prop_bufr_I_O)         0.270     1.655 r  inst_mmcm/inst_bufr_300/O
-                         net (fo=192, estimated)      0.262     1.917    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/i_clk_200
-    SLICE_X113Y56        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_wr_addr_reg[2]/C
+                         net (fo=192, estimated)      0.261     1.916    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/i_clk_200
+    SLICE_X113Y58        FDCE                                         r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay_reg[4]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X113Y56        FDCE (Prop_fdce_C_Q)         0.141     2.058 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_wr_addr_reg[2]/Q
-                         net (fo=29, estimated)       0.315     2.372    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/ADDRD2
-    SLICE_X112Y55        RAMD32                                       r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/WADR2
+    SLICE_X113Y58        FDCE (Prop_fdce_C_Q)         0.141     2.057 r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay_reg[4]/Q
+                         net (fo=1, estimated)        0.153     2.210    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/Q[4]
+    IDELAY_X1Y58         IDELAYE2                                     r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/inst_idelaye2/CNTVALUEIN[4]
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_200_1 rise edge)
@@ -736,16 +739,16 @@ Slack (MET) :             0.186ns  (arrival time - required time)
                                                       0.054     1.003 r  inst_mmcm/inst_mmcm_adv/CLKOUT0
                          net (fo=3, estimated)        0.472     1.474    inst_mmcm/mmcm_clk_600_o
     BUFR_X1Y6            BUFR (Prop_bufr_I_O)         0.431     1.905 r  inst_mmcm/inst_bufr_300/O
-                         net (fo=192, estimated)      0.300     2.205    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/WCLK
-    SLICE_X112Y55        RAMD32                                       r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
-                         clock pessimism             -0.273     1.933    
-    SLICE_X112Y55        RAMD32 (Hold_ramd32_CLK_WADR2)
-                                                      0.254     2.187    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA
+                         net (fo=192, estimated)      0.295     2.200    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/i_clk_200
+    IDELAY_X1Y58         IDELAYE2                                     r  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/inst_idelaye2/C
+                         clock pessimism             -0.251     1.950    
+    IDELAY_X1Y58         IDELAYE2 (Hold_idelaye2_C_CNTVALUEIN[4])
+                                                      0.060     2.010    inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/inst_idelaye2
   -------------------------------------------------------------------
-                         required time                         -2.187    
-                         arrival time                           2.372    
+                         required time                         -2.010    
+                         arrival time                           2.210    
   -------------------------------------------------------------------
-                         slack                                  0.186    
+                         slack                                  0.200    
 
 
 
@@ -760,8 +763,8 @@ Sources:            { inst_mmcm/inst_bufr_300/O }
 
 Check Type        Corner  Lib Pin     Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
 Min Period        n/a     IDELAYE2/C  n/a            2.360         5.000       2.640      IDELAY_X1Y58   inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/inst_idelaye2/C
-Low Pulse Width   Slow    RAMD32/CLK  n/a            1.250         3.333       2.083      SLICE_X112Y55  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
-High Pulse Width  Slow    RAMD32/CLK  n/a            1.250         1.667       0.417      SLICE_X112Y55  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
+Low Pulse Width   Slow    RAMD32/CLK  n/a            1.250         3.333       2.083      SLICE_X108Y53  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
+High Pulse Width  Slow    RAMD32/CLK  n/a            1.250         1.667       0.417      SLICE_X108Y53  inst_transceiver_a/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
 
 
 
@@ -814,28 +817,28 @@ Min Period  n/a     ISERDESE2/CLK  n/a            1.667         1.667       0.00
 From Clock:  o_clk_120
   To Clock:  o_clk_120
 
-Setup :            0  Failing Endpoints,  Worst Slack        4.138ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.099ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        4.083ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.062ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        2.084ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             4.138ns  (required time - arrival time)
-  Source:                 inst_transceiver_b/inst_tx_packet_buffer/r_data_o_reg[4]/C
-                            (rising edge-triggered cell FDPE clocked by o_clk_120  {rise@0.834ns fall@4.168ns period=8.335ns})
-  Destination:            inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[6]/D
-                            (rising edge-triggered cell FDRE clocked by o_clk_120  {rise@0.834ns fall@4.168ns period=8.335ns})
+Slack (MET) :             4.083ns  (required time - arrival time)
+  Source:                 inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync_reg[4]/C
+                            (rising edge-triggered cell FDCE clocked by o_clk_120  {rise@0.834ns fall@4.168ns period=8.335ns})
+  Destination:            inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]/D
+                            (rising edge-triggered cell FDCE clocked by o_clk_120  {rise@0.834ns fall@4.168ns period=8.335ns})
   Path Group:             o_clk_120
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.335ns  (o_clk_120 rise@9.169ns - o_clk_120 rise@0.834ns)
-  Data Path Delay:        4.166ns  (logic 1.240ns (29.765%)  route 2.926ns (70.235%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    3.023ns = ( 12.191 - 9.169 ) 
-    Source Clock Delay      (SCD):    3.264ns = ( 4.098 - 0.834 ) 
-    Clock Pessimism Removal (CPR):    0.217ns
+  Data Path Delay:        4.219ns  (logic 2.141ns (50.747%)  route 2.078ns (49.253%))
+  Logic Levels:           5  (CARRY4=2 LUT3=1 LUT5=2)
+  Clock Path Skew:        -0.060ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.081ns = ( 12.249 - 9.169 ) 
+    Source Clock Delay      (SCD):    3.322ns = ( 4.156 - 0.834 ) 
+    Clock Pessimism Removal (CPR):    0.182ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -851,20 +854,24 @@ Slack (MET) :             4.138ns  (required time - arrival time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.907     1.741 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.510     2.251    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y4            BUFR (Prop_bufr_I_O)         1.032     3.283 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_120/O
-                         net (fo=246, estimated)      0.815     4.098    inst_transceiver_b/inst_tx_packet_buffer/CLK
-    SLICE_X112Y84        FDPE                                         r  inst_transceiver_b/inst_tx_packet_buffer/r_data_o_reg[4]/C
+                         net (fo=246, estimated)      0.873     4.156    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/i_wr_clk
+    SLICE_X102Y72        FDCE                                         r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync_reg[4]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X112Y84        FDPE (Prop_fdpe_C_Q)         0.518     4.616 r  inst_transceiver_b/inst_tx_packet_buffer/r_data_o_reg[4]/Q
-                         net (fo=9, estimated)        0.990     5.606    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[9]_0[4]
-    SLICE_X111Y84        LUT6 (Prop_lut6_I0_O)        0.124     5.730 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/ngdb.disp_run_i_3__0/O
-                         net (fo=1, estimated)        0.937     6.667    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/ngdb.disp_run_i_3__0_n_0
-    SLICE_X112Y83        LUT3 (Prop_lut3_I2_O)        0.146     6.813 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/ngdb.disp_run_i_2__0/O
-                         net (fo=6, estimated)        0.502     7.315    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/pdes6__13
-    SLICE_X112Y84        LUT3 (Prop_lut3_I0_O)        0.328     7.643 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout[9]_i_2__0/O
-                         net (fo=2, estimated)        0.497     8.140    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout[9]_i_2__0_n_0
-    SLICE_X113Y83        LUT6 (Prop_lut6_I0_O)        0.124     8.264 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout[6]_i_1__0/O
-                         net (fo=1, routed)           0.000     8.264    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/b4[0]
-    SLICE_X113Y83        FDRE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[6]/D
+    SLICE_X102Y72        FDCE (Prop_fdce_C_Q)         0.478     4.634 r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync_reg[4]/Q
+                         net (fo=11, estimated)       1.131     5.765    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_rd_ptr_gray_sync[4]
+    SLICE_X99Y72         LUT3 (Prop_lut3_I1_O)        0.329     6.094 r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_9__2/O
+                         net (fo=2, estimated)        0.510     6.604    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_9__2_n_0
+    SLICE_X99Y72         LUT5 (Prop_lut5_I0_O)        0.326     6.930 r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_12__0/O
+                         net (fo=2, estimated)        0.437     7.367    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_12__0_n_0
+    SLICE_X101Y71        LUT5 (Prop_lut5_I0_O)        0.124     7.491 r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_6__2/O
+                         net (fo=1, routed)           0.000     7.491    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_i_6__2_n_0
+    SLICE_X101Y71        CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550     8.041 r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry/CO[3]
+                         net (fo=1, estimated)        0.000     8.041    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry_n_0
+    SLICE_X101Y72        CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.334     8.375 r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0_carry__0/O[1]
+                         net (fo=1, routed)           0.000     8.375    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff0[5]
+    SLICE_X101Y72        FDCE                                         r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_120 rise edge)
@@ -874,16 +881,16 @@ Slack (MET) :             4.138ns  (required time - arrival time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.864    10.033 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.484    10.517    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y4            BUFR (Prop_bufr_I_O)         0.919    11.436 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_120/O
-                         net (fo=246, estimated)      0.755    12.191    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/CLK
-    SLICE_X113Y83        FDRE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[6]/C
-                         clock pessimism              0.217    12.408    
-                         clock uncertainty           -0.035    12.373    
-    SLICE_X113Y83        FDRE (Setup_fdre_C_D)        0.029    12.402    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_8b10b_enc/dout_reg[6]
+                         net (fo=246, estimated)      0.813    12.249    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/i_wr_clk
+    SLICE_X101Y72        FDCE                                         r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]/C
+                         clock pessimism              0.182    12.431    
+                         clock uncertainty           -0.035    12.396    
+    SLICE_X101Y72        FDCE (Setup_fdce_C_D)        0.062    12.458    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_diff_reg[5]
   -------------------------------------------------------------------
-                         required time                         12.402    
-                         arrival time                          -8.264    
+                         required time                         12.458    
+                         arrival time                          -8.375    
   -------------------------------------------------------------------
-                         slack                                  4.138    
+                         slack                                  4.083    
 
 
 
@@ -891,20 +898,20 @@ Slack (MET) :             4.138ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.099ns  (arrival time - required time)
-  Source:                 inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_bin_reg[5]/C
+Slack (MET) :             0.062ns  (arrival time - required time)
+  Source:                 inst_transceiver_b/inst_rx_packet_buffer/r_data_i_reg[0]/C
                             (rising edge-triggered cell FDCE clocked by o_clk_120  {rise@0.834ns fall@4.168ns period=8.335ns})
-  Destination:            inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/WADR5
+  Destination:            inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/I
                             (rising edge-triggered cell RAMD64E clocked by o_clk_120  {rise@0.834ns fall@4.168ns period=8.335ns})
   Path Group:             o_clk_120
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (o_clk_120 rise@0.834ns - o_clk_120 rise@0.834ns)
-  Data Path Delay:        0.303ns  (logic 0.141ns (46.556%)  route 0.162ns (53.444%))
+  Data Path Delay:        0.222ns  (logic 0.141ns (63.533%)  route 0.081ns (36.467%))
   Logic Levels:           0  
-  Clock Path Skew:        0.034ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.311ns = ( 2.145 - 0.834 ) 
-    Source Clock Delay      (SCD):    1.071ns = ( 1.904 - 0.834 ) 
-    Clock Pessimism Removal (CPR):    0.207ns
+  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.338ns = ( 2.172 - 0.834 ) 
+    Source Clock Delay      (SCD):    1.097ns = ( 1.930 - 0.834 ) 
+    Clock Pessimism Removal (CPR):    0.229ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -915,12 +922,12 @@ Slack (MET) :             0.099ns  (arrival time - required time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.336     1.169 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.215     1.384    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y4            BUFR (Prop_bufr_I_O)         0.271     1.655 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_120/O
-                         net (fo=246, estimated)      0.249     1.904    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/i_wr_clk
-    SLICE_X106Y75        FDCE                                         r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_bin_reg[5]/C
+                         net (fo=246, estimated)      0.275     1.930    inst_transceiver_b/inst_rx_packet_buffer/i_wr_clk
+    SLICE_X105Y73        FDCE                                         r  inst_transceiver_b/inst_rx_packet_buffer/r_data_i_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X106Y75        FDCE (Prop_fdce_C_Q)         0.141     2.045 r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_wr_ptr_bin_reg[5]/Q
-                         net (fo=22, estimated)       0.162     2.207    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/ADDRD5
-    SLICE_X108Y74        RAMD64E                                      r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/WADR5
+    SLICE_X105Y73        FDCE (Prop_fdce_C_Q)         0.141     2.071 r  inst_transceiver_b/inst_rx_packet_buffer/r_data_i_reg[0]/Q
+                         net (fo=1, estimated)        0.081     2.152    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/DIA
+    SLICE_X104Y73        RAMD64E                                      r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/I
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_120 rise edge)
@@ -930,16 +937,16 @@ Slack (MET) :             0.099ns  (arrival time - required time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.370     1.204 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.226     1.430    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y4            BUFR (Prop_bufr_I_O)         0.432     1.862 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_120/O
-                         net (fo=246, estimated)      0.283     2.145    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/WCLK
-    SLICE_X108Y74        RAMD64E                                      r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
-                         clock pessimism             -0.207     1.938    
-    SLICE_X108Y74        RAMD64E (Hold_ramd64e_CLK_WADR5)
-                                                      0.170     2.108    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA
+                         net (fo=246, estimated)      0.310     2.172    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/WCLK
+    SLICE_X104Y73        RAMD64E                                      r  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
+                         clock pessimism             -0.229     1.943    
+    SLICE_X104Y73        RAMD64E (Hold_ramd64e_CLK_I)
+                                                      0.147     2.090    inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA
   -------------------------------------------------------------------
-                         required time                         -2.108    
-                         arrival time                           2.207    
+                         required time                         -2.090    
+                         arrival time                           2.152    
   -------------------------------------------------------------------
-                         slack                                  0.099    
+                         slack                                  0.062    
 
 
 
@@ -954,8 +961,8 @@ Sources:            { inst_transceiver_b/inst_physical_layer_top/inst_physical_i
 
 Check Type        Corner  Lib Pin           Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
 Min Period        n/a     OSERDESE2/CLKDIV  n/a            1.667         8.335       6.668      OLOGIC_X1Y84   inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_tx/inst_oserdes/inst_oserdese2_master/CLKDIV
-Low Pulse Width   Slow    RAMD64E/CLK       n/a            1.250         5.001       3.751      SLICE_X108Y74  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
-High Pulse Width  Slow    RAMD64E/CLK       n/a            1.250         3.334       2.084      SLICE_X108Y74  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
+Low Pulse Width   Slow    RAMD64E/CLK       n/a            1.250         5.001       3.751      SLICE_X104Y73  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
+High Pulse Width  Slow    RAMD64E/CLK       n/a            1.250         3.334       2.084      SLICE_X104Y73  inst_transceiver_b/inst_rx_packet_buffer/inst_async_fifo/r_ram_reg_0_63_0_2/RAMA/CLK
 
 
 
@@ -963,28 +970,28 @@ High Pulse Width  Slow    RAMD64E/CLK       n/a            1.250         3.334  
 From Clock:  o_clk_200
   To Clock:  o_clk_200
 
-Setup :            0  Failing Endpoints,  Worst Slack        0.561ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.184ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        0.707ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.182ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        0.417ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.561ns  (required time - arrival time)
-  Source:                 inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[8]/C
+Slack (MET) :             0.707ns  (required time - arrival time)
+  Source:                 inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[7]/C
                             (rising edge-triggered cell FDCE clocked by o_clk_200  {rise@0.834ns fall@2.501ns period=5.001ns})
-  Destination:            inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[1]/CE
+  Destination:            inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[11]/CE
                             (rising edge-triggered cell FDCE clocked by o_clk_200  {rise@0.834ns fall@2.501ns period=5.001ns})
   Path Group:             o_clk_200
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.001ns  (o_clk_200 rise@5.835ns - o_clk_200 rise@0.834ns)
-  Data Path Delay:        3.876ns  (logic 0.920ns (23.736%)  route 2.956ns (76.264%))
+  Data Path Delay:        3.860ns  (logic 1.085ns (28.109%)  route 2.775ns (71.891%))
   Logic Levels:           3  (LUT4=1 LUT5=2)
-  Clock Path Skew:        -0.121ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    3.022ns = ( 8.856 - 5.835 ) 
-    Source Clock Delay      (SCD):    3.324ns = ( 4.158 - 0.834 ) 
-    Clock Pessimism Removal (CPR):    0.182ns
+  Clock Path Skew:        -0.023ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.081ns = ( 8.915 - 5.835 ) 
+    Source Clock Delay      (SCD):    3.326ns = ( 4.160 - 0.834 ) 
+    Clock Pessimism Removal (CPR):    0.223ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -1000,18 +1007,18 @@ Slack (MET) :             0.561ns  (required time - arrival time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.907     1.741 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.510     2.251    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y5            BUFR (Prop_bufr_I_O)         1.032     3.283 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_300/O
-                         net (fo=192, estimated)      0.875     4.158    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/o_clk_200
-    SLICE_X104Y69        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[8]/C
+                         net (fo=192, estimated)      0.877     4.160    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/o_clk_200
+    SLICE_X103Y70        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[7]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X104Y69        FDCE (Prop_fdce_C_Q)         0.518     4.676 f  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[8]/Q
-                         net (fo=10, estimated)       0.910     5.586    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg_n_0_[8]
-    SLICE_X107Y68        LUT4 (Prop_lut4_I0_O)        0.124     5.710 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2__0/O
-                         net (fo=4, estimated)        0.839     6.549    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2__0_n_0
-    SLICE_X109Y69        LUT5 (Prop_lut5_I0_O)        0.124     6.673 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__5/O
-                         net (fo=2, estimated)        0.679     7.352    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__5_n_0
-    SLICE_X109Y69        LUT5 (Prop_lut5_I0_O)        0.154     7.506 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_1__9/O
-                         net (fo=13, estimated)       0.528     8.034    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/ri_sample_shift
-    SLICE_X107Y67        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[1]/CE
+    SLICE_X103Y70        FDCE (Prop_fdce_C_Q)         0.456     4.616 f  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg[7]/Q
+                         net (fo=14, estimated)       0.844     5.460    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state_reg_n_0_[7]
+    SLICE_X102Y70        LUT4 (Prop_lut4_I2_O)        0.124     5.584 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2__0/O
+                         net (fo=4, estimated)        0.660     6.244    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_loop_cnt[0]_i_2__0_n_0
+    SLICE_X103Y69        LUT5 (Prop_lut5_I0_O)        0.150     6.394 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__6/O
+                         net (fo=2, estimated)        0.837     7.231    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_2__6_n_0
+    SLICE_X102Y69        LUT5 (Prop_lut5_I0_O)        0.355     7.586 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_state[3]_i_1__9/O
+                         net (fo=13, estimated)       0.434     8.020    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/ri_sample_shift
+    SLICE_X102Y69        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[11]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_200 rise edge)
@@ -1021,16 +1028,16 @@ Slack (MET) :             0.561ns  (required time - arrival time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.864     6.699 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.484     7.183    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y5            BUFR (Prop_bufr_I_O)         0.919     8.102 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_300/O
-                         net (fo=192, estimated)      0.754     8.856    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/o_clk_200
-    SLICE_X107Y67        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[1]/C
-                         clock pessimism              0.182     9.038    
-                         clock uncertainty           -0.035     9.003    
-    SLICE_X107Y67        FDCE (Setup_fdce_C_CE)      -0.408     8.595    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[1]
+                         net (fo=192, estimated)      0.813     8.915    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/o_clk_200
+    SLICE_X102Y69        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[11]/C
+                         clock pessimism              0.223     9.138    
+                         clock uncertainty           -0.035     9.103    
+    SLICE_X102Y69        FDCE (Setup_fdce_C_CE)      -0.376     8.727    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_cal/r_sample_shift_reg[11]
   -------------------------------------------------------------------
-                         required time                          8.595    
-                         arrival time                          -8.034    
+                         required time                          8.727    
+                         arrival time                          -8.020    
   -------------------------------------------------------------------
-                         slack                                  0.561    
+                         slack                                  0.707    
 
 
 
@@ -1038,19 +1045,19 @@ Slack (MET) :             0.561ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.184ns  (arrival time - required time)
-  Source:                 inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_monitor/r_monitoring_run_reg/C
+Slack (MET) :             0.182ns  (arrival time - required time)
+  Source:                 inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_wr_addr_reg[2]/C
                             (rising edge-triggered cell FDCE clocked by o_clk_200  {rise@0.834ns fall@2.501ns period=5.001ns})
-  Destination:            inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay_reg[3]/D
-                            (rising edge-triggered cell FDCE clocked by o_clk_200  {rise@0.834ns fall@2.501ns period=5.001ns})
+  Destination:            inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r2_0_15_0_5/RAMA/WADR2
+                            (rising edge-triggered cell RAMD32 clocked by o_clk_200  {rise@0.834ns fall@2.501ns period=5.001ns})
   Path Group:             o_clk_200
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (o_clk_200 rise@0.834ns - o_clk_200 rise@0.834ns)
-  Data Path Delay:        0.317ns  (logic 0.186ns (58.736%)  route 0.131ns (41.264%))
-  Logic Levels:           1  (LUT3=1)
+  Data Path Delay:        0.449ns  (logic 0.141ns (31.423%)  route 0.308ns (68.577%))
+  Logic Levels:           0  
   Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.320ns = ( 2.154 - 0.834 ) 
-    Source Clock Delay      (SCD):    1.079ns = ( 1.912 - 0.834 ) 
+    Destination Clock Delay (DCD):    1.315ns = ( 2.149 - 0.834 ) 
+    Source Clock Delay      (SCD):    1.074ns = ( 1.907 - 0.834 ) 
     Clock Pessimism Removal (CPR):    0.229ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -1062,14 +1069,12 @@ Slack (MET) :             0.184ns  (arrival time - required time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.336     1.169 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.215     1.384    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y5            BUFR (Prop_bufr_I_O)         0.271     1.655 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_300/O
-                         net (fo=192, estimated)      0.257     1.912    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_monitor/o_clk_200
-    SLICE_X113Y66        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_monitor/r_monitoring_run_reg/C
+                         net (fo=192, estimated)      0.252     1.907    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/o_clk_200
+    SLICE_X111Y72        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_wr_addr_reg[2]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X113Y66        FDCE (Prop_fdce_C_Q)         0.141     2.053 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_tab_monitor/r_monitoring_run_reg/Q
-                         net (fo=6, estimated)        0.131     2.184    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/o_run
-    SLICE_X112Y66        LUT3 (Prop_lut3_I1_O)        0.045     2.229 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay[3]_i_1__0/O
-                         net (fo=1, routed)           0.000     2.229    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/ri_master_delay[3]
-    SLICE_X112Y66        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay_reg[3]/D
+    SLICE_X111Y72        FDCE (Prop_fdce_C_Q)         0.141     2.048 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_wr_addr_reg[2]/Q
+                         net (fo=29, estimated)       0.308     2.356    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r2_0_15_0_5/ADDRD2
+    SLICE_X112Y71        RAMD32                                       r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r2_0_15_0_5/RAMA/WADR2
   -------------------------------------------------------------------    -------------------
 
                          (clock o_clk_200 rise edge)
@@ -1079,15 +1084,16 @@ Slack (MET) :             0.184ns  (arrival time - required time)
     M19                  IBUFDS (Prop_ibufds_IB_O)    0.370     1.204 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_ibufds_phys_clk/O
                          net (fo=3, estimated)        0.226     1.430    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/ibufds_clk_600_o
     BUFR_X1Y5            BUFR (Prop_bufr_I_O)         0.432     1.862 r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_clk_div/inst_bufr_300/O
-                         net (fo=192, estimated)      0.292     2.154    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/o_clk_200
-    SLICE_X112Y66        FDCE                                         r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay_reg[3]/C
-                         clock pessimism             -0.229     1.925    
-    SLICE_X112Y66        FDCE (Hold_fdce_C_D)         0.120     2.045    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/r_master_delay_reg[3]
+                         net (fo=192, estimated)      0.287     2.149    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r2_0_15_0_5/WCLK
+    SLICE_X112Y71        RAMD32                                       r  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r2_0_15_0_5/RAMA/CLK
+                         clock pessimism             -0.229     1.920    
+    SLICE_X112Y71        RAMD32 (Hold_ramd32_CLK_WADR2)
+                                                      0.254     2.174    inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r2_0_15_0_5/RAMA
   -------------------------------------------------------------------
-                         required time                         -2.045    
-                         arrival time                           2.229    
+                         required time                         -2.174    
+                         arrival time                           2.356    
   -------------------------------------------------------------------
-                         slack                                  0.184    
+                         slack                                  0.182    
 
 
 
@@ -1102,8 +1108,8 @@ Sources:            { inst_transceiver_b/inst_physical_layer_top/inst_physical_i
 
 Check Type        Corner  Lib Pin     Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
 Min Period        n/a     IDELAYE2/C  n/a            2.360         5.001       2.641      IDELAY_X1Y68   inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_iserdes_master/inst_idelaye2/C
-Low Pulse Width   Slow    RAMD32/CLK  n/a            1.250         3.334       2.084      SLICE_X108Y70  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
-High Pulse Width  Slow    RAMD32/CLK  n/a            1.250         1.667       0.417      SLICE_X108Y70  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
+Low Pulse Width   Slow    RAMD32/CLK  n/a            1.250         3.334       2.084      SLICE_X112Y70  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
+High Pulse Width  Slow    RAMD32/CLK  n/a            1.250         1.667       0.417      SLICE_X112Y70  inst_transceiver_b/inst_physical_layer_top/inst_physical_iob_rx/inst_gearbox/r_ram_reg_r1_0_15_0_5/RAMA/CLK
 
 
 
@@ -1136,28 +1142,28 @@ High Pulse Width  Slow    PLLE2_ADV/CLKIN1  n/a            2.000         5.000  
 From Clock:  pll_clk_166_o
   To Clock:  pll_clk_166_o
 
-Setup :            0  Failing Endpoints,  Worst Slack        0.641ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.022ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        0.635ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.061ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        1.750ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.641ns  (required time - arrival time)
+Slack (MET) :             0.635ns  (required time - arrival time)
   Source:                 inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[5]/C
                             (rising edge-triggered cell FDCE clocked by pll_clk_166_o  {rise@0.000ns fall@3.000ns period=6.000ns})
-  Destination:            inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[9]/D
+  Destination:            inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[11]/D
                             (rising edge-triggered cell FDCE clocked by pll_clk_166_o  {rise@0.000ns fall@3.000ns period=6.000ns})
   Path Group:             pll_clk_166_o
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            6.000ns  (pll_clk_166_o rise@6.000ns - pll_clk_166_o rise@0.000ns)
-  Data Path Delay:        5.222ns  (logic 1.440ns (27.576%)  route 3.782ns (72.424%))
+  Data Path Delay:        5.244ns  (logic 1.470ns (28.032%)  route 3.774ns (71.968%))
   Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=2)
-  Clock Path Skew:        -0.024ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    6.214ns = ( 12.214 - 6.000 ) 
-    Source Clock Delay      (SCD):    6.634ns
-    Clock Pessimism Removal (CPR):    0.396ns
+  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.183ns = ( 12.183 - 6.000 ) 
+    Source Clock Delay      (SCD):    6.600ns
+    Clock Pessimism Removal (CPR):    0.395ns
   Clock Uncertainty:      0.068ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.117ns
@@ -1175,20 +1181,20 @@ Slack (MET) :             0.641ns  (required time - arrival time)
                                                       0.088     2.884 r  inst_pll/inst_plle2_base/CLKOUT1
                          net (fo=1, estimated)        1.849     4.733    inst_pll/pll_clk_166_o
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.101     4.834 r  inst_pll/inst_bufg_clk1/O
-                         net (fo=953, estimated)      1.800     6.634    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[0]_0
-    SLICE_X93Y46         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[5]/C
+                         net (fo=982, estimated)      1.766     6.600    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[8]_0
+    SLICE_X94Y73         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X93Y46         FDCE (Prop_fdce_C_Q)         0.456     7.090 f  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[5]/Q
-                         net (fo=12, estimated)       0.990     8.080    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg_n_0_[5]
-    SLICE_X93Y49         LUT4 (Prop_lut4_I0_O)        0.124     8.204 f  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[12]_i_9/O
-                         net (fo=6, estimated)        1.016     9.220    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[12]_i_9_n_0
-    SLICE_X92Y48         LUT5 (Prop_lut5_I1_O)        0.152     9.372 r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[5]_i_3/O
-                         net (fo=4, estimated)        0.969    10.341    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[5]_i_3_n_0
-    SLICE_X93Y47         LUT3 (Prop_lut3_I0_O)        0.376    10.717 r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[11]_i_2/O
-                         net (fo=3, estimated)        0.287    11.004    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[11]_i_2_n_0
-    SLICE_X93Y47         LUT5 (Prop_lut5_I4_O)        0.332    11.336 r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[9]_i_1/O
-                         net (fo=1, estimated)        0.520    11.856    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/ri_state[9]
-    SLICE_X92Y48         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[9]/D
+    SLICE_X94Y73         FDCE (Prop_fdce_C_Q)         0.518     7.118 f  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[5]/Q
+                         net (fo=12, estimated)       1.035     8.153    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg_n_0_[5]
+    SLICE_X95Y73         LUT4 (Prop_lut4_I0_O)        0.124     8.277 f  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[12]_i_9/O
+                         net (fo=6, estimated)        0.830     9.107    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[12]_i_9_n_0
+    SLICE_X95Y72         LUT5 (Prop_lut5_I1_O)        0.152     9.259 r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[5]_i_3/O
+                         net (fo=4, estimated)        1.030    10.289    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[5]_i_3_n_0
+    SLICE_X94Y72         LUT3 (Prop_lut3_I0_O)        0.348    10.637 r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[11]_i_2/O
+                         net (fo=3, estimated)        0.499    11.136    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[11]_i_2_n_0
+    SLICE_X94Y73         LUT5 (Prop_lut5_I4_O)        0.328    11.464 r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state[11]_i_1/O
+                         net (fo=1, estimated)        0.380    11.844    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/ri_state[11]
+    SLICE_X94Y73         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[11]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock pll_clk_166_o rise edge)
@@ -1201,16 +1207,16 @@ Slack (MET) :             0.641ns  (required time - arrival time)
                                                       0.083     8.743 r  inst_pll/inst_plle2_base/CLKOUT1
                          net (fo=1, estimated)        1.757    10.500    inst_pll/pll_clk_166_o
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.091    10.591 r  inst_pll/inst_bufg_clk1/O
-                         net (fo=953, estimated)      1.623    12.214    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[0]_0
-    SLICE_X92Y48         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[9]/C
-                         clock pessimism              0.396    12.610    
-                         clock uncertainty           -0.068    12.542    
-    SLICE_X92Y48         FDCE (Setup_fdce_C_D)       -0.045    12.497    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[9]
+                         net (fo=982, estimated)      1.592    12.183    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[8]_0
+    SLICE_X94Y73         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[11]/C
+                         clock pessimism              0.395    12.578    
+                         clock uncertainty           -0.068    12.510    
+    SLICE_X94Y73         FDCE (Setup_fdce_C_D)       -0.031    12.479    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[11]
   -------------------------------------------------------------------
-                         required time                         12.497    
-                         arrival time                         -11.856    
+                         required time                         12.479    
+                         arrival time                         -11.844    
   -------------------------------------------------------------------
-                         slack                                  0.641    
+                         slack                                  0.635    
 
 
 
@@ -1218,20 +1224,20 @@ Slack (MET) :             0.641ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.022ns  (arrival time - required time)
-  Source:                 inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[0]/C
+Slack (MET) :             0.061ns  (arrival time - required time)
+  Source:                 inst_test_core/inst_loop_interface_top/inst_handler_b/r_temp_reg[18]/C
                             (rising edge-triggered cell FDCE clocked by pll_clk_166_o  {rise@0.000ns fall@3.000ns period=6.000ns})
-  Destination:            inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[1]/D
-                            (rising edge-triggered cell FDCE clocked by pll_clk_166_o  {rise@0.000ns fall@3.000ns period=6.000ns})
+  Destination:            inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_async_fifo_tlp/r_ram_reg_0_15_18_23/RAMA/I
+                            (rising edge-triggered cell RAMD32 clocked by pll_clk_166_o  {rise@0.000ns fall@3.000ns period=6.000ns})
   Path Group:             pll_clk_166_o
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (pll_clk_166_o rise@0.000ns - pll_clk_166_o rise@0.000ns)
-  Data Path Delay:        0.357ns  (logic 0.141ns (39.516%)  route 0.216ns (60.484%))
+  Data Path Delay:        0.222ns  (logic 0.141ns (63.533%)  route 0.081ns (36.467%))
   Logic Levels:           0  
-  Clock Path Skew:        0.265ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.805ns
-    Source Clock Delay      (SCD):    2.276ns
-    Clock Pessimism Removal (CPR):    0.264ns
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.796ns
+    Source Clock Delay      (SCD):    2.264ns
+    Clock Pessimism Removal (CPR):    0.518ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -1245,12 +1251,12 @@ Slack (MET) :             0.022ns  (arrival time - required time)
                                                       0.050     0.859 r  inst_pll/inst_plle2_base/CLKOUT1
                          net (fo=1, estimated)        0.779     1.638    inst_pll/pll_clk_166_o
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.026     1.664 r  inst_pll/inst_bufg_clk1/O
-                         net (fo=953, estimated)      0.612     2.276    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[0]_0
-    SLICE_X93Y49         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[0]/C
+                         net (fo=982, estimated)      0.600     2.264    inst_test_core/inst_loop_interface_top/inst_handler_b/r_temp_reg[33]_1
+    SLICE_X99Y81         FDCE                                         r  inst_test_core/inst_loop_interface_top/inst_handler_b/r_temp_reg[18]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X93Y49         FDCE (Prop_fdce_C_Q)         0.141     2.417 r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[0]/Q
-                         net (fo=2, estimated)        0.216     2.633    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg_n_0_[0]
-    SLICE_X95Y51         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[1]/D
+    SLICE_X99Y81         FDCE (Prop_fdce_C_Q)         0.141     2.405 r  inst_test_core/inst_loop_interface_top/inst_handler_b/r_temp_reg[18]/Q
+                         net (fo=1, estimated)        0.081     2.486    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_async_fifo_tlp/r_ram_reg_0_15_18_23/DIA0
+    SLICE_X98Y81         RAMD32                                       r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_async_fifo_tlp/r_ram_reg_0_15_18_23/RAMA/I
   -------------------------------------------------------------------    -------------------
 
                          (clock pll_clk_166_o rise edge)
@@ -1263,15 +1269,16 @@ Slack (MET) :             0.022ns  (arrival time - required time)
                                                       0.053     1.079 r  inst_pll/inst_plle2_base/CLKOUT1
                          net (fo=1, estimated)        0.820     1.899    inst_pll/pll_clk_166_o
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.029     1.928 r  inst_pll/inst_bufg_clk1/O
-                         net (fo=953, estimated)      0.877     2.805    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_state_reg[0]_0
-    SLICE_X95Y51         FDCE                                         r  inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[1]/C
-                         clock pessimism             -0.264     2.541    
-    SLICE_X95Y51         FDCE (Hold_fdce_C_D)         0.070     2.611    inst_test_core/inst_pc_interface_top/inst_pc_interface/inst_uart_rx/r_sipo_reg[1]
+                         net (fo=982, estimated)      0.868     2.796    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_async_fifo_tlp/r_ram_reg_0_15_18_23/WCLK
+    SLICE_X98Y81         RAMD32                                       r  inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_async_fifo_tlp/r_ram_reg_0_15_18_23/RAMA/CLK
+                         clock pessimism             -0.518     2.278    
+    SLICE_X98Y81         RAMD32 (Hold_ramd32_CLK_I)
+                                                      0.147     2.425    inst_transceiver_b/inst_link_layer_top/inst_transmitter_packet_interface_top/inst_async_fifo_tlp/r_ram_reg_0_15_18_23/RAMA
   -------------------------------------------------------------------
-                         required time                         -2.611    
-                         arrival time                           2.633    
+                         required time                         -2.425    
+                         arrival time                           2.486    
   -------------------------------------------------------------------
-                         slack                                  0.022    
+                         slack                                  0.061    
 
 
 
@@ -1287,8 +1294,8 @@ Sources:            { inst_pll/inst_plle2_base/CLKOUT1 }
 Check Type        Corner  Lib Pin            Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
 Min Period        n/a     BUFG/I             n/a            2.155         6.000       3.845      BUFGCTRL_X0Y1   inst_pll/inst_bufg_clk1/I
 Max Period        n/a     PLLE2_ADV/CLKOUT1  n/a            160.000       6.000       154.000    PLLE2_ADV_X0Y0  inst_pll/inst_plle2_base/CLKOUT1
-Low Pulse Width   Slow    RAMD32/CLK         n/a            1.250         3.000       1.750      SLICE_X96Y56    inst_test_core/inst_bank_l/r_ram_reg_r1_0_7_0_5/RAMA/CLK
-High Pulse Width  Slow    RAMD32/CLK         n/a            1.250         3.000       1.750      SLICE_X96Y56    inst_test_core/inst_bank_l/r_ram_reg_r1_0_7_0_5/RAMA/CLK
+Low Pulse Width   Slow    RAMD32/CLK         n/a            1.250         3.000       1.750      SLICE_X92Y63    inst_test_core/inst_bank_l/r_ram_reg_r1_0_7_0_5/RAMA/CLK
+High Pulse Width  Slow    RAMD32/CLK         n/a            1.250         3.000       1.750      SLICE_X92Y63    inst_test_core/inst_bank_l/r_ram_reg_r1_0_7_0_5/RAMA/CLK
 
 
 

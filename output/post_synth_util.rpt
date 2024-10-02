@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Tue Sep 17 15:30:50 2024
+| Date         : Wed Oct  2 12:34:53 2024
 | Host         : DESKTOP-76F846E running 64-bit major release  (build 9200)
 | Command      : report_utilization -file ./output/post_synth_util.rpt
 | Design       : top
@@ -31,13 +31,13 @@ Table of Contents
 +----------------------------+------+-------+------------+-----------+-------+
 |          Site Type         | Used | Fixed | Prohibited | Available | Util% |
 +----------------------------+------+-------+------------+-----------+-------+
-| Slice LUTs*                | 3246 |     0 |          0 |     53200 |  6.10 |
-|   LUT as Logic             | 2682 |     0 |          0 |     53200 |  5.04 |
-|   LUT as Memory            |  564 |     0 |          0 |     17400 |  3.24 |
-|     LUT as Distributed RAM |  564 |     0 |            |           |       |
+| Slice LUTs*                | 3269 |     0 |          0 |     53200 |  6.14 |
+|   LUT as Logic             | 2709 |     0 |          0 |     53200 |  5.09 |
+|   LUT as Memory            |  560 |     0 |          0 |     17400 |  3.22 |
+|     LUT as Distributed RAM |  560 |     0 |            |           |       |
 |     LUT as Shift Register  |    0 |     0 |            |           |       |
-| Slice Registers            | 2622 |     0 |          0 |    106400 |  2.46 |
-|   Register as Flip Flop    | 2622 |     0 |          0 |    106400 |  2.46 |
+| Slice Registers            | 2676 |     0 |          0 |    106400 |  2.52 |
+|   Register as Flip Flop    | 2676 |     0 |          0 |    106400 |  2.52 |
 |   Register as Latch        |    0 |     0 |          0 |    106400 |  0.00 |
 | F7 Muxes                   |    5 |     0 |          0 |     26600 |  0.02 |
 | F8 Muxes                   |    0 |     0 |          0 |     13300 |  0.00 |
@@ -58,10 +58,10 @@ Warning! LUT value is adjusted to account for LUT combining.
 | 0     |            _ |         Set |            - |
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
-| 166   |          Yes |           - |          Set |
-| 2109  |          Yes |           - |        Reset |
+| 164   |          Yes |           - |          Set |
+| 2201  |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
-| 347   |          Yes |       Reset |            - |
+| 311   |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -157,20 +157,19 @@ Warning! LUT value is adjusted to account for LUT combining.
 +------------+------+---------------------+
 |  Ref Name  | Used | Functional Category |
 +------------+------+---------------------+
-| FDCE       | 2109 |        Flop & Latch |
-| LUT6       |  948 |                 LUT |
-| RAMD32     |  662 |  Distributed Memory |
-| LUT5       |  537 |                 LUT |
-| LUT4       |  511 |                 LUT |
-| LUT3       |  504 |                 LUT |
-| LUT2       |  354 |                 LUT |
-| FDRE       |  347 |        Flop & Latch |
-| LUT1       |  307 |                 LUT |
-| RAMS32     |  234 |  Distributed Memory |
-| FDPE       |  166 |        Flop & Latch |
+| FDCE       | 2201 |        Flop & Latch |
+| LUT6       |  919 |                 LUT |
+| RAMD32     |  658 |  Distributed Memory |
+| LUT4       |  575 |                 LUT |
+| LUT5       |  524 |                 LUT |
+| LUT3       |  511 |                 LUT |
+| LUT1       |  334 |                 LUT |
+| FDRE       |  311 |        Flop & Latch |
+| LUT2       |  306 |                 LUT |
+| RAMS32     |  250 |  Distributed Memory |
+| FDPE       |  164 |        Flop & Latch |
 | RAMD64E    |   72 |  Distributed Memory |
-| CARRY4     |   28 |          CarryLogic |
-| RAMS64E    |   16 |  Distributed Memory |
+| CARRY4     |   26 |          CarryLogic |
 | OBUF       |    9 |                  IO |
 | IBUFDS     |    6 |                  IO |
 | MUXF7      |    5 |               MuxFx |
