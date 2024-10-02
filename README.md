@@ -72,7 +72,7 @@ Das Erhöhen des Nummernbereiches für die Identifikationsnummer macht dann Sinn
 Ein Senden und Empfangen ist bei jeder ID - Breite sichergestellt. Je grösser die ID - Breite, desto mehr Datenpackete können für einen Datentransfer gebündelt werden.  
 
 ### Sender (Packet Generator) 
-Der Packetgenerator wird zentral von einem Controller gesteuert. Dieser stellt die Weichen für den Datenfluss durch das steuern der Multiplexer. Zentral für die Funktionalität ist eine implementierte FIFO - Zeigerlogik für Bestätigte, respektive Fehlerhafte ID übertragungen im Controller. Das Senden von DLLP hat eine höhere Priorität als das Senden von TLP - Packeten. Der Transfer von TLP - Packeten muss vom Link - Manager freigegeben werden. (Erfolgt mit Steuerflags "Start" und "Stop")
+Der Packetgenerator wird zentral von einem Controller gesteuert. Dieser stellt die Weichen für den Datenfluss durch das steuern der Multiplexer. Zentral für die Funktionalität ist eine implementierte FIFO - Zeigerlogik für Bestätigte, respektive Fehlerhafte ID übertragungen im Controller. Das Senden von DLLP hat eine höhere Priorität als das Senden von TLP - Packeten. Der Transfer von TLP - Packeten muss vom Link - Manager freigegeben werden (Dies erfolgt mit Steuerflags "Start" und "Stop"). Ein Replay - Vorgang stoppt den TLP-Transfer ab FIFO. Nach einem Replay - Vorgang muss durch den Link - Controller wieder ein "Start" - Flag erfolgen. Dies wurde mit der Absicht implementiert, damit im Falle eines Leitungsfehlers nicht unnötigerweise Transferversuche mit neuen Daten ab Sender-FIFO durchgeführt werden.  
 
 ![Workflow](doc/graphics/packet_generator.png)
 
@@ -338,6 +338,8 @@ Manipulation eines TLP - Frames => Replay auf aktueller Station aufgrund erhalte
 - Im Falle eines Drahtbruchs (Unterbrechung des Leitungstaktes) könnte ein Asynchroner Reset der SerDes - Primitiven eventuell erforderlich sein
 - Timeout - Handling / Ack/Nack - Timeout... erfordert abgestimmte Zeiten in Bezug auf die Endapplikation.
 - Statuswörter mit Angabe über den Link - Zustand, Akzeptierter/Offener - ID .. könnte ein Debugging verbessern
+- Der reguläre Sendevorgang von TLP's wird bei aktiviertem Replay unterbrochen und anschliessend durch das Periodische Statussignal der Gegenstation wieder aktiviert. Um weitere Nack's zu verhindern ist dieser Ansatz zwar nicht schlecht, aber auch nicht sehr effizient. Eine bessere Lösung könnte sein, nach einer oder allen Bestätigten "Sender ID's" die TLP's wieder zu starten. Sofern Replay nicht aktiv ist.
+- Ein komplett anderer Ansatz für den Link - Controller könnte eine Art Master/Slave Implementierung des sein. Dabei würde ein Master - Controller die Daten bei der Gegenstation periodisch anfragen. Damit lässt sich unter Umständen eine robustere Applikation realisieren. Nachträgliches Re- Initialiseren wäre damit einfacher als über ein "Zeitspiel". 
 
 ### Weitere Hinweise
 - Alle Testschaltungen sind nicht relevant für die Funktionsweise des Transceivers und könnten entfernt werden
