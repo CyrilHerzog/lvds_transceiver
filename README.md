@@ -320,6 +320,8 @@ Manipulation eines DLLP - Frames => Replay an Gegenstation aufgrund ACK/NACK - T
 Manipulation eines TLP - Frames => Replay auf aktueller Station aufgrund erhaltenem NACK von der Gegenstation
 ![Workflow](doc/graphics/validate_with_crc_tlp_nack.png)
 
+#### Hinweise
+- Die Bitbreite der Initialen Tab - Kalibration sollte bei 300 MHz 16 Tabs ergeben +-1. Beim Transceiver b stellt sich ein Wert von 18 oder 16 ein. Kann z.B durch mehrfaches Laden des Boards' beobachtet werden.
 
 
 ## Mögliche Optimierungen
