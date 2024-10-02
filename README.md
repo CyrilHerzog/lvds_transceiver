@@ -305,12 +305,14 @@ Der Testablauf ist wie folgt:
 11. Kontrolle der Statusbits (Wurde ein Replay - Ausgeführt ?)
 12. Zurücksetzen der Statusbits
 
+#### Testdurchlauf ohne Frame - Manipulationen (CRC - Test)
 ![Workflow](doc/graphics/validate_without_crc_test.png)
 
+#### Testdurchlauf mit CRC - Test (Single - Loop) 
 Mit Manipulation eines Frames (Die Loop-Zeit hat sich erhöht)
 ![Workflow](doc/graphics/validate_crc_error_single_loop.png)
 
-Frame - Manipulationen im kontinuierlichen Loop. Anhand des Statuswortes ist erkennbar, welcher Transceiver einen Replay ausgeführt hat.
+#### Frame - Manipulationen im kontinuierlichen Loop. Anhand des Statuswortes ist erkennbar, welcher Transceiver einen Replay ausgeführt hat.
 
 Manipulation eines DLLP - Frames => Replay an Gegenstation aufgrund ACK/NACK - Timeout
 ![Workflow](doc/graphics/validate_with_crc_dllp_timeout.png)
