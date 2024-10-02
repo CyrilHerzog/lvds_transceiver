@@ -114,15 +114,17 @@ module loop_interface_top (
         .o_zero    ()
     );
 
-    // LOOP TIMEOUT
+    // LOOP TIMEOUT (disabled due to crc test's )
     sr_ff inst_sel_p_bank ( 
         .i_clk      (i_clk),
         .i_arst_n   (inst_local_reset.o_rst),
         .i_s        (inst_loop_cycle_counter.o_max),
         .i_r        (~inst_handler_a.o_running),
-        .o_q        (o_loop_timeout),
+        .o_q        (), 
         .o_qn       ()
     );
+
+    assign o_loop_timeout = 1'b0; // disabled
 
 
 endmodule
