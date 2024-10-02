@@ -4,6 +4,7 @@
     Author  : Herzog Cyril
     Date    : 11.08.2024
 
+
 */
 
 `ifndef _LVDS_RECEIVER_PACKET_CHECKER_TOP_V_
@@ -51,7 +52,7 @@ module receiver_packet_checker_top #(
     // INTERNAL CONSTANT'S
 
     localparam TLP_HEADER_BYTES = `fun_sizeof_byte((TLP_ID_WIDTH + 1) << 1);
-    localparam TLP_BYTES        = `fun_sizeof_byte(TLP_WIDTH) + TLP_HEADER_BYTES;  
+    localparam TLP_BYTES        = `fun_sizeof_byte(TLP_WIDTH) + TLP_HEADER_BYTES; // does not work correctly for all circuits - Header - Bytes (ID > 3)
     localparam DLLP_BYTES       = `fun_sizeof_byte(DLLP_WIDTH);
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,7 +194,7 @@ module receiver_packet_checker_top #(
         .i_arst_n   (local_reset_n),
         .i_wr       (inst_controller.o_tr_result_wr),
         .i_rd       (inst_controller.o_tr_result_rd),
-        .i_data     ({inst_controller.o_tr_result, inst_frame_shift_in.o_frame[(8 + ((TLP_ID_WIDTH + 1) << 1))-1:8]}),
+        .i_data     ({inst_controller.o_tr_result, inst_frame_shift_in.o_frame[(8 + ((TLP_ID_WIDTH + 1) << 1))-1:8]}), 
         .o_data     (), 
         .o_full     (), // not used
         .o_empty    () 
@@ -205,7 +206,7 @@ module receiver_packet_checker_top #(
 
     always@(posedge i_clk)
         if (inst_controller.o_tlp_temp_wr)
-            r_ram[inst_controller.o_tlp_temp_wr_addr] <= inst_frame_shift_in.o_frame[(TLP_WIDTH + (TLP_HEADER_BYTES << 3)) - 1:(TLP_HEADER_BYTES << 3)];
+            r_ram[inst_controller.o_tlp_temp_wr_addr] <= inst_frame_shift_in.o_frame[(TLP_WIDTH + (TLP_HEADER_BYTES << 3)) - 1:(TLP_HEADER_BYTES << 3)]; // check this for handling 2 - Header - Bytes (ID > 3)
 
     assign o_tlp = r_ram[inst_controller.o_tlp_temp_rd_addr];
 

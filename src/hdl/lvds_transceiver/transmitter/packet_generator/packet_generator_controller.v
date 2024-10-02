@@ -6,6 +6,8 @@
     Author  : Herzog Cyril
     Date    : 11.08.2024
 
+    circuit does not work correctly in replay-mode when the header data is higher than 1 byte (TLP_ID > 3)
+
 */
 
 
@@ -195,8 +197,9 @@ module packet_generator_controller #(
             r_frame_cnt   <= ri_frame_cnt;
         end
 
-    assign reload_flag = (r_byte_cnt == (NUM_TLP_BYTES-(NUM_TLP_HEADER_BYTES + 2)));
-    assign done_flag   = (r_byte_cnt == (NUM_TLP_BYTES-2));
+    // flag's must be checked for use 2 - header - bytes) => solution: make another flag definition for replay mode
+    assign reload_flag = (r_byte_cnt == (NUM_TLP_BYTES-(NUM_TLP_HEADER_BYTES + 2))); // this definition is wrong by use 2 - header bytes in replay - Mode
+    assign done_flag   = (r_byte_cnt == (NUM_TLP_BYTES-2)); // wrong in replay - mode by using 2 header bytes
 
     assign replay_enable = (r_rply_enable & ~(r_tlp_id_rply == r_tlp_id_nack)); 
 

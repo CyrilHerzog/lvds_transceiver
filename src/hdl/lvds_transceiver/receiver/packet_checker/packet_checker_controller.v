@@ -4,6 +4,8 @@
     Author  : Herzog Cyril
     Date    : 11.08.2024
 
+    circuit does not work correctly when the header data is higher than 1 byte (TLP_ID > 3)
+
 */
 
 `ifndef _PACKET_CHECKER_CONTROLLER_V_
