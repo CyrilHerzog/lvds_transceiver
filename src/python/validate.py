@@ -42,7 +42,7 @@ def generate_random_numbers(num_bytes=2):
 
 # uart - parameter
 ser = serial.Serial(
-    'COM5',      # define your com - port 
+    'COM3',      # define your com - port 
     115200,
     timeout=5,
     parity=serial.PARITY_EVEN,
@@ -75,9 +75,6 @@ try:
     # wait    
     time.sleep(1)
 
-    ############################################################################################################
-    # read/ack receiver status
-    
 
     ############################################################################################################
     # read edge tabs of both transceivers  
@@ -133,29 +130,22 @@ try:
     ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b10000000])) # bank c address 1  
     ser.write(bytes([0b00000000]))
     ser.write(bytes([reverse_bits(PATTERN_NUM)])) # pattern num
-    time.sleep(0.1)
+    time.sleep(1.0)
 
-    
+    """
     # test crc
     print("crc tlp - error on trx b") 
-    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b00100000])) # bank c address 4  
+    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b10100000])) # bank c address 5  
     ser.write(bytes([0b00000000]))
-    ser.write(bytes([0b01100000])) # crc fail dllp
+    ser.write(bytes([0b01000000]))  # timeout test (dllp) 0b001xxxxx , nack test (tlp) 0b010xxxxx
     time.sleep(0.1)
-
-    # test crc
-    print("crc tlp - error on trx a") 
-    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b10100000])) # bank c address 4  
-    ser.write(bytes([0b00000000]))
-    ser.write(bytes([0b01100000])) # crc fail dllp
-    time.sleep(0.1)
-    
+    """
     
     print("start single loop")
     ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b00000000])) # bank c address 0
     ser.write(bytes([0b00000000]))
     ser.write(bytes([0b10000000]))  # start single loop
-    time.sleep(0.1)
+    time.sleep(1.0)
 
 
     # read pattern 
@@ -194,6 +184,14 @@ try:
 
     # read delay tabs while loop transfer
 
+    """
+    # test crc
+    print("crc tlp - error on trx a") 
+    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b00100000])) # bank c address 4  
+    ser.write(bytes([0b00000000]))
+    ser.write(bytes([0b01000000])) # timeout test (dllp) 0b001xxxxx , nack test (tlp) 0b010xxxxx
+    time.sleep(0.1)
+    """
 
     for i in range(5):
         # transceiver a
@@ -258,7 +256,7 @@ try:
 
 
 
-    # read debug status word {6'b0, trx_a_rply, trx_a_init, 6'b0, trx_b_rply, trx_b_init}
+    # read debug status word {7'b0, trx_b_rply, 7'b0, trx_a_rply}
     time.sleep(1) # wait
     ser.write(bytes([reverse_bits(SINGLE_READ) | 0b01100000])) # bank s address 6
     response = ser.read(2)
@@ -270,6 +268,21 @@ try:
         print(f"status word (bin): {bin_value}")
     else:
         print("error: read status word")
+
+    
+    # reset status trx a
+    print("reset status on trx a") 
+    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b10000000])) # bank c address 4  
+    ser.write(bytes([0b00000000]))
+    ser.write(bytes([0b10000000])) # status reset
+    time.sleep(0.1)
+
+    # reset status trx b
+    print("reset status on trx b") 
+    ser.write(bytes([reverse_bits(SINGLE_WRITE) | 0b10100000])) # bank c address 5  
+    ser.write(bytes([0b00000000]))
+    ser.write(bytes([0b10000000])) # status reset
+    time.sleep(0.1)
     
 finally:
     ser.close()
