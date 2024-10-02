@@ -312,7 +312,7 @@ module transceiver_link_controller #(
             end
 
             S_TX_TLP_ID_ACK: begin
-                ri_state = S_JUMP;
+                ri_state = S_JUMP; //S_TX_TLP_START;
             end
 
             S_TX_TLP_REPLAY: begin
