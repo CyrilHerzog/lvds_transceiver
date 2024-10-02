@@ -305,6 +305,20 @@ Der Testablauf ist wie folgt:
 11. Kontrolle der Statusbits (Wurde ein Replay - Ausgeführt ?)
 12. Zurücksetzen der Statusbits
 
+![Workflow](doc/graphics/validate_without_crc_test.png)
+
+Mit Manipulation eines Frames (Die Loop-Zeit hat sich erhöht)
+![Workflow](doc/graphics/validate_crc_error_single_loop.png)
+
+Frame - Manipulationen im kontinuierlichen Loop. Anhand des Statuswortes ist erkennbar, welcher Transceiver einen Replay ausgeführt hat.
+
+Manipulation eines DLLP - Frames => Replay an Gegenstation aufgrund ACK/NACK - Timeout
+![Workflow](doc/graphics/validate_with_crc_dllp_timeout.png)
+
+Manipulation eines TLP - Frames => Replay auf aktueller Station aufgrund erhaltenem NACK von der Gegenstation
+![Workflow](doc/graphics/validate_with_crc_tlp_nack.png)
+
+
 
 ## Mögliche Optimierungen
 - Erweiterung / Anpassen des Link - Controllers auf die entsprechende Endapplikation
