@@ -89,6 +89,7 @@ module lvds_transceiver_tb;
     wait (dut_transceiver_a.o_status_connect && dut_transceiver_b.o_status_connect);
     // start with control test - flags
     //
+    #100000
     @(posedge sim_tlp_clk) sim_test = 1'b1;
     @(posedge sim_tlp_clk) sim_test = 1'b0;
 
@@ -127,7 +128,7 @@ module lvds_transceiver_tb;
             write_count_trx_b = write_count_trx_b + 1;
             #100
             $display("write data trx b: = %h", sim_trx_b_tlp_i);
-            if (write_count_trx_b >= 5)
+            if (write_count_trx_b >= 20)
                 disable write_process_trx_b;
         end
     end
@@ -155,7 +156,7 @@ module lvds_transceiver_tb;
             @(posedge sim_tlp_clk) sim_trx_a_tlp_rd = 1'b0;
             read_count_trx_a = read_count_trx_a + 1;
             #10000
-            if (read_count_trx_a >= 5)
+            if (read_count_trx_a >= 20)
                 disable read_process_trx_a;
         end
     end
@@ -239,7 +240,7 @@ module lvds_transceiver_tb;
         .i_ctrl_mon_arst_n      (sim_sys_arst_n),
         // LINK
         .i_ctrl_pls_crc_dllp    (1'b0), 
-        .i_ctrl_pls_crc_tlp     (sim_test), 
+        .i_ctrl_pls_crc_tlp     (1'b0), 
         .i_ctrl_pls_status_ack  (1'b0), // acknowledge status
         .o_mon_status_rply      (), // hold and reset by ack
         // PHYSICAL
@@ -296,7 +297,7 @@ module lvds_transceiver_tb;
         .i_ctrl_mon_clk         (sim_tlp_clk),
         .i_ctrl_mon_arst_n      (sim_sys_arst_n),
         // LINK
-        .i_ctrl_pls_crc_dllp    (sim_test), // sim_test
+        .i_ctrl_pls_crc_dllp    (1'b0), // sim_test
         .i_ctrl_pls_crc_tlp     (1'b0),
         .i_ctrl_pls_status_ack  (1'b0),
         .o_mon_status_rply      (),
