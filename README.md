@@ -18,7 +18,7 @@ Dieses Projekt beinhaltet Hardwarebeschreibungen (Verilog) zur Synthese eines Tr
 ## Kompilieren
 
 Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibungen für Simulation und Zielhardware. Die entwickelten Module sind in Ordnerstrukturen organsisiert. Die make - Anweisungen werden jeweils auf den Modulordner referenziert.   
-![Workflow](doc/graphics/workflow.png]
+![Workflow](doc/graphics/workflow.png)
 
 ### Anweisungen
 - Kompilieren mit IVerilog => mingw32-make "Modul"
@@ -53,7 +53,7 @@ Alle Frames werden zusammen mit einer Prüfsumme (CRC-8) gesendet, respektive va
 
 ### DLLP (Data Link Layer Packet) - Frame
 Wird für die Link - Kommunikation zwischen zwei Transceivern verwendet. Die Sender, respektive Empfängerlogik erlaubt eine variable Datenbreite. Für den aktuell vorliegenden Link - Controller ist eine breite von 16 Bit festgelegt.
-![Workflow](doc/graphics/dllp_frame.png)
+![DLLP_Frame](doc/graphics/dllp_frame.png)
 
 Für die Zustandsübermittlung werden nur zwei Bits des MSB Bytes verwendet. Das LSB - Byte dient zur übermittlung der Identifikationsnummer zur Verifizierung (ACK). Die Zustandsbits (c) werden den nachfolgenden Nachrichten zugeordnet.  
 
@@ -66,7 +66,7 @@ Für die Zustandsübermittlung werden nur zwei Bits des MSB Bytes verwendet. Das
 Das Transaction Layer Packet beinhaltet zusätzliche Kopfdaten mit Angabe der Anzahl und einer Identifikationsnummer. Die Breite der Kopfinformation ist abhängig vom Parameter ID_WIDTH. Standartmässig ist der Bereich der Identifikationsnummer auf 0 - 7 festgelegt. Das entspricht jeweils der gleichen Anzahl möglicher hintereinanderfolgender TLP - Packete (0 - 7).
 Die Kopfdaten benötigen in diesem Fall nur 1 Byte (8 Bits => Nullbit + 3Bit(Num) + Msb-Bit(ID) + 3 Bit(ID)). Identifikationsnummern im Bereich 0 - 15 würde zu einer Kopfdatenbreite von 2 Bytes führen (10 Bits). Die Anzahl - Framenummern wird mit einem Nullbit als MSB ergänzt. Die ID erhält ein zusätzliches MSB um in der Empfängerschaltung eine Unterscheidung zwischen bereits Bestätigten und Nicht - Bestätigten TLP's durchzuführen. Das ist wichtig, damit keine Datensätze doppelt in den Abholbuffer des Empfängers geschrieben werden.   
 
-![Workflow](doc/graphics/tlp_frame.png)
+![TLP_Frame](doc/graphics/tlp_frame.png)
 
 Das Erhöhen des Nummernbereiches für die Identifikationsnummer macht dann Sinn, wenn der Sendepuffer jeweils immer mit mehr als 7 TLP - Packete nachgeladen wird. (Applikationsabhängig)
 Ein Senden und Empfangen ist bei jeder ID - Breite sichergestellt. Je grösser die ID - Breite, desto mehr Datenpackete können für einen Datentransfer gebündelt werden.  
@@ -74,7 +74,7 @@ Ein Senden und Empfangen ist bei jeder ID - Breite sichergestellt. Je grösser d
 ### Sender (Packet Generator) 
 Der Packetgenerator wird zentral von einem Controller gesteuert. Dieser stellt die Weichen für den Datenfluss durch das steuern der Multiplexer. Zentral für die Funktionalität ist eine implementierte FIFO - Zeigerlogik für Bestätigte, respektive Fehlerhafte ID übertragungen im Controller. Das Senden von DLLP hat eine höhere Priorität als das Senden von TLP - Packeten. Der Transfer von TLP - Packeten muss vom Link - Manager freigegeben werden (Dies erfolgt mit Steuerflags "Start" und "Stop"). Ein Replay - Vorgang stoppt den TLP-Transfer ab FIFO. Nach einem Replay - Vorgang muss durch den Link - Controller wieder ein "Start" - Flag erfolgen. Dies wurde mit der Absicht implementiert, damit im Falle eines Leitungsfehlers nicht unnötigerweise Transferversuche mit neuen Daten ab Sender-FIFO durchgeführt werden.  
 
-![Workflow](doc/graphics/packet_generator.png)
+![Packet_Generator](doc/graphics/packet_generator.png)
 
 Daten aus dem TLP - Buffer erhalten die jeweils nächste Verfügbare Identifikationsnummer des Zeigers für nicht bestätigter ID (NACK_PTR). Bei einer ID - Breichsbreite von 3 Bits können also maximal 8 TLP - Packete verschickt werden, bis ein weiteres Senden aufgrund fehlender Bestätigung blockiert wird. Kopfdatenzusammensetzung ist {Packet_Nummer, ID_Nummer}
 
@@ -108,18 +108,18 @@ Die Kopfdaten des Transfers wären {4b0xxx, 4b0011} für xxx = Soviele Datenpack
 
 ### Replay Buffer
 Das Schreiben in den Replay Buffer erfolgt mit der nicht bestätigten Identifikationsnummer. Die Speicherablage entspricht dem Identifikationsbereich. Das Widergeben gespeicherter Daten erfolgt mit dem Addresszeiger bestätigter ID's. Dieser wird während des Replay - Vorgangs auf den Wert der nicht bestätigten ID's inkrementiert. Ein Replay - Vorgang sendet also immer alle nicht bestätigten Datenpackete als "Multiframe".  
-![Workflow](doc/graphics/replay_buffer.png)
+![Replay_Buffer](doc/graphics/replay_buffer.png)
 
 ### Byte - Splitter
 Die Byteweise Ausgabe, respektive das zerlegten von TLP und DLLP - Daten erfolgt mit einer Register - Multiplexer Pipeline Struktur. Die Zusammensetzung ergibt sich aus Parametrierter Datenlänge für TLP und DLLP Packeten. Solange Daten im TLP - Buffer verfügbar sind, wird dieser kontinuierlich nachgeladen, sofern der Identifikationszeiger dies zulässt.   
-![Workflow](doc/graphics/byte_splitter.png)
+![Byte_Splitter](doc/graphics/byte_splitter.png)
 
 
 ### Empfänger (Packet Checker)
 Der Datenprüfer operiert ebenfalls mittels zentraler Steuerlogik. Eingehende DLLP und TLP's werden erkannt und nach erfolgreicher Datenprüfung (Frameaufbau, CRC) in die Empfangsbuffer geschrieben. Die Funktionalität der Steuereinheit in Bezug auf Auswertung von TLP's ist umfangreicher/koplexer als beim Packetgenerator. Aufgrund möglicher Multiframes müssen die TLP - Daten zwischengespeichert werden, bevor diese in die Endablage für den Zugriff des nächst höheren Layers geschrieben werden. TLP - Packete werden daher in zwei Prozessen geprüft. Im ersten werden TLP - Daten entsprechend der Parametrierten Datenlänge temporär abgelegt. Die Anzahl abgelegter Daten wird gezählt. Weiter werden die Transferinformationen mit Inhalt über Packetlänge und der Frameprüfung (CRC, Stop-Code) temporär abgelegt. (tr_info = {Gültigkeit (1Bit), Frame_Nummer (ID_WIDTH)}. Weiter werden die Kopfdaten des empfangenen TLP - Frames mitangefügt. Kopfdaten = {Frame_Nummer, Frame_ID} Das ergibt eine gesammte Prozessinformation von {Gültig, Frame_Nummer_Transfer, Frame_Nummer_Kopfdaten, ID_Nummer_Kopfdaten}
 Basierend auf diesen Informationen werden die Temporären TLP - Daten in einem zweiten Prozess verworfen, oder übernommen. Die Ergebnisse aus dem zweiten Prüfprozess werden vom Link - Controller für den ACK/NACK Prozess verwendet. Resultat = {Gültig (1bit), ID}. Fehlgeschlagene Transfers führen zu einem ungültigen Resultat. Gültige Transfers führen je zu einem gültigen Resultat für jedes einzelen TLP - Datenpacket. 
 
-![Workflow](doc/graphics/packet_checker.png)
+![Packet_Checker](doc/graphics/packet_checker.png)
 
 Fallbeispiel 1:
 - Empfang eines Multiframes mit 4 TLP's
@@ -193,31 +193,31 @@ Die physikalische Ebene verwendet die IO - Ressourcen IOSERDES und IDELAYE. Die 
 
 ### Sender
 Der Sender kaskadiert zwei OSerdes - Primitiven für die Ausgabe von 10 Bit seriell. Die Taktversorgung erfolgt mit 600 MHz (BUFIO) und 120 MHz regional (BUFR). Datenpackete vom Link - Layer werden zusammen mit dem K - Steuerbit in eine gleichstromfreie 10 Bit Datenfolge umkodiert.  
-![Workflow](doc/graphics/physical_transmitter.png)
+![Physical_Transmitter](doc/graphics/physical_transmitter.png)
 
 ### Empfänger
 Die Empfängerschaltung implementiert eine Bit - Deskew Schaltung zur Ausrichtung der Datenleitung auf das Taktsignal. Mithilfe von IDELAYE wird die Datenleitung deart verzögert, sodass der Abtastzeitpunkt auf die Mitte des Datenauges erfolgt. Der Einsatz von IDELAYE benötigt eine Instanzierung des IDELAYCTRL. Die Leitungsverzögerung wird durch die Anazahl TABS (0-31) am IDELAYE in Abhängigkeit der Taktfrequenz des IDELAYCTRL bestimmt. Für die Versorgung des IDELAYCTRL werden im Top - Design zwei Taktquellen (BUFG) mit 200 MHz (1 Tab = 78ps)  und 300MHz (1 Tab = 52ps) zur verfügung gestellt. Die Funktionserweiterung wird in die Module (INITIAL_TAB_CAL) und (TAB_MONITORING) aufgeteilt. Für das Monitoring ist zur Referenzierung eine weitere Equivalente Datenerfassung erforderlich, weshalb eine Kaskadierung nicht möglich ist. Der ISERDES wird mit 600 Mhz (BUFIO) und 200 MHz (BUFR) getaktet. Der serielle Datenstrom wird in 6 Bit - Blöcken einer Gearbox zur Ausgabe von 10 Bit mit einer Frequenz von 120 MHz (BUFR) weitergereicht. 
-![Workflow](doc/graphics/physical_receiver.png)
+![Physical_Receiver](doc/graphics/physical_receiver.png)
 
 #### Gearbox
 Die Gearbox schreibt eingehende 6 Bit Daten bei jeder steigenden Taktflanke (200 MHz) in einen RAM (Addressbereich 0 - 14). Ein 10 Bit Ausgabewort wird durch das Zusammenfügen der zuvor geschriebenen Daten mithilfe von drei Lesezeigern und einem Multiplexer erreicht. Nachfolgende zusammengesetzte 10 Bit Daten werden zu einem 20 Bit Register verkettet und in der Ausrichtung verschoben (Bitslip). 
-![Workflow](doc/graphics/gearbox.png)
+![Gearbox](doc/graphics/gearbox.png)
 
 
 #### Wortausrichtung
 Der Word - Aligner bestimmt die Anzahl notwendiger Bitverschiebungen im Bereich 0 - 9. Die Ausgabe der Gearbox wird mit dem 8B10B Kodierten SKIP - Symbolen (0x33C für RD-, 0x0C3 für RD+) verglichen. Der Bitslip wird jeweils nach einer Wartezeit solange erhöht, bis das Vergleichsmuster erkannt wird. Wird eine Maximalverschiebung von neun überschritten, ist die Kalibration fehlgeschlagen.       
-![Workflow](doc/graphics/word_aligner.png)
+![Word_Aligner](doc/graphics/word_aligner.png)
 
 #### Initiale Tab - Kalibration
 Die 6Bit Datenausgabe des ISERDES wird für die Bestimmung der Grundverzögerung zur Positionierung der Datenleitung auf das Taktsignal verwendet. Bei konstanter Übertragung von 10 Bits werden sich diese folglich in einem Intervall von 5 Wiederholen. (=> |xxxxxx xxxx|xx xxxxxx xx|xxxx xxxxxx|) Das 8B10B - Kodierte SKIP - Symbol wechselt in jedem Zyklus, wodurch der Intervall auf 10 verdoppelt wird. Der Blick gilt jeweils einem Fenster des 6 Bit - Datenstromes innerhalb des Invervalls. Das Warten um einen Zyklus führt zu einem Fensterwechsel. Dieser Fensterwechsel wird solange durchgeführt, bis eine Bitkombination gefunden wird, in welcher sich mindestens zwei Bits von den übrigen unterscheiden. (z.B 8b001111)      
 Anschliessend werden die Tabs erhöht, bis ein Bitwechsel erkannt wird (Erste Kante erkannt). Die Tabs werden weiter erhöht bis ein erneuter Bitwechsel detektiert wurde (Zweite Kante erkannt). Ein zusätzlicher Zähler erfasst die Tabs zwischen erster und zweiter Kantenfindung. Diese entspricht der Bitbreite. (1200 MHz DDR => 833.33ps => Tabs = 16/17 (300MHz) oder 11/12 (200MHz). Für die Positionierung wird die Tabverzögerung um die Hälfte der Bitbreite reduziert. (Daten sind nun zentriert).    
 
-![Workflow](doc/graphics/initial_tab_cal.png)
+![Initial_Tab_Cal](doc/graphics/initial_tab_cal.png)
 
 #### Überwachung (Monitoring) und Justage der Leitungsverzögerung  
 Die initiale Tab - Verzögerung des Monitor - ISERDES entspricht der vorbestimmten Verzögerung aus Initialer - Kalibrierung mit Abzug einer halben Bitbreite (Start bei linker Kante). Nun wird periodisch die Monitor - Tab Verzögerung um die Bitbreite erhöht, respektive verringert. Dabei findet gleichzeit jeweils ein Vergleich zwischen Master - ISERDES und Monitor - ISERDES statt. Ist ein Unterschied auf Linker Flanke, so werden beide Verzögerungen um 1 Inkrementiert. Ist ein Unterschied auf Rechter Flanke, so werden beide Dekrmentiert. (Siehe hierzu Zustandsdiagramm XAPP700)
 
-![Workflow](doc/graphics/tab_monitor.png)
+![Tab_Monitor](doc/graphics/tab_monitor.png)
 
 ##### Hinweis
 Weil die ermittelte Bitbreite für den Beobachtungsbereich verwendet wird und dieser genau am Umschaltpunkt kontrolliert, findet immer ein Tabwechsel von +-1 am Master - ISERDES statt. Damit wird auch jede Änderung der Leitungsverzögerung sofort erkannt. Sollte ein ständiger Tabwechsel nicht gewünscht sein, kann eine Fensterbreite über Parameter anstelle der Datenbreite verwendet werden. Eine Reaktion wird dementsprechend erst Folgen, wenn eine Änderung der Verzögerung so gross ist, dass diese Innerhalb dieses Fensters liegt. 
@@ -249,16 +249,16 @@ Grafiken zum Aufbau und Architektur des UART - Transceivers finden sich im Modul
 ### Architektur
 Die Anforderungen legen eine Art Load - Store Architektur nahe. Dies vereinfacht die Implementierung eines Kommandointerpreters, indem nur zwischen Schreibe - und Leseoperation unterschieden wird. Eine im Kommando integrierte Adressangabe bestimmt den Speicherbereich sowie die Selektierung verschiedener Datenbanken. Damit entfällt die Synthese grösserer kombinatorischen Schaltungen sowie die Definition von spezifischen Instruktionen. Das Hinzufügen weiterer Steuer - und Beobachtungsdaten kann einfach nachträglich einem Speicherbereich zugeordnet, respektive verknüpft werden.
 Die Eingabe von Schreibe - und Leseoperationen erfolgt über einen Uart - Transceiver. Das Transferieren von Testdaten wird in einem Loop über beide Transceivern in einer separaten Schaltung gesteuert. Nachfolgende Abbildung zeigt ein Blockschaltbild der Architektur mit der sichtlichen Verknüpfung der Funktionsmodule.     
-![Workflow](doc/graphics/Test_Core.png)
+![Test_Core](doc/graphics/Test_Core.png)
 Die jeweils orangen Pfeile markieren die Adressleitungen zum Selektieren der Speicherpositionen der Datenbanken. Die grünen Pfeile zeigen den Datenfluss mit den jeweils benachbarten Komponenten innerhalb und ausserhalb der Hauptkomponente. Die Loop - Handler werden mit den entwickelten LVDS - Transceivern verlinkt, um ein vorgegebenes Testpattern zyklisch mit einer oder mehreren Wiederholungen zu transferieren. Der "Handler" für den Transceiver B fungiert dabei als Abschluss, welcher die Daten empfängt und zeitgleich wieder in Auftrag gibt. Der "Handler A" bildet die Schnittstelle zum Datensystem und speist die Prüfdaten in den Transceiver A ein.
 Das Ziel und Quellensystem für Daten ist eine übergeordnete Python - Applikation, zum Lesen und Schreiben der Datenbanken. Die Übersicht zeigt nicht alle Verschaltungen im Detail, insbesondere nicht die Verlinkung aller Prüfschaltungen innerhalb des TOP - Designs. Es ist auch nicht abschliessend festgelegt, welche Werte gesteuert, respektive beobachtet werden müssen. Das Design wurde dafür konzipiert, die Verlinkungen während Validierungsprozesses jederzeit mit anderen Prüfschaltungen zu verlinken. Dennoch bleiben einige Speicherbereiche, respektive Port-Verlinkungen fester Bestandteil des Funktionsumfanges. Die mit der Farbe Grün umrandeten Positionen, sind für die Teilschaltungen des Testsystems irrelevant und können problemlos mit anderen Schaltungen verknüpft werden. 
 
-![Workflow](doc/graphics/test_core_io_belegung.png)
+![Test_Core_IO](doc/graphics/test_core_io_belegung.png)
 
 
 ### Kommando 
 Das Interface - Modul verknüpft den UART - Transceiver mit einer "Handler - FSM" zur Dekodierung empfangener Befehlssequenzen. Die resultierenden Operationen steuern den Datenfluss zwischen Datenbank und der Python - Applikation (Via. UART). Der Aufbau einer Befehlsanweisung ist wie folgt definiert:
-![Workflow](doc/graphics/pc_interface_frame.png)
+![PC_Interface](doc/graphics/pc_interface_frame.png)
 Das Lese- und Schreibbit definiert klar die Grundoperation. Ein dahinter gelegenes Zusatzbit definiert den Modus der Operation. Es stehen zwei Modi zur Verfügung: 
 
 - Single R/W: Operation wird nur auf der angegebenen Adresse angewendet
@@ -277,7 +277,7 @@ Das letzte Kapitel zeigt die Ausgabe der synthsierten Schaltung bei Ausführung 
 ### Hardware
 Die Auswertung der Schaltung wird auf einem Zynq7000 Entwicklungsboard geprüft. Die Daten und Taktleitungen werden mit einem FMC - Loopback Moduls verbunden. Die Datenübertragung vom PC (Python) erfolgt mit einem PMOD USB - UART Modul.
 
-![Workflow](doc/graphics/hardware.png)
+![Hardware](doc/graphics/hardware.png)
 
 ### Testbench
 Für Schaltungssimulationen stehen in den Modulordnern Testbenches zur verfügung. Relevant sind die Testbenches für den Transceiver und das Testsystem. Ergebnisse werden direkt am Terminal ausgegeben. Bei Abschluss der Simulation wird der GTK - Wave geöffnet. Eine Simulation mit Testcore und Transceivern gemäss Top-File liegt nicht vor. Grund ist die Lange Simulationsdauer.  
@@ -306,19 +306,19 @@ Der Testablauf ist wie folgt:
 12. Zurücksetzen der Statusbits
 
 #### Testdurchlauf ohne Frame - Manipulationen (CRC - Test)
-![Workflow](doc/graphics/validate_without_crc_test.png)
+![Validate_1](doc/graphics/validate_without_crc_test.png)
 
 #### Testdurchlauf mit CRC - Test (Single - Loop) 
 Mit Manipulation eines Frames (Die Loop-Zeit hat sich erhöht)
-![Workflow](doc/graphics/validate_crc_error_single_loop.png)
+![Validate_2](doc/graphics/validate_crc_error_single_loop.png)
 
 #### Frame - Manipulationen im kontinuierlichen Loop. Anhand des Statuswortes ist erkennbar, welcher Transceiver einen Replay ausgeführt hat.
 
 Manipulation eines DLLP - Frames => Replay an Gegenstation aufgrund ACK/NACK - Timeout
-![Workflow](doc/graphics/validate_with_crc_dllp_timeout.png)
+![Validate_3](doc/graphics/validate_with_crc_dllp_timeout.png)
 
 Manipulation eines TLP - Frames => Replay auf aktueller Station aufgrund erhaltenem NACK von der Gegenstation
-![Workflow](doc/graphics/validate_with_crc_tlp_nack.png)
+![Validate_4](doc/graphics/validate_with_crc_tlp_nack.png)
 
 #### Hinweise
 - Die Bitbreite der Initialen Tab - Kalibration sollte bei 300 MHz 16 Tabs ergeben +-1. Beim Transceiver b stellt sich ein Wert von 18 oder 16 ein. Kann z.B durch mehrfaches Laden des Boards' beobachtet werden.
