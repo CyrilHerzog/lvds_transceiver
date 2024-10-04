@@ -28,7 +28,7 @@ Das Repository beinhaltet ein Makefile zum kompilieren der Hardwarebeschreibunge
 
 ## Takt - Verteilung
 Die Taktversorgung der physikalischen Schnittstelle ist ein extern zugeführter 600 MHz Takt über MMCM (Source) oder Taktleitung (Sink). Die Taktpufferung, repsektive Teilung erfolgt mit BUFIO (Direkte Taktversorgung IO - Primitiven) und BUFR (Regional). Der Link - Layer wird jeweils über globale Taktbuffer (BUFG) vom MMCM versorgt. Das Testsystem wird ebenfalls global über einen PLL in einer weiteren Taktdomäne versorgt. 
-![Workflow](doc/graphics/clock_concept.png)
+![Clock_Concept](doc/graphics/clock_concept.png)
 
 ### Auflistung Taktversorgung
 - Testcore => PLL 166 MHZ (BUFG)
